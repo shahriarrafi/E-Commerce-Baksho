@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Star, Heart, Quote, ArrowRight, Instagram as InstagramIcon, Twitter as TwitterIcon } from "lucide-react";
+import { Star, Heart, Quote, ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 // Using Lucide alternatives or keeping placeholders if explicitly missing in current version
