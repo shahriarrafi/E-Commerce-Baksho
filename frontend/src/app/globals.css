@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand Palette */
+  --color-brand-orange: #F97316;
+  --color-brand-cream: #FFF6ED;
+  --color-brand-navy: #111827;
+  
+  /* Theme Overrides */
+  --color-background: #FFFFFF;
+  --color-foreground: #111827;
+  
+  /* Typography Variables (mapped from next/font) */
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui;
+  --font-serif: var(--font-lora), ui-serif, Georgia;
+}
+
+:root {
+  --background: #FFFFFF;
+  --foreground: #111827;
+}
+
+/* Base Styles */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, .serif-text {
+  font-family: var(--font-serif);
+}
+
+/* Custom Utilities for "Unboxing" feel */
+@layer utilities {
+  .unboxing-shadow {
+    box-shadow: 0 10px 30px -5px rgba(17, 24, 39, 0.1), 0 4px 10px -5px rgba(17, 24, 39, 0.04);
+  }
+}
