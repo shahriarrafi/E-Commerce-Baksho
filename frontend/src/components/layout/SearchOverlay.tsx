@@ -67,11 +67,53 @@ export default function SearchOverlay({ onClose }: SearchOverlayProps) {
 
         {/* Suggestions - More compact list items */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 pb-10">
+          {/* Ritual Matching (New) */}
+          <div className="space-y-6">
+            <h3 className="text-[10px] font-black tracking-widest text-brand-orange uppercase flex items-center gap-2">
+                <ShieldCheck size={12} /> Ritual Matching
+            </h3>
+            <div className="space-y-3">
+                {[
+                    { title: "The Morning Minimalist", desc: "Start your day with clarity", icon: "☕" },
+                    { title: "The Evening Unwind", desc: "Setting the ritual for sleep", icon: "🌙" }
+                ].map((ritual) => (
+                    <div 
+                        key={ritual.title}
+                        className="p-5 rounded-3xl bg-brand-orange/5 border border-brand-orange/10 hover:bg-brand-orange hover:text-white transition-all cursor-pointer group"
+                    >
+                        <div className="flex items-center gap-4">
+                            <span className="text-2xl">{ritual.icon}</span>
+                            <div>
+                                <h4 className="font-serif font-bold group-hover:text-white">{ritual.title}</h4>
+                                <p className="text-[10px] uppercase font-black tracking-widest opacity-40 group-hover:opacity-100">{ritual.desc}</p>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            <div>
+                <h3 className="text-[10px] font-black tracking-widest text-brand-navy/30 uppercase mb-4 flex items-center gap-2">
+                    <Clock size={12} /> Recent
+                </h3>
+                <div className="flex flex-wrap gap-1.5">
+                    {RECENT_SEARCHES.map((search) => (
+                    <button 
+                        key={search}
+                        className="px-3 py-1.5 bg-brand-navy/5 hover:bg-brand-navy/10 rounded-lg text-[11px] font-bold text-brand-navy transition-all"
+                    >
+                        {search}
+                    </button>
+                    ))}
+                </div>
+            </div>
+          </div>
+
           {/* Live Suggestions */}
           <div>
             <div className="flex items-center justify-between mb-4">
                <h3 className="text-[10px] font-black tracking-widest text-brand-navy/30 uppercase flex items-center gap-2">
-                <Package size={12} /> Suggestions
+                <Package size={12} /> Standard Matches
               </h3>
             </div>
             <div className="space-y-2">
@@ -93,32 +135,13 @@ export default function SearchOverlay({ onClose }: SearchOverlayProps) {
                 </div>
               ))}
             </div>
-          </div>
 
-          {/* Recent & Topics */}
-          <div className="space-y-8">
-            <div>
-              <h3 className="text-[10px] font-black tracking-widest text-brand-navy/30 uppercase mb-4 flex items-center gap-2">
-                <Clock size={12} /> Recent
-              </h3>
-              <div className="flex flex-wrap gap-1.5">
-                {RECENT_SEARCHES.map((search) => (
-                  <button 
-                    key={search}
-                    className="px-3 py-1.5 bg-brand-navy/5 hover:bg-brand-navy/10 rounded-lg text-[11px] font-bold text-brand-navy transition-all"
-                  >
-                    {search}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div>
+            <div className="mt-8">
               <h3 className="text-[10px] font-black tracking-widest text-brand-navy/30 uppercase mb-4">Quick Browse</h3>
               <div className="grid grid-cols-2 gap-x-4 gap-y-2">
                 {["Mega Boxes", "Eco-Packs", "Gift Suites", "Trending"].map(link => (
-                  <a key={link} href="#" className="text-sm text-brand-navy/70 hover:text-brand-orange font-bold font-serif transition-colors flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 bg-brand-orange rounded-full opacity-0 group-hover:opacity-100" />
+                  <a key={link} href="#" className="text-sm text-brand-navy/70 hover:text-brand-orange font-bold font-serif transition-colors flex items-center gap-2 group">
+                    <div className="w-1.5 h-1.5 bg-brand-orange rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
                     {link}
                   </a>
                 ))}

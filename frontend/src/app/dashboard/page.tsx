@@ -14,7 +14,9 @@ import {
   CreditCard,
   Plus,
   Edit2,
-  Trash2
+  Trash2,
+  ShieldCheck,
+  Wallet
 } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useRouter } from "next/navigation";
@@ -115,49 +117,98 @@ export default function DashboardPage() {
 
 function Overview({ user }: any) {
   const stats = [
-    { label: "Orders Placed", value: "3", icon: Package, color: "text-brand-orange" },
-    { label: "Wishlist", value: "12", icon: Heart, color: "text-brand-navy" },
-    { label: "Points", value: "850", icon: CreditCard, color: "text-brand-orange" },
+    { label: "Ritual Score", value: "2,840", icon: ShieldCheck, color: "text-brand-orange", desc: "Expert Curator" },
+    { label: "The Collection", value: "08", icon: Package, color: "text-brand-navy", desc: "Unboxed Pieces" },
+    { label: "Vault Credit", value: "$120", icon: Wallet, color: "text-brand-orange", desc: "Available Rituals" },
   ];
 
   return (
-    <div className="space-y-8 md:space-y-12">
-      <div className="space-y-2">
-         <h1 className="text-2xl md:text-4xl font-serif text-brand-navy">Welcome to <span className="text-brand-orange italic">The Vault.</span></h1>
-         <p className="text-[10px] text-brand-navy/40 uppercase font-black tracking-widest">Your Private Identity</p>
+    <div className="space-y-12 md:space-y-16">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="space-y-3">
+            <h1 className="text-4xl md:text-6xl font-serif text-brand-navy leading-tight">Welcome back to <span className="text-brand-orange italic">The Vault.</span></h1>
+            <p className="text-[11px] text-brand-navy/40 uppercase font-black tracking-[0.3em] flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" /> Secure Connection Established
+            </p>
+          </div>
+          <div className="flex gap-2">
+             <div className="px-5 py-3 bg-brand-navy text-white rounded-2xl flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-brand-orange" />
+                <span className="text-[10px] font-black uppercase tracking-widest">Ritual Tier: Elite</span>
+             </div>
+          </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
          {stats.map((stat, i) => (
            <motion.div 
-             initial={{ opacity: 0, scale: 0.95 }}
-             animate={{ opacity: 1, scale: 1 }}
+             initial={{ opacity: 0, y: 30 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ delay: i * 0.1 }}
              key={stat.label} 
-             className="bg-brand-cream/30 border border-brand-orange/5 p-4 md:p-8 rounded-[25px] md:rounded-[35px] flex flex-col gap-3 md:gap-4 group hover:bg-white hover:shadow-xl transition-all duration-500"
+             className="bg-white border border-brand-orange/5 p-8 md:p-10 rounded-[3rem] flex flex-col gap-6 group hover:shadow-[0_20px_60px_rgba(0,0,0,0.05)] transition-all duration-700 relative overflow-hidden"
            >
-              <div className={`p-3 md:p-4 bg-white rounded-xl md:rounded-2xl w-fit shadow-sm group-hover:scale-110 transition-transform ${stat.color}`}>
-                 <stat.icon size={20} md-size={24} />
+              <div className="absolute -right-4 -bottom-4 opacity-5 group-hover:rotate-12 transition-transform duration-700">
+                  <stat.icon size={120} />
+              </div>
+              <div className={`w-14 h-14 bg-brand-cream/50 rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform ${stat.color}`}>
+                 <stat.icon size={28} />
               </div>
               <div>
-                 <p className="text-[9px] font-black uppercase tracking-widest text-brand-navy/30 mb-1">{stat.label}</p>
-                 <p className="text-xl md:text-3xl font-black text-brand-navy tracking-tighter">{stat.value}</p>
+                 <p className="text-[10px] font-black uppercase tracking-widest text-brand-navy/30 mb-2">{stat.label}</p>
+                 <p className="text-4xl font-black text-brand-navy tracking-tighter mb-1">{stat.value}</p>
+                 <p className="text-[10px] font-bold text-brand-orange uppercase italic">{stat.desc}</p>
               </div>
            </motion.div>
          ))}
       </div>
 
-      <div className="bg-brand-navy text-white rounded-[30px] md:rounded-[40px] p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 relative overflow-hidden">
-         <div className="relative z-10 max-w-sm text-center md:text-left">
-            <h3 className="text-xl md:text-2xl font-serif mb-2 md:mb-3">Upgrade to <span className="text-brand-orange underline">Premium</span></h3>
-            <p className="text-[9px] text-white/30 leading-relaxed uppercase font-black tracking-wider">Priority unboxing and same-day postage.</p>
-         </div>
-         <button className="relative z-10 w-full md:w-auto bg-brand-orange text-white px-8 py-3.5 rounded-xl md:rounded-2xl text-[10px] font-black uppercase tracking-widest hover:shadow-2xl hover:shadow-brand-orange/40 transition-all active:scale-95">
-            Join the Circle
-         </button>
+      {/* Featured Vault Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="bg-brand-navy rounded-[3rem] p-10 text-white relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-10 opacity-10 group-hover:scale-110 transition-transform duration-1000">
+                  <Package size={140} />
+              </div>
+              <div className="relative z-10 space-y-6">
+                <span className="text-[10px] font-black uppercase tracking-widest bg-white/10 px-4 py-2 rounded-full border border-white/10 italic">Your Next Unboxing</span>
+                <h3 className="text-4xl font-serif">Curated for Your Space.</h3>
+                <p className="text-sm text-white/50 max-w-xs leading-relaxed">Based on your recent rituals, we've set aside a special piece in our workshop just for you.</p>
+                <button className="bg-brand-orange text-white px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-brand-navy transition-all active:scale-95">
+                    View Private Offer
+                </button>
+              </div>
+          </div>
+
+          <div className="bg-brand-cream/30 rounded-[3rem] p-10 border border-brand-orange/5 flex flex-col justify-between items-start group">
+             <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                    <Clock className="text-brand-orange" size={20} />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-brand-navy/40">Recent History</span>
+                </div>
+                <h3 className="text-3xl font-serif text-brand-navy">Ritual Log</h3>
+                <div className="space-y-3 mt-6">
+                   {[
+                       { event: "Package Delivered", time: "2 hours ago", icon: "✓" },
+                       { event: "Score Updated", time: "Yesterday", icon: "+" }
+                   ].map((item) => (
+                       <div key={item.event} className="flex items-center gap-4 text-xs font-bold text-brand-navy/60 group-hover:translate-x-1 transition-transform">
+                           <div className="w-5 h-5 bg-white rounded-full flex items-center justify-center text-[10px] text-brand-orange shadow-sm font-black">{item.icon}</div>
+                           <span>{item.event}</span>
+                           <span className="text-[10px] text-brand-navy/20 uppercase font-black ml-auto">{item.time}</span>
+                       </div>
+                   ))}
+                </div>
+             </div>
+             <button className="text-[10px] font-black uppercase tracking-widest text-brand-orange border-b-2 border-brand-orange pb-1 mt-8 hover:translate-x-2 transition-transform">
+                View Full Dossier
+             </button>
+          </div>
       </div>
     </div>
   );
 }
+
+
 
 function Orders() {
   const dummyOrders = [
