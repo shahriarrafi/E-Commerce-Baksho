@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Search, X, Command, ArrowRight, Package, Clock } from "lucide-react";
+import { Search, X, Command, ArrowRight, Package, Clock, ShieldCheck } from "lucide-react";
 import { useState, useEffect } from "react";
 
 interface SearchOverlayProps {
