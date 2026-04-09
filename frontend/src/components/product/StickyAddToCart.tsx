@@ -34,7 +34,7 @@ export default function StickyAddToCart({ product }: StickyAddToCartProps) {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: "spring", stiffness: 260, damping: 30 }}
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[92%] md:w-[95%] max-w-4xl"
+          className="fixed bottom-[100px] lg:bottom-12 left-1/2 -translate-x-1/2 z-50 w-[92%] md:w-[95%] max-w-4xl"
         >
           <div className="bg-white/80 backdrop-blur-2xl border border-brand-orange/10 rounded-3xl p-3 md:p-4 shadow-2xl shadow-brand-navy/10 flex items-center justify-between gap-3 md:gap-6 overflow-hidden relative">
              <div className="absolute top-0 right-0 p-4 opacity-10">

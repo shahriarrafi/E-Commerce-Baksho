@@ -37,7 +37,7 @@ export default function UnboxingTransition({ children }: { children: React.React
           initial="initial"
           animate="animate"
           exit="exit"
-          className="fixed inset-0 z-[100] pointer-events-none"
+          className="fixed inset-0 z-[150] pointer-events-none"
         >
           {/* Top Lid */}
           <motion.div

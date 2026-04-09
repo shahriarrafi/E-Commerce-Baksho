@@ -16,8 +16,7 @@ import { useUIStore } from "@/store/useUIStore";
 export default function Header() {
   const router = useRouter();
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
-  const { isSearchOpen, openSearch, closeSearch } = useUIStore();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isSearchOpen, openSearch, closeSearch, openMobileMenu } = useUIStore();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
@@ -25,14 +24,6 @@ export default function Header() {
   const { toggleCart, getTotals } = useCartStore();
   const { totalItems } = getTotals();
   const { user, isAuthenticated, logout } = useAuthStore();
-
-  useEffect(() => {
-    if (isMobileMenuOpen || isSearchOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-  }, [isMobileMenuOpen, isSearchOpen]);
 
   useEffect(() => {
     setMounted(true);
@@ -58,7 +49,7 @@ export default function Header() {
   return (
     <>
       <header 
-        className={`sticky top-0 z-[60] w-full transition-all duration-300 ${
+        className={`sticky top-0 z-[60] w-full transition-all duration-300 hidden lg:block ${
           isScrolled 
             ? "h-16 bg-white/90 backdrop-blur-xl border-b border-brand-cream shadow-sm" 
             : "h-20 bg-white/0 border-b border-transparent"
@@ -67,7 +58,7 @@ export default function Header() {
         <div className="container mx-auto flex h-full items-center justify-between px-6">
           {/* Menu Toggle (Mobile) */}
           <button 
-            onClick={() => setIsMobileMenuOpen(true)}
+            onClick={() => openMobileMenu()}
             className="flex lg:hidden items-center justify-center w-10 h-10 rounded-xl bg-brand-cream/50 text-brand-navy hover:text-brand-orange transition-all"
           >
              <Menu size={20} />
@@ -188,86 +179,6 @@ export default function Header() {
           </div>
         </div>
       </header>
-
-      {/* Mobile Menu Drawer */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="fixed inset-0 bg-brand-navy/60 backdrop-blur-md z-[100]"
-            />
-            <motion.div
-              initial={{ x: "-100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 left-0 w-[300px] bg-white z-[101] shadow-2xl p-8 flex flex-col"
-            >
-              <div className="flex items-center justify-between mb-12">
-                <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
-                  <div className="w-8 h-8 bg-brand-orange rounded-lg flex items-center justify-center">
-                    <Package className="text-white" size={18} />
-                  </div>
-                  <span className="text-xl font-bold font-serif">Baksho</span>
-                </Link>
-                <button onClick={() => setIsMobileMenuOpen(false)} className="text-brand-navy/40 hover:text-brand-orange transition-colors">
-                  <X size={24} />
-                </button>
-              </div>
-
-              <div className="flex flex-col gap-6">
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-navy/30 mb-2">Navigation</p>
-                {CATEGORIES.slice(0, 5).map((cat) => (
-                  <Link 
-                    key={cat.id} 
-                    href={`/category/${cat.slug}`}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-lg font-serif text-brand-navy hover:text-brand-orange transition-colors flex items-center justify-between group"
-                  >
-                    {cat.name}
-                    <ChevronRight size={18} className="text-brand-orange opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </Link>
-                ))}
-                
-                <div className="h-[1px] bg-brand-navy/5 my-4" />
-                
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-navy/30 mb-2">Exclusive</p>
-                <Link href="#" className="text-lg font-serif text-brand-navy hover:text-brand-orange transition-colors">Stories</Link>
-                <Link href="#" className="text-lg font-serif text-brand-navy hover:text-brand-orange transition-colors">Unboxing Ritual</Link>
-                
-                <div className="mt-auto space-y-4">
-                  {!isAuthenticated ? (
-                    <button 
-                      onClick={() => { router.push("/auth"); setIsMobileMenuOpen(false); }}
-                      className="w-full bg-brand-navy text-white p-5 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2"
-                    >
-                      <UserIcon size={14} /> Identity Portal
-                    </button>
-                  ) : (
-                    <Link 
-                      href="/dashboard"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="w-full bg-brand-orange text-white p-5 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg shadow-brand-orange/20"
-                    >
-                       <UserIcon size={14} /> The Vault
-                    </Link>
-                  )}
-                  <button 
-                    onClick={() => { openSearch(); setIsMobileMenuOpen(false); }}
-                    className="w-full bg-brand-cream border border-brand-navy/5 p-5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-brand-navy flex items-center justify-center gap-2"
-                  >
-                    <Search size={14} /> Secure Search
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
 
       <AnimatePresence>
         {isSearchOpen && (

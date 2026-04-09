@@ -24,6 +24,7 @@ import Footer from "@/components/layout/Footer";
 import UnboxingTransition from "@/components/animations/UnboxingTransition";
 import CartDrawer from "@/components/cart/CartDrawer";
 import MobileNav from "@/components/layout/MobileNav";
+import MobileMenu from "@/components/layout/MobileMenu";
 
 export default function RootLayout({
   children,
@@ -34,6 +35,7 @@ export default function RootLayout({
     <html lang="en" className={`${poppins.variable} ${lora.variable}`}>
       <body className="antialiased min-h-screen bg-white selection:bg-brand-orange selection:text-white pb-20 lg:pb-0">
         <Header />
+        <MobileMenu />
         <CartDrawer />
         <UnboxingTransition>
           <main>{children}</main>

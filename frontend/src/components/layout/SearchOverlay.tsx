@@ -34,70 +34,78 @@ export default function SearchOverlay({ onClose }: SearchOverlayProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] bg-white/95 backdrop-blur-xl flex flex-col pt-32 px-6"
+      className="fixed inset-0 z-[130] bg-white/95 backdrop-blur-2xl flex flex-col pt-4 md:pt-32 px-4 md:px-6 overflow-y-auto"
     >
-      <div className="max-w-4xl mx-auto w-full">
-        {/* Header/Close */}
-        <div className="flex justify-end mb-8">
+      <div className="max-w-2xl mx-auto w-full">
+        {/* Header/Close - More compact on mobile */}
+        <div className="flex justify-between items-center mb-6 md:mb-12 mt-4 md:mt-0">
+          <h2 className="text-xs font-black uppercase tracking-[0.3em] text-brand-navy/30">Global Search</h2>
           <button 
             onClick={onClose}
-            className="p-3 bg-brand-navy/5 hover:bg-brand-orange hover:text-white rounded-full transition-all group"
+            className="p-2 md:p-3 bg-brand-navy/5 hover:bg-brand-orange hover:text-white rounded-xl transition-all group"
           >
-            <X size={24} className="group-hover:rotate-90 transition-transform duration-300" />
+            <X size={20} className="group-hover:rotate-90 transition-transform duration-300" />
           </button>
         </div>
 
-        {/* Search Input */}
-        <div className="relative mb-12">
-          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-brand-orange" size={32} />
+        {/* Search Input - Compact & Premium */}
+        <div className="relative mb-8 md:mb-12">
+          <Search className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 text-brand-orange" size={20} />
           <input
             autoFocus
             type="text"
             placeholder="Search Baksho..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full h-24 bg-transparent border-b-4 border-brand-navy/10 focus:border-brand-orange outline-none px-20 text-4xl md:text-5xl font-serif text-brand-navy placeholder:text-brand-navy/20 transition-all font-bold"
+            className="w-full h-14 md:h-20 bg-brand-cream/30 rounded-2xl border border-brand-navy/5 focus:border-brand-orange/50 outline-none pl-12 md:pl-16 pr-16 md:pr-20 text-lg md:text-3xl font-serif text-brand-navy placeholder:text-brand-navy/20 transition-all font-bold"
           />
-          <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-2 px-3 py-1.5 bg-brand-cream rounded-lg text-xs font-black text-brand-navy/40">
+          <div className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 hidden md:flex items-center gap-2 px-3 py-1.5 bg-brand-cream rounded-lg text-xs font-black text-brand-navy/40">
             <kbd><Command size={12} /></kbd>
             <span>K</span>
           </div>
         </div>
 
-        {/* Suggestions Grid */}
-        <div className="grid md:grid-cols-2 gap-12">
+        {/* Suggestions - More compact list items */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 pb-10">
           {/* Live Suggestions */}
           <div>
-            <h3 className="text-xs font-black tracking-widest text-brand-navy/30 uppercase mb-6 flex items-center gap-2">
-              <Package size={14} /> Top Suggestions
-            </h3>
-            <div className="space-y-4">
+            <div className="flex items-center justify-between mb-4">
+               <h3 className="text-[10px] font-black tracking-widest text-brand-navy/30 uppercase flex items-center gap-2">
+                <Package size={12} /> Suggestions
+              </h3>
+            </div>
+            <div className="space-y-2">
               {MOCK_SUGGESTIONS.map((item) => (
                 <div 
                   key={item.id}
-                  className="flex items-center justify-between p-4 rounded-2xl bg-brand-cream/50 hover:bg-brand-orange/10 hover:translate-x-2 transition-all cursor-pointer group"
+                  className="flex items-center justify-between p-3 md:p-4 rounded-xl md:rounded-2xl bg-brand-cream/40 hover:bg-brand-orange/5 hover:translate-x-1 transition-all cursor-pointer group border border-transparent hover:border-brand-orange/10"
                 >
-                  <div>
-                    <h4 className="font-bold text-brand-navy group-hover:text-brand-orange transition-colors">{item.name}</h4>
-                    <p className="text-xs text-brand-navy/40">{item.category}</p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center text-brand-orange shadow-sm border border-brand-orange/5">
+                        <Package size={14} />
+                    </div>
+                    <div>
+                      <h4 className="text-sm md:text-base font-bold text-brand-navy transition-colors">{item.name}</h4>
+                      <p className="text-[10px] md:text-xs text-brand-navy/40 font-medium uppercase tracking-wider">{item.category}</p>
+                    </div>
                   </div>
-                  <ArrowRight className="text-brand-orange opacity-0 group-hover:opacity-100 transition-all" size={18} />
+                  <ArrowRight className="text-brand-orange opacity-0 group-hover:opacity-100 transition-all" size={16} />
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Recent & Categories */}
-          <div>
-            <div className="mb-10">
-              <h3 className="text-xs font-black tracking-widest text-brand-navy/30 uppercase mb-6 flex items-center gap-2">
-                <Clock size={14} /> Recent Searches
+          {/* Recent & Topics */}
+          <div className="space-y-8">
+            <div>
+              <h3 className="text-[10px] font-black tracking-widest text-brand-navy/30 uppercase mb-4 flex items-center gap-2">
+                <Clock size={12} /> Recent
               </h3>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5">
                 {RECENT_SEARCHES.map((search) => (
                   <button 
                     key={search}
-                    className="px-4 py-2 bg-brand-navy/5 hover:bg-brand-navy/10 rounded-full text-sm font-medium text-brand-navy transition-all"
+                    className="px-3 py-1.5 bg-brand-navy/5 hover:bg-brand-navy/10 rounded-lg text-[11px] font-bold text-brand-navy transition-all"
                   >
                     {search}
                   </button>
@@ -106,10 +114,11 @@ export default function SearchOverlay({ onClose }: SearchOverlayProps) {
             </div>
 
             <div>
-              <h3 className="text-xs font-black tracking-widest text-brand-navy/30 uppercase mb-6">Quick Links</h3>
-              <div className="grid grid-cols-2 gap-4">
-                {["Laptops", "Home Decor", "Gift Boxes", "Trending"].map(link => (
-                  <a key={link} href="#" className="text-brand-navy hover:text-brand-orange font-bold text-lg font-serif transition-colors">
+              <h3 className="text-[10px] font-black tracking-widest text-brand-navy/30 uppercase mb-4">Quick Browse</h3>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                {["Mega Boxes", "Eco-Packs", "Gift Suites", "Trending"].map(link => (
+                  <a key={link} href="#" className="text-sm text-brand-navy/70 hover:text-brand-orange font-bold font-serif transition-colors flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 bg-brand-orange rounded-full opacity-0 group-hover:opacity-100" />
                     {link}
                   </a>
                 ))}

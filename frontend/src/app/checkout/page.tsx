@@ -22,11 +22,11 @@ import Image from "next/image";
 type Step = "shipping" | "payment" | "review";
 
 export default function CheckoutPage() {
-  const [step, setStep] = useState<Step>("shipping");
   const { items, getTotals, clearCart } = useCartStore();
   const { subtotal } = getTotals();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
+  const [activeAccordion, setActiveAccordion] = useState<string>("shipping");
 
   useEffect(() => {
     setMounted(true);
@@ -37,316 +37,246 @@ export default function CheckoutPage() {
 
   if (!mounted || items.length === 0) return null;
 
-  const steps: { id: Step; label: string; icon: any }[] = [
-    { id: "shipping", label: "Shipping", icon: Truck },
-    { id: "payment", label: "Payment", icon: CreditCard },
-    { id: "review", label: "Review", icon: ShieldCheck },
-  ];
-
-  const handleNext = () => {
-    if (step === "shipping") setStep("payment");
-    else if (step === "payment") setStep("review");
-    else if (step === "review") {
-      // Simulate order processing
-      router.push("/checkout/success");
-      setTimeout(() => clearCart(), 500);
-    }
-  };
-
-  const handleBack = () => {
-    if (step === "payment") setStep("shipping");
-    else if (step === "review") setStep("payment");
+  const handleCompletePurchase = () => {
+    // Simulate order processing
+    router.push("/checkout/success");
+    setTimeout(() => clearCart(), 500);
   };
 
   return (
-    <div className="min-h-screen bg-brand-cream/30 pt-32 pb-20">
-      <div className="container mx-auto px-6 max-w-6xl">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+    <div className="min-h-screen bg-brand-cream/10 pt-24 md:pt-32 pb-20">
+      <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 md:mb-16">
+          <div className="flex flex-col gap-3">
+             <Link href="/" className="flex items-center gap-2 text-brand-navy/40 hover:text-brand-orange transition-colors group">
+               <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+               <span className="text-[10px] font-black uppercase tracking-widest">Back to Ritual</span>
+             </Link>
+             <h1 className="text-4xl md:text-6xl font-serif text-brand-navy">Final Ritual</h1>
+          </div>
+          
+          {/* Express Checkout Shortcuts */}
+          <div className="flex items-center gap-3">
+            <button className="flex-1 md:flex-initial bg-[#E2136E] text-white px-6 py-4 rounded-2xl flex items-center justify-center gap-3 hover:opacity-90 transition-all shadow-lg shadow-[#E2136E]/20">
+              <span className="text-[10px] font-black uppercase tracking-widest">Pay with</span>
+              <span className="font-black text-sm">bKash</span>
+            </button>
+            <button className="flex-1 md:flex-initial bg-brand-navy text-white px-6 py-4 rounded-2xl flex items-center justify-center gap-3 hover:bg-black transition-all shadow-lg shadow-brand-navy/20">
+              <span className="text-[10px] font-black uppercase tracking-widest">Cards</span>
+              <CreditCard size={18} />
+            </button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-start">
           {/* Main Checkout Flow */}
-          <div className="lg:col-span-8 flex flex-col gap-10">
-            {/* Step Progress */}
-            <div className="flex items-center justify-between px-4">
-              {steps.map((s, i) => (
-                <div key={s.id} className="flex items-center gap-4 group">
-                  <div className={`flex items-center gap-3 ${step === s.id ? "text-brand-orange" : "text-brand-navy/30"}`}>
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${step === s.id ? "bg-brand-orange text-white shadow-lg shadow-brand-orange/30" : "bg-white border border-brand-navy/10"}`}>
-                      <s.icon size={18} />
-                    </div>
-                    <span className="text-[10px] font-black uppercase tracking-widest hidden sm:block">{s.label}</span>
-                  </div>
-                  {i < steps.length - 1 && (
-                    <div className="w-12 h-[1px] bg-brand-navy/10 mx-2 hidden sm:block" />
-                  )}
+          <div className="lg:col-span-8 flex flex-col gap-6">
+            
+            {/* 1. Shipping Section */}
+            <CheckoutSection 
+              id="shipping" 
+              number="01" 
+              title="Delivery Hub" 
+              isActive={activeAccordion === "shipping"}
+              onToggle={() => setActiveAccordion("shipping")}
+              isCompleted={activeAccordion !== "shipping"}
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Input label="First Name" placeholder="e.g. Shahriar" />
+                <Input label="Last Name" placeholder="e.g. Rafi" />
+                <div className="md:col-span-2">
+                   <Input label="Full Address" placeholder="Street name, Apartment, etc." />
                 </div>
-              ))}
-            </div>
+                <Input label="City" placeholder="e.g. Dhaka" />
+                <Input label="Phone Number" placeholder="+8801XXXXXXXXX" icon={<Smartphone size={16} />} />
+                <div className="md:col-span-2 pt-4">
+                  <button 
+                    onClick={() => setActiveAccordion("payment")}
+                    className="w-full bg-brand-navy text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-brand-orange transition-all shadow-xl shadow-brand-navy/10"
+                  >
+                    Confirm & Proceed to Payment
+                  </button>
+                </div>
+              </div>
+            </CheckoutSection>
 
-            {/* Content Area */}
-            <div className="bg-white rounded-[40px] p-8 md:p-12 shadow-xl shadow-brand-navy/5 min-h-[500px] border border-brand-orange/5">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={step}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
+            {/* 2. Payment Section */}
+            <CheckoutSection 
+              id="payment" 
+              number="02" 
+              title="Secure Ritual" 
+              isActive={activeAccordion === "payment"}
+              onToggle={() => setActiveAccordion("payment")}
+              isCompleted={activeAccordion === "review"}
+            >
+              <div className="flex flex-col gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                   <PaymentOptionSleek active label="Credit Card" icon={<CreditCard size={20} />} />
+                   <PaymentOptionSleek label="bKash / Nagad" icon={<Wallet size={20} />} />
+                   <PaymentOptionSleek label="Cash On Delivery" icon={<Package size={20} />} />
+                </div>
+                
+                <div className="space-y-6 bg-brand-cream/30 p-6 md:p-8 rounded-3xl border border-brand-orange/5">
+                   <div className="grid grid-cols-2 gap-6">
+                     <div className="col-span-2">
+                       <Input label="Card Number" placeholder="0000 0000 0000 0000" />
+                     </div>
+                     <Input label="Expiry Date" placeholder="MM/YY" />
+                     <Input label="CVV" placeholder="***" />
+                   </div>
+                </div>
+
+                <button 
+                  onClick={() => setActiveAccordion("review")}
+                  className="w-full bg-brand-navy text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-brand-orange transition-all shadow-xl shadow-brand-navy/10"
                 >
-                  {step === "shipping" && <ShippingStep onNext={handleNext} />}
-                  {step === "payment" && <PaymentStep onNext={handleNext} onBack={handleBack} />}
-                  {step === "review" && <ReviewStep onNext={handleNext} onBack={handleBack} items={items} subtotal={subtotal} />}
-                </motion.div>
-              </AnimatePresence>
-            </div>
+                  Save & Final Review
+                </button>
+              </div>
+            </CheckoutSection>
+
+            {/* 3. Review Section */}
+            <CheckoutSection 
+              id="review" 
+              number="03" 
+              title="Final Affirmation" 
+              isActive={activeAccordion === "review"}
+              onToggle={() => setActiveAccordion("review")}
+              isCompleted={false}
+            >
+               <div className="flex flex-col gap-8">
+                  <div className="divide-y divide-brand-cream/50">
+                    {items.map((item) => (
+                      <div key={item.id} className="py-4 flex items-center justify-between group">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 bg-brand-cream rounded-xl overflow-hidden relative">
+                            <Image src={item.image} alt={item.name} fill className="object-cover" />
+                          </div>
+                          <div>
+                             <h4 className="font-bold text-brand-navy text-sm">{item.name}</h4>
+                             <p className="text-[10px] text-brand-orange font-bold uppercase tracking-widest">Qty: {item.quantity}</p>
+                          </div>
+                        </div>
+                        <p className="font-black text-brand-navy text-sm">${(item.price * item.quantity).toFixed(2)}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="bg-brand-orange/5 p-6 rounded-3xl border border-brand-orange/10 flex items-center gap-4">
+                     <ShieldCheck className="text-brand-orange shrink-0" size={32} />
+                     <p className="text-[11px] text-brand-navy/60 leading-relaxed font-medium">
+                        By clicking "Complete Ritual", you authorize Baksho to process your premium order and prepare your unboxing experience.
+                     </p>
+                  </div>
+
+                  <button 
+                    onClick={handleCompletePurchase}
+                    className="w-full bg-brand-orange text-white py-6 rounded-[2.5rem] font-black text-sm uppercase tracking-[0.3em] hover:bg-brand-navy transition-all shadow-2xl shadow-brand-orange/20 active:scale-[0.98] flex items-center justify-center gap-3"
+                  >
+                    Complete Ritual <CheckCircle2 size={20} />
+                  </button>
+               </div>
+            </CheckoutSection>
           </div>
 
-          {/* Order Summary Sidebar */}
-          <div className="lg:col-span-4">
-            <div className="bg-brand-navy text-white rounded-[40px] p-10 sticky top-32 shadow-2xl shadow-brand-navy/20 overflow-hidden relative">
-              <div className="absolute top-0 right-0 p-8 opacity-5">
-                <Package size={160} />
-              </div>
-              
-              <h3 className="text-2xl font-serif mb-8 relative z-10 text-white/90">Order Summary</h3>
-              
-              <div className="space-y-6 mb-10 relative z-10">
-                <div className="flex justify-between items-center text-white/60 text-sm font-medium">
-                  <span>Subtotal ({items.reduce((a, b) => a + b.quantity, 0)} Items)</span>
-                  <span className="text-white">${subtotal.toFixed(2)}</span>
+          {/* Sidebar Area */}
+          <div className="lg:col-span-4 lg:sticky lg:top-32">
+             <div className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-xl shadow-brand-navy/5 border border-brand-orange/5">
+                <h3 className="text-xl font-serif text-brand-navy mb-8 border-b border-brand-cream pb-4">Manifest</h3>
+                
+                <div className="space-y-4 mb-8">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-brand-navy/40">Creation Cost</span>
+                    <span className="font-bold text-brand-navy">${subtotal.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-brand-navy/40">Secure Shipping</span>
+                    <span className="text-brand-orange font-black uppercase text-[10px] tracking-widest">Complimentary</span>
+                  </div>
+                  <div className="h-[1px] bg-brand-cream/50 my-6" />
+                  <div className="flex justify-between items-end">
+                    <span className="text-brand-navy font-black uppercase text-[10px] tracking-widest">Investment</span>
+                    <span className="text-4xl font-black tracking-tighter text-brand-navy">${subtotal.toFixed(2)}</span>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center text-white/60 text-sm font-medium">
-                  <span>Shipping</span>
-                  <span className="text-brand-orange font-black uppercase tracking-tighter text-[10px]">Free Express</span>
+
+                <div className="p-5 rounded-2xl bg-brand-cream/50 space-y-3">
+                   <div className="flex items-center gap-2">
+                     <Package className="text-brand-orange" size={16} />
+                     <span className="text-[9px] font-black uppercase tracking-widest text-brand-navy/60">Estimated Delivery</span>
+                   </div>
+                   <p className="text-sm font-bold text-brand-navy">2-3 Deciding Days</p>
                 </div>
-                <div className="flex justify-between items-center text-white/60 text-sm font-medium">
-                  <span>Taxes</span>
-                  <span className="text-white">$0.00</span>
-                </div>
-                <div className="h-[1px] bg-white/10 my-6" />
-                <div className="flex justify-between items-end">
-                  <span className="text-white/80 font-medium">Total Price</span>
-                  <span className="text-4xl font-black tracking-tighter text-white">${subtotal.toFixed(2)}</span>
-                </div>
-              </div>
-
-              <div className="p-6 rounded-2xl bg-white/5 border border-white/10 relative z-10">
-                <div className="flex items-center gap-3 mb-3">
-                  <ShieldCheck className="text-brand-orange" size={18} />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-white/80">Baksho Integrity</span>
-                </div>
-                <p className="text-[11px] text-white/40 leading-relaxed">
-                  Your transaction is protected by state-of-the-art encryption. Premium unboxing experience guaranteed.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ShippingStep({ onNext }: { onNext: () => void }) {
-  return (
-    <div className="space-y-10">
-      <div className="flex items-center gap-4">
-        <div className="w-1.5 h-8 bg-brand-orange rounded-full" />
-        <h2 className="text-3xl font-serif text-brand-navy">Where shall we deliver?</h2>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <Input label="First Name" placeholder="e.g. Shahriar" />
-        <Input label="Last Name" placeholder="e.g. Rafi" />
-        <div className="md:col-span-2">
-           <Input label="Full Address" placeholder="Street name, Apartment, etc." />
-        </div>
-        <Input label="City" placeholder="e.g. Dhaka" />
-        <Input label="Postal Code" placeholder="e.g. 1200" />
-        <div className="md:col-span-2">
-          <Input label="Phone Number" placeholder="+8801XXXXXXXXX" icon={<Smartphone size={16} />} />
-        </div>
-      </div>
-
-      <div className="flex justify-end pt-6">
-        <button 
-          onClick={onNext}
-          className="bg-brand-navy text-white px-10 py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:bg-brand-orange transition-all group"
-        >
-          Proceed To Payment
-          <ArrowLeft className="rotate-180 group-hover:translate-x-1 transition-transform" size={18} />
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function PaymentStep({ onNext, onBack }: { onNext: () => void; onBack: () => void }) {
-  const [method, setMethod] = useState("card");
-
-  return (
-    <div className="space-y-10">
-      <div className="flex items-center gap-4">
-        <div className="w-1.5 h-8 bg-brand-orange rounded-full" />
-        <h2 className="text-3xl font-serif text-brand-navy">Payment Method</h2>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <PaymentOption 
-          active={method === "card"} 
-          onClick={() => setMethod("card")}
-          icon={<CreditCard size={24} />}
-          label="Credit Card"
-          desc="Visa / MasterCard"
-        />
-        <PaymentOption 
-          active={method === "mfs"} 
-          onClick={() => setMethod("mfs")}
-          icon={<Wallet size={24} />}
-          label="MFS"
-          desc="bKash / Nagad"
-        />
-        <PaymentOption 
-          active={method === "cod"} 
-          onClick={() => setMethod("cod")}
-          icon={<Package size={24} />}
-          label="Cash on Delivery"
-          desc="Dhaka only"
-        />
-      </div>
-
-      <div className="bg-brand-cream/50 p-8 rounded-3xl border border-brand-orange/5 space-y-6">
-        {method === "card" && (
-           <div className="grid grid-cols-2 gap-6">
-             <div className="col-span-2">
-               <Input label="Card Number" placeholder="0000 0000 0000 0000" />
              </div>
-             <Input label="Expiry Date" placeholder="MM/YY" />
-             <Input label="CVV" placeholder="***" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CheckoutSection({ id, number, title, children, isActive, onToggle, isCompleted }: any) {
+  return (
+    <div className={`overflow-hidden transition-all duration-500 rounded-[2.5rem] border ${isActive ? "bg-white border-brand-orange/20 shadow-2xl shadow-brand-orange/5" : "bg-white/50 border-brand-cream/50"}`}>
+      <button 
+        onClick={onToggle}
+        className="w-full flex items-center justify-between p-6 md:p-8 text-left group"
+      >
+        <div className="flex items-center gap-4 md:gap-6">
+          <div className={`w-10 md:w-12 h-10 md:h-12 rounded-2xl flex items-center justify-center font-black text-xs md:text-sm transition-all ${isActive ? "bg-brand-orange text-white" : isCompleted ? "bg-green-500 text-white" : "bg-brand-cream text-brand-navy/20"}`}>
+            {isCompleted ? <CheckCircle2 size={18} /> : number}
+          </div>
+          <div>
+            <h3 className={`text-lg md:text-xl font-serif ${isActive ? "text-brand-navy" : "text-brand-navy/40"}`}>{title}</h3>
+            {isCompleted && !isActive && <p className="text-[10px] text-green-500 font-bold uppercase tracking-widest mt-1">Confirmed</p>}
+          </div>
+        </div>
+        {!isActive && (
+           <div className="w-10 h-10 rounded-full border border-brand-cream flex items-center justify-center text-brand-navy/20 group-hover:bg-brand-orange/10 group-hover:text-brand-orange transition-all">
+              <ChevronRight size={18} />
            </div>
         )}
-        {method === "mfs" && (
-          <div className="flex items-center gap-8 py-4">
-             <div className="w-20 h-20 bg-brand-navy rounded-2xl flex items-center justify-center p-4">
-                <span className="text-white font-black text-xs">bKash</span>
-             </div>
-             <div className="w-20 h-20 bg-brand-navy rounded-2xl flex items-center justify-center p-4 opacity-50 grayscale">
-                <span className="text-white font-black text-xs">Nagad</span>
-             </div>
-             <p className="text-sm text-brand-navy/50">Select your preferred gateway and follow instructions.</p>
-          </div>
-        )}
-        {method === "cod" && (
-          <p className="text-sm text-brand-navy/60 leading-relaxed italic">
-            You will pay the full amount of your order to our delivery representative at your doorstep. We accept cash and major local cards.
-          </p>
-        )}
-      </div>
+      </button>
 
-      <div className="flex justify-between pt-6 border-t border-brand-navy/5">
-        <button 
-          onClick={onBack}
-          className="text-brand-navy/40 font-black text-xs uppercase tracking-widest flex items-center gap-2 hover:text-brand-navy transition-colors"
-        >
-          <ArrowLeft size={16} /> Back
-        </button>
-        <button 
-          onClick={onNext}
-          className="bg-brand-navy text-white px-10 py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:bg-brand-orange transition-all group"
-        >
-          Final Review
-          <ArrowLeft className="rotate-180 group-hover:translate-x-1 transition-transform" size={18} />
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function ReviewStep({ onNext, onBack, items, subtotal }: { onNext: () => void; onBack: () => void; items: any[]; subtotal: number }) {
-  return (
-    <div className="space-y-10">
-      <div className="flex items-center gap-4">
-        <div className="w-1.5 h-8 bg-brand-orange rounded-full" />
-        <h2 className="text-3xl font-serif text-brand-navy">Review & Confirm</h2>
-      </div>
-
-      <div className="space-y-6">
-        <div className="flex items-center gap-4 mb-4 text-brand-navy/40 uppercase font-black text-[10px] tracking-widest px-4">
-           <MapPin size={14} /> Shipping to Dhaka, Bangladesh
+      <motion.div
+        initial={false}
+        animate={isActive ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className="overflow-hidden"
+      >
+        <div className="px-6 md:px-12 pb-8 md:pb-12 border-t border-brand-cream/50 pt-8">
+          {children}
         </div>
-        
-        <div className="divide-y divide-brand-cream/50">
-          {items.map((item) => (
-            <div key={item.id} className="py-6 flex items-center justify-between group">
-              <div className="flex items-center gap-6">
-                <div className="w-16 h-16 bg-brand-cream rounded-xl overflow-hidden relative">
-                  <Image src={item.image} alt={item.name} fill className="object-cover" />
-                </div>
-                <div>
-                   <h4 className="font-serif font-bold text-brand-navy">{item.name}</h4>
-                   <p className="text-sm text-brand-orange font-bold">Qty: {item.quantity}</p>
-                </div>
-              </div>
-              <p className="font-black text-brand-navy">${(item.price * item.quantity).toFixed(2)}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="bg-brand-orange/5 p-8 rounded-[40px] border border-brand-orange/10 flex flex-col items-center text-center gap-4">
-         <ShieldCheck className="text-brand-orange" size={40} />
-         <div>
-            <h4 className="font-serif font-bold text-lg text-brand-navy">Ready For Your Unboxing?</h4>
-            <p className="text-xs text-brand-navy/50 max-w-sm">By placing this order, you agree to our Terms of Experience. You'll receive a confirmation email shortly.</p>
-         </div>
-      </div>
-
-      <div className="flex justify-between pt-6 border-t border-brand-navy/5">
-        <button 
-          onClick={onBack}
-          className="text-brand-navy/40 font-black text-xs uppercase tracking-widest flex items-center gap-2 hover:text-brand-navy transition-colors"
-        >
-          <ArrowLeft size={16} /> Back to Payment
-        </button>
-        <button 
-          onClick={onNext}
-          className="bg-brand-navy text-white px-12 py-6 rounded-3xl font-black text-sm uppercase tracking-[0.2em] flex items-center justify-center gap-4 hover:bg-brand-orange transition-all group hover:scale-[1.02] shadow-2xl shadow-brand-navy/20 active:scale-95"
-        >
-          Complete Purchase
-          <CheckCircle2 size={20} className="group-hover:scale-125 transition-transform" />
-        </button>
-      </div>
+      </motion.div>
     </div>
   );
 }
 
 function Input({ label, placeholder, icon }: { label: string; placeholder: string; icon?: any }) {
   return (
-    <div className="flex flex-col gap-2.5 w-full">
-      <label className="text-[10px] font-black uppercase tracking-widest text-brand-navy/40 ml-1">{label}</label>
+    <div className="flex flex-col gap-2 w-full">
+      <label className="text-[9px] font-black uppercase tracking-widest text-brand-navy/30 ml-2">{label}</label>
       <div className="relative flex items-center">
         {icon && <div className="absolute left-4 text-brand-navy/30">{icon}</div>}
         <input 
           type="text" 
           placeholder={placeholder}
-          className={`w-full bg-brand-cream/30 border border-brand-orange/10 rounded-2xl p-4 text-brand-navy focus:outline-none focus:border-brand-orange transition-colors placeholder:text-brand-navy/20 text-sm ${icon ? "pl-12" : ""}`}
+          className={`w-full bg-brand-cream/10 border border-brand-orange/5 rounded-2xl p-4 text-brand-navy focus:outline-none focus:border-brand-orange transition-colors placeholder:text-brand-navy/10 text-sm ${icon ? "pl-12" : ""}`}
         />
       </div>
     </div>
   );
 }
 
-function PaymentOption({ active, onClick, icon, label, desc }: any) {
+function PaymentOptionSleek({ active, icon, label }: any) {
   return (
-    <button 
-      onClick={onClick}
-      className={`p-8 rounded-[32px] border-2 transition-all flex flex-col items-center text-center gap-4 group ${active ? "border-brand-orange bg-brand-orange/5 shadow-lg shadow-brand-orange/10" : "border-brand-navy/5 hover:border-brand-navy/10"}`}
-    >
-      <div className={`p-4 rounded-2xl transition-colors ${active ? "bg-brand-orange text-white" : "bg-brand-cream text-brand-navy/30 group-hover:bg-brand-cream/100"}`}>
+    <button className={`flex items-center gap-3 p-4 rounded-2xl border transition-all ${active ? "bg-brand-navy text-white border-brand-navy" : "bg-white border-brand-cream hover:border-brand-orange/30 text-brand-navy/60"}`}>
+       <div className={`${active ? "text-brand-orange" : "text-brand-navy/20"}`}>
         {icon}
-      </div>
-      <div>
-        <h4 className={`text-sm font-bold uppercase tracking-widest ${active ? "text-brand-orange" : "text-brand-navy"}`}>{label}</h4>
-        <p className="text-[10px] text-brand-navy/40 font-medium mt-1">{desc}</p>
-      </div>
+       </div>
+       <span className="text-[10px] font-black uppercase tracking-widest">{label}</span>
     </button>
   );
 }
+
