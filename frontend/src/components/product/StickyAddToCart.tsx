@@ -4,17 +4,31 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ShoppingCart, Star } from "lucide-react";
+import { useCartStore } from "@/store/useCartStore";
 
 interface StickyAddToCartProps {
   product: {
+    id: string;
     name: string;
     price: number;
     image: string;
+    slug: string;
   };
 }
 
 export default function StickyAddToCart({ product }: StickyAddToCartProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const addItem = useCartStore((state) => state.addItem);
+
+  const handleAddToCart = () => {
+    addItem({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      slug: product.slug,
+    });
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,7 +82,10 @@ export default function StickyAddToCart({ product }: StickyAddToCartProps) {
                 <span className="text-[10px] font-bold text-brand-navy/40 uppercase tracking-tighter ml-1">4.9 / 5.0</span>
               </div>
               
-              <button className="flex items-center gap-3 bg-brand-navy text-white px-5 md:px-8 py-3 md:py-4 rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest hover:bg-brand-orange transition-all hover:shadow-xl hover:shadow-brand-orange/20 active:scale-95 group whitespace-nowrap">
+              <button 
+                onClick={handleAddToCart}
+                className="flex items-center gap-3 bg-brand-navy text-white px-5 md:px-8 py-3 md:py-4 rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest hover:bg-brand-orange transition-all hover:shadow-xl hover:shadow-brand-orange/20 active:scale-95 group whitespace-nowrap"
+              >
                 <ShoppingCart size={14} className="group-hover:translate-x-1 transition-transform" />
                 Quick Add
               </button>
