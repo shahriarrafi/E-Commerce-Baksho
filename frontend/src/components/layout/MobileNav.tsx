@@ -13,11 +13,17 @@ export default function MobileNav() {
   const { openSearch, openMobileMenu } = useUIStore();
   const { totalItems } = getTotals();
 
+  const triggerHaptic = () => {
+    if (typeof window !== "undefined" && typeof window.navigator.vibrate === "function") {
+      window.navigator.vibrate(10);
+    }
+  };
+
   const navItems = [
     { id: "home", label: "Home", icon: Home, href: "/" },
-    { id: "categories", label: "Explore", icon: LayoutGrid, href: "#", action: openMobileMenu },
-    { id: "search", label: "Search", icon: Search, href: "#", action: openSearch },
-    { id: "cart", label: "Cart", icon: ShoppingBag, href: "#", action: toggleCart, badge: totalItems },
+    { id: "categories", label: "Explore", icon: LayoutGrid, href: "#", action: () => { triggerHaptic(); openMobileMenu(); } },
+    { id: "search", label: "Search", icon: Search, href: "#", action: () => { triggerHaptic(); openSearch(); } },
+    { id: "cart", label: "Cart", icon: ShoppingBag, href: "#", action: () => { triggerHaptic(); toggleCart(); }, badge: totalItems },
     { id: "account", label: "Vault", icon: User, href: "/dashboard" },
   ];
 
@@ -75,7 +81,7 @@ export default function MobileNav() {
           }
 
           return (
-            <Link key={item.id} href={item.href} className="flex-1">
+            <Link key={item.id} href={item.href} className="flex-1" onClick={triggerHaptic}>
               {content}
             </Link>
           );

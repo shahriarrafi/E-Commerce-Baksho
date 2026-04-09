@@ -24,7 +24,14 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   const addItem = useCartStore((state) => state.addItem);
   const router = useRouter();
 
+  const triggerHaptic = () => {
+    if (typeof window !== "undefined" && typeof window.navigator.vibrate === "function") {
+      window.navigator.vibrate(10);
+    }
+  };
+
   const handleAddToCart = () => {
+    triggerHaptic();
     addItem({
       id: product.id,
       name: product.name,
@@ -35,6 +42,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   };
 
   const handleBuyNow = () => {
+    triggerHaptic();
     addItem({
       id: product.id,
       name: product.name,
@@ -43,6 +51,11 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       slug: product.slug
     }, quantity, false);
     router.push("/checkout");
+  };
+
+  const updateQuantity = (newQty: number) => {
+    triggerHaptic();
+    setQuantity(newQty);
   };
   return (
     <div className="flex flex-col gap-6 md:gap-8">
@@ -88,7 +101,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
           <div className="flex items-center justify-between sm:justify-start gap-4 px-4 py-2 bg-brand-cream/30 rounded-xl border border-brand-orange/5">
              <button 
-               onClick={() => setQuantity(Math.max(1, quantity - 1))}
+               onClick={() => updateQuantity(Math.max(1, quantity - 1))}
                className="w-8 h-8 flex items-center justify-center text-brand-navy font-black text-lg hover:text-brand-orange transition-colors"
              >
                -
@@ -102,7 +115,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
                {quantity}
              </motion.span>
              <button 
-               onClick={() => setQuantity(quantity + 1)}
+               onClick={() => updateQuantity(quantity + 1)}
                className="w-8 h-8 flex items-center justify-center text-brand-navy font-black text-lg hover:text-brand-orange transition-colors"
              >
                +
