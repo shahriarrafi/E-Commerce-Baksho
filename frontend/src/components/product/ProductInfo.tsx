@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Star, ShoppingCart, ShieldCheck, Truck, RotateCcw } from "lucide-react";
+import { Star, ShoppingCart, ShieldCheck, Truck, RotateCcw, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface ProductInfoProps {
@@ -17,10 +17,12 @@ interface ProductInfoProps {
 }
 
 import { useCartStore } from "@/store/useCartStore";
+import { useRouter } from "next/navigation";
 
 export default function ProductInfo({ product }: ProductInfoProps) {
   const [quantity, setQuantity] = useState(1);
   const addItem = useCartStore((state) => state.addItem);
+  const router = useRouter();
 
   const handleAddToCart = () => {
     addItem({
@@ -30,6 +32,17 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       image: product.images[0],
       slug: product.slug
     }, quantity);
+  };
+
+  const handleBuyNow = () => {
+    addItem({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.images[0],
+      slug: product.slug
+    }, quantity, false);
+    router.push("/checkout");
   };
   return (
     <div className="flex flex-col gap-6 md:gap-8">
@@ -98,10 +111,18 @@ export default function ProductInfo({ product }: ProductInfoProps) {
           
           <button 
             onClick={handleAddToCart}
-            className="flex-1 flex items-center justify-center gap-4 bg-brand-navy text-white px-8 py-4 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-brand-orange transition-all hover:shadow-2xl hover:shadow-brand-orange/30 active:scale-[0.98] group"
+            className="flex-1 flex items-center justify-center gap-2 bg-brand-navy/5 text-brand-navy border border-brand-navy/10 px-6 py-4 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-brand-navy hover:text-white transition-all active:scale-[0.98] group"
           >
             <ShoppingCart size={16} className="group-hover:rotate-12 transition-transform" />
             Add To Cart
+          </button>
+
+          <button 
+            onClick={handleBuyNow}
+            className="flex-1 flex items-center justify-center gap-3 bg-brand-orange text-white px-6 py-4 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-brand-navy transition-all hover:shadow-2xl hover:shadow-brand-orange/30 active:scale-[0.98] group"
+          >
+            Buy Now
+            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
 

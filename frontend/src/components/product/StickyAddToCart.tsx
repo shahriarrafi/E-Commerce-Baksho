@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { ShoppingCart, Star } from "lucide-react";
+import { ShoppingCart, Star, ArrowRight } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
+import { useRouter } from "next/navigation";
 
 interface StickyAddToCartProps {
   product: {
@@ -19,6 +20,7 @@ interface StickyAddToCartProps {
 export default function StickyAddToCart({ product }: StickyAddToCartProps) {
   const [isVisible, setIsVisible] = useState(false);
   const addItem = useCartStore((state) => state.addItem);
+  const router = useRouter();
 
   const handleAddToCart = () => {
     addItem({
@@ -30,9 +32,19 @@ export default function StickyAddToCart({ product }: StickyAddToCartProps) {
     });
   };
 
+  const handleBuyNow = () => {
+    addItem({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      slug: product.slug,
+    }, 1, false);
+    router.push("/checkout");
+  };
+
   useEffect(() => {
     const handleScroll = () => {
-      // Show after scrolling 600px
       setIsVisible(window.scrollY > 600);
     };
 
@@ -75,19 +87,20 @@ export default function StickyAddToCart({ product }: StickyAddToCartProps) {
             </div>
 
             <div className="flex items-center gap-2 md:gap-3">
-              <div className="hidden md:flex gap-1.5 px-4 py-2 bg-brand-cream rounded-2xl border border-brand-orange/5 flex-shrink-0">
-                {[1, 2, 3, 4, 5].map((_, i) => (
-                  <Star key={i} size={10} className="fill-brand-orange text-brand-orange" />
-                ))}
-                <span className="text-[10px] font-bold text-brand-navy/40 uppercase tracking-tighter ml-1">4.9 / 5.0</span>
-              </div>
-              
               <button 
                 onClick={handleAddToCart}
-                className="flex items-center gap-3 bg-brand-navy text-white px-5 md:px-8 py-3 md:py-4 rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest hover:bg-brand-orange transition-all hover:shadow-xl hover:shadow-brand-orange/20 active:scale-95 group whitespace-nowrap"
+                className="hidden sm:flex items-center gap-2 bg-brand-navy/5 text-brand-navy px-4 py-3 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-brand-navy hover:text-white transition-all active:scale-95 group"
               >
-                <ShoppingCart size={14} className="group-hover:translate-x-1 transition-transform" />
-                Quick Add
+                <ShoppingCart size={13} className="group-hover:rotate-12 transition-transform" />
+                Add
+              </button>
+              
+              <button 
+                onClick={handleBuyNow}
+                className="flex items-center gap-3 bg-brand-orange text-white px-5 md:px-8 py-3 md:py-4 rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest hover:bg-brand-navy transition-all hover:shadow-2xl hover:shadow-brand-orange/20 active:scale-95 group whitespace-nowrap"
+              >
+                Buy Now
+                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>
