@@ -26,6 +26,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Baksho | Premium E-commerce Brand",
   description: "Experience the art of unboxing with Baksho - your destination for premium lifestyle products.",
+  applicationName: "Baksho",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -33,6 +34,9 @@ export const metadata: Metadata = {
   },
   formatDetection: {
     telephone: false,
+  },
+  other: {
+    "mobile-web-app-capable": "yes",
   },
 };
 
