@@ -1,6 +1,4 @@
-"use client";
 
-import { motion } from "framer-motion";
 import { Laptop, Lamp, Package, Coffee, Briefcase, Camera, Music, WalletCards } from "lucide-react";
 import Link from "next/link";
 
@@ -35,14 +33,8 @@ export default function SubCategoryGrid() {
 
         {/* Minimal Icon Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-5">
-          {SUB_CATEGORIES.map((sub, i) => (
-            <motion.div
-              key={sub.slug}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
-            >
+          {SUB_CATEGORIES.map((sub) => (
+            <div key={sub.slug}>
               <Link
                 href={`/category/${sub.slug}`}
                 className="group flex flex-col items-center justify-center gap-4 p-6 bg-white rounded-[32px] border border-brand-orange/5 hover:border-brand-orange/30 hover:bg-brand-orange hover:shadow-2xl hover:shadow-brand-orange/20 transition-all duration-500"
@@ -58,7 +50,7 @@ export default function SubCategoryGrid() {
                 {/* Selection Marker */}
                 <div className="w-1.5 h-1.5 rounded-full bg-brand-orange group-hover:bg-white transition-colors" />
               </Link>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

@@ -28,16 +28,16 @@ export default function MobileMenu() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeMobileMenu}
-            className="fixed inset-0 bg-brand-navy/60 backdrop-blur-md z-[110]"
+            className="fixed inset-0 bg-brand-navy/60 backdrop-blur-md z-[140]"
           />
 
           {/* Drawer */}
           <motion.div
-            initial={{ x: "100%" }}
+            initial={{ x: "-100%" }}
             animate={{ x: 0 }}
-            exit={{ x: "100%" }}
+            exit={{ x: "-100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 200 }}
-            className="fixed inset-y-0 right-0 w-[85%] max-w-[400px] bg-white z-[111] shadow-2xl flex flex-col"
+            className="fixed inset-y-0 left-0 w-[85%] max-w-[400px] bg-white z-[150] shadow-2xl flex flex-col"
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-brand-cream">

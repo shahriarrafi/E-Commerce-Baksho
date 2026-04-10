@@ -2,33 +2,37 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Home, Search, LayoutGrid, ShoppingBag, User } from "lucide-react";
+import { Home, Search, ShoppingBag, User, Sparkles } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
 import { useUIStore } from "@/store/useUIStore";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { triggerHaptic } from "@/lib/utils";
+import { useScrollDirection } from "@/hooks/useScrollDirection";
 
 export default function MobileNav() {
   const pathname = usePathname();
   const { toggleCart, getTotals } = useCartStore();
-  const { openSearch, openMobileMenu } = useUIStore();
+  const { openSearch } = useUIStore();
   const { totalItems } = getTotals();
 
-  const triggerHaptic = () => {
-    if (typeof window !== "undefined" && typeof window.navigator.vibrate === "function") {
-      window.navigator.vibrate(10);
-    }
-  };
+  const isVisible = !useScrollDirection();
 
   const navItems = [
     { id: "home", label: "Home", icon: Home, href: "/" },
-    { id: "categories", label: "Explore", icon: LayoutGrid, href: "#", action: () => { triggerHaptic(); openMobileMenu(); } },
+    { id: "arrivals", label: "Arrivals", icon: Sparkles, href: "/category/new-arrivals" },
     { id: "search", label: "Search", icon: Search, href: "#", action: () => { triggerHaptic(); openSearch(); } },
     { id: "cart", label: "Cart", icon: ShoppingBag, href: "#", action: () => { triggerHaptic(); toggleCart(); }, badge: totalItems },
     { id: "account", label: "Vault", icon: User, href: "/dashboard" },
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-[100] lg:hidden pb-[env(safe-area-inset-bottom)]">
+    <motion.nav 
+      initial={{ y: 0 }}
+      animate={{ y: isVisible ? "0%" : "100%" }}
+      transition={{ type: "spring", stiffness: 400, damping: 40 }}
+      className="fixed bottom-0 left-0 right-0 z-[100] lg:hidden pb-[env(safe-area-inset-bottom)]"
+    >
       {/* Glossy Backdrop */}
       <div className="absolute inset-0 bg-white/80 backdrop-blur-2xl border-t border-brand-orange/10" />
       
@@ -74,14 +78,14 @@ export default function MobileNav() {
 
           if (item.action) {
             return (
-              <button key={item.id} onClick={item.action} className="flex-1 outline-none">
+              <button key={item.id} onClick={item.action} className="flex-1 outline-none" aria-label={item.label}>
                 {content}
               </button>
             );
           }
 
           return (
-            <Link key={item.id} href={item.href} className="flex-1" onClick={triggerHaptic}>
+            <Link key={item.id} href={item.href} className="flex-1" onClick={() => triggerHaptic()} aria-label={item.label}>
               {content}
             </Link>
           );
@@ -90,6 +94,6 @@ export default function MobileNav() {
       
       {/* Safe Area for Mobile Notch */}
       <div className="h-safe-bottom bg-white/80 backdrop-blur-2xl" />
-    </nav>
+    </motion.nav>
   );
 }

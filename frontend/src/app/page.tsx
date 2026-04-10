@@ -96,6 +96,7 @@ export default function Home() {
                               src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2040&auto=format&fit=crop"
                               alt="Signature Piece"
                               fill
+                              priority
                               className="object-cover opacity-80 group-hover:scale-110 transition-transform duration-1000"
                            />
                            <div className="absolute inset-0 bg-gradient-to-tr from-brand-navy/40 to-transparent" />

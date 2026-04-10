@@ -62,15 +62,13 @@ export default function TrendingCarousel() {
         {/* Carousel Container */}
         <div 
           ref={containerRef}
-          className="flex gap-6 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-8 transition-all"
+          className="flex gap-3 md:gap-6 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-8 transition-all"
           style={{ scrollSnapType: 'x mandatory' }}
         >
           {TRENDING_PRODUCTS.map((product) => (
-            <motion.div 
+            <div 
                key={product.id}
-               className="min-w-[280px] md:min-w-[360px] snap-center px-1"
-               whileHover={{ scale: 1.01 }}
-               transition={{ type: "spring", stiffness: 300, damping: 20 }}
+               className="min-w-[160px] md:min-w-[360px] snap-center px-1 hover:scale-[1.01] transition-transform duration-300 ease-out"
             >
                <ProductCard 
                  id={product.id}
@@ -79,7 +77,7 @@ export default function TrendingCarousel() {
                  slug={product.slug}
                  image={product.image}
                />
-            </motion.div>
+            </div>
           ))}
         </div>
 

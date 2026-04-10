@@ -1,12 +1,6 @@
-"use client";
 
-import { motion } from "framer-motion";
-import { Star, Heart, Quote, ArrowRight } from "lucide-react";
+import { Star, Quote, ArrowRight } from "lucide-react";
 import Image from "next/image";
-
-// Using Lucide alternatives or keeping placeholders if explicitly missing in current version
-// But I checked and Lucide actually has Instagram and Twitter in most versions. 
-// If they are missing, I'll use placeholders.
 
 const TESTIMONIALS = [
   { id: 1, text: "The unboxing experience alone is worth the price. Truly a boutique feeling from start to finish.", author: "@rafael_dev", role: "Creative Director" },
@@ -52,9 +46,9 @@ export default function SocialProof() {
       </div>
 
       {/* Marquee Testimonials */}
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-6 pause-marquee-hover">
         <div className="flex whitespace-nowrap overflow-hidden group">
-          <div className="flex animate-marquee group-hover:pause-marquee py-2">
+          <div className="flex animate-marquee py-2">
              {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
                <div key={`${t.id}-${i}`} className="mx-3 min-w-[320px] bg-brand-cream/40 border border-brand-orange/5 p-6 rounded-[30px] flex flex-col gap-4 shadow-sm hover:shadow-xl hover:bg-white transition-all duration-500">
                   <div className="flex items-center gap-1.5 text-brand-orange">
@@ -80,7 +74,7 @@ export default function SocialProof() {
 
         {/* UGC Gallery View */}
         <div className="flex whitespace-nowrap overflow-hidden group">
-          <div className="flex animate-marquee-reverse group-hover:pause-marquee py-2">
+          <div className="flex animate-marquee-reverse py-2">
              {[...UGC_IMAGES, ...UGC_IMAGES].map((img, i) => (
                <div key={i} className="mx-2 w-60 aspect-[4/5] rounded-[30px] overflow-hidden relative border-4 border-brand-cream shadow-2xl transition-all duration-700 hover:rotate-1 hover:scale-105">
                   <Image src={img} alt="User Generated Content" fill className="object-cover" />
@@ -111,26 +105,6 @@ export default function SocialProof() {
             <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
          </div>
       </div>
-
-      <style jsx global>{`
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        @keyframes marquee-reverse {
-          0% { transform: translateX(-50%); }
-          100% { transform: translateX(0); }
-        }
-        .animate-marquee {
-          animation: marquee 40s linear infinite;
-        }
-        .animate-marquee-reverse {
-          animation: marquee-reverse 40s linear infinite;
-        }
-        .pause-marquee {
-          animation-play-state: paused;
-        }
-      `}</style>
     </section>
   );
 }

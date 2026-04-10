@@ -1,17 +1,24 @@
+
 import type { Metadata, Viewport } from "next";
 import { Poppins, Lora } from "next/font/google";
+import dynamic from "next/dynamic";
 import "./globals.css";
+
+// Normal import for the transition wrapper to avoid SSR issues with dynamic in root layout
+import UnboxingTransition from "@/components/animations/UnboxingTransition";
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-poppins",
+  display: "swap",
 });
 
 const lora = Lora({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-lora",
+  display: "swap",
 });
 
 export const viewport: Viewport = {
@@ -40,13 +47,13 @@ export const metadata: Metadata = {
   },
 };
 
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import UnboxingTransition from "@/components/animations/UnboxingTransition";
-import CartDrawer from "@/components/cart/CartDrawer";
-import MobileNav from "@/components/layout/MobileNav";
-import MobileHeader from "@/components/layout/MobileHeader";
-import MobileMenu from "@/components/layout/MobileMenu";
+// Lazy load non-critical components
+const Header = dynamic(() => import("@/components/layout/Header"));
+const Footer = dynamic(() => import("@/components/layout/Footer"));
+const MobileHeader = dynamic(() => import("@/components/layout/MobileHeader"));
+const MobileNav = dynamic(() => import("@/components/layout/MobileNav"));
+const MobileMenu = dynamic(() => import("@/components/layout/MobileMenu"));
+const CartDrawer = dynamic(() => import("@/components/cart/CartDrawer"));
 
 export default function RootLayout({
   children,
@@ -55,13 +62,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${poppins.variable} ${lora.variable}`}>
-      <body className="antialiased min-h-screen bg-white selection:bg-brand-orange selection:text-white pb-20 lg:pb-0 pt-16 lg:pt-0">
+      <body className="antialiased min-h-screen bg-white selection:bg-brand-orange selection:text-white pb-24 lg:pb-0">
         <Header />
         <MobileHeader />
         <MobileMenu />
         <CartDrawer />
         <UnboxingTransition>
-          <main>{children}</main>
+          <div className="pt-24 lg:pt-0">
+            <main>{children}</main>
+          </div>
         </UnboxingTransition>
         <MobileNav />
         <Footer />

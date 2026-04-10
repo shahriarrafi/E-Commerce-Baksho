@@ -1,8 +1,13 @@
+
 "use client";
 
 import { useState } from "react";
-import { Star, ShoppingCart, ShieldCheck, Truck, RotateCcw, ArrowRight } from "lucide-react";
+import { Star, ShoppingCart, ShieldCheck, Truck, RotateCcw, ArrowRight, Clock } from "lucide-react";
 import { motion } from "framer-motion";
+import { triggerHaptic } from "@/lib/utils";
+import { formatPrice, getShippingCountdown } from "@/lib/format";
+import { useCartStore } from "@/store/useCartStore";
+import { useRouter } from "next/navigation";
 
 interface ProductInfoProps {
   product: {
@@ -16,19 +21,10 @@ interface ProductInfoProps {
   };
 }
 
-import { useCartStore } from "@/store/useCartStore";
-import { useRouter } from "next/navigation";
-
 export default function ProductInfo({ product }: ProductInfoProps) {
   const [quantity, setQuantity] = useState(1);
   const addItem = useCartStore((state) => state.addItem);
   const router = useRouter();
-
-  const triggerHaptic = () => {
-    if (typeof window !== "undefined" && typeof window.navigator.vibrate === "function") {
-      window.navigator.vibrate(10);
-    }
-  };
 
   const handleAddToCart = () => {
     triggerHaptic();
@@ -57,8 +53,9 @@ export default function ProductInfo({ product }: ProductInfoProps) {
     triggerHaptic();
     setQuantity(newQty);
   };
+
   return (
-    <div className="flex flex-col gap-6 md:gap-8">
+    <div className="flex flex-col gap-4 md:gap-8">
       {/* Breadcrumbs / Category */}
       <div className="flex items-center gap-2">
         <span className="text-[9px] font-black uppercase tracking-widest text-brand-navy/30">Shop</span>
@@ -69,16 +66,16 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       {/* Title & Price */}
       <div className="space-y-3 md:space-y-4">
         <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-3xl sm:text-4xl md:text-5xl font-serif text-brand-navy leading-tight"
+          className="text-2xl sm:text-3xl md:text-5xl font-serif text-brand-navy leading-tight"
         >
           {product.name}
         </motion.h1>
         
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
-          <p className="text-3xl md:text-4xl font-black text-brand-navy tracking-tighter">
-            ${product.price.toFixed(2)}
+          <p className="text-2xl md:text-4xl font-black text-brand-navy tracking-tighter">
+            {formatPrice(product.price)}
           </p>
           <div className="flex items-center gap-2 px-3 py-1.5 bg-brand-cream/50 rounded-full border border-brand-orange/10 w-fit">
             <div className="flex gap-0.5">
@@ -89,6 +86,14 @@ export default function ProductInfo({ product }: ProductInfoProps) {
             <span className="text-[9px] font-bold text-brand-navy/60 uppercase tracking-widest">4.8 (124 reviews)</span>
           </div>
         </div>
+      </div>
+
+      {/* Shipping Urgency - NEW UX HELPER */}
+      <div className="flex items-center gap-3 p-3 bg-brand-orange/5 border border-brand-orange/10 rounded-2xl w-fit">
+        <Clock size={16} className="text-brand-orange animate-pulse" />
+        <p className="text-[10px] font-black uppercase tracking-widest text-brand-navy">
+            Order in the next <span className="text-brand-orange">{getShippingCountdown()}</span> for <span className="underline decoration-2 underline-offset-4 decoration-brand-orange/30">Dispatch Today</span>
+        </p>
       </div>
 
       {/* Description */}
@@ -140,21 +145,18 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         </div>
 
         {/* Benefits */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 pt-4 md:pt-6">
-          <div className="flex flex-col gap-2 p-4 rounded-xl bg-brand-cream/20 border border-brand-orange/5">
-            <ShieldCheck size={18} className="text-brand-orange" />
-            <span className="text-[9px] font-black uppercase tracking-widest text-brand-navy">High Quality</span>
-            <span className="text-[8px] text-brand-navy/50 leading-tight">Handcrafted with premium wood.</span>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 pt-2 md:pt-6">
+          <div className="flex flex-col gap-1.5 p-3 rounded-xl bg-brand-cream/20 border border-brand-orange/5">
+            <ShieldCheck size={14} className="text-brand-orange" />
+            <span className="text-[8px] font-black uppercase tracking-widest text-brand-navy">High Quality</span>
           </div>
-          <div className="flex flex-col gap-2 p-4 rounded-xl bg-brand-cream/20 border border-brand-orange/5">
-            <Truck size={18} className="text-brand-orange" />
-            <span className="text-[9px] font-black uppercase tracking-widest text-brand-navy">Quick Delivery</span>
-            <span className="text-[8px] text-brand-navy/50 leading-tight">3-5 days worldwide.</span>
+          <div className="flex flex-col gap-1.5 p-3 rounded-xl bg-brand-cream/20 border border-brand-orange/5">
+            <Truck size={14} className="text-brand-orange" />
+            <span className="text-[8px] font-black uppercase tracking-widest text-brand-navy">Quick Delivery</span>
           </div>
-          <div className="flex flex-col gap-2 p-4 rounded-xl bg-brand-cream/20 border border-brand-orange/5 col-span-2 md:col-span-1">
-            <RotateCcw size={18} className="text-brand-orange" />
-            <span className="text-[9px] font-black uppercase tracking-widest text-brand-navy">Easy Returns</span>
-            <span className="text-[8px] text-brand-navy/50 leading-tight">30-day return policy.</span>
+          <div className="flex flex-col gap-1.5 p-3 rounded-xl bg-brand-cream/40 border border-brand-orange/5 col-span-2 md:col-span-1">
+            <RotateCcw size={14} className="text-brand-orange" />
+            <span className="text-[8px] font-black uppercase tracking-widest text-brand-navy">Easy Returns</span>
           </div>
         </div>
       </div>

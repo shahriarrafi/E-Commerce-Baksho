@@ -1,11 +1,10 @@
-"use client";
 
-import { motion } from "framer-motion";
 import { ArrowUpRight, Hexagon, Sparkles, TrendingUp, Trophy } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
 const COLLECTIONS = [
+  // ... existing collections ...
   {
     title: "New Arrivals",
     desc: "Summer 2024 Collection",
@@ -63,13 +62,9 @@ export default function FeaturedCollections() {
         {/* Bento-style Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[220px] md:auto-rows-[280px]">
           {COLLECTIONS.map((col, i) => (
-            <motion.div
+            <div
               key={col.slug}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className={`group relative rounded-[35px] overflow-hidden border border-brand-orange/5 ${col.size === "large" ? "md:row-span-2" : ""}`}
+              className={`group relative rounded-[35px] overflow-hidden border border-brand-orange/5 transition-all duration-500 hover:shadow-xl ${col.size === "large" ? "md:row-span-2" : ""}`}
             >
               {/* Image with Zoom Effect */}
               <div className="absolute inset-0 z-0">
@@ -108,7 +103,7 @@ export default function FeaturedCollections() {
               <div className="absolute top-6 right-6 text-brand-orange/20 opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none transform group-hover:rotate-45">
                  <Hexagon size={50} />
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

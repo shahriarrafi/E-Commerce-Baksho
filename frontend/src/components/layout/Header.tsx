@@ -60,6 +60,7 @@ export default function Header() {
           <button 
             onClick={() => openMobileMenu()}
             className="flex lg:hidden items-center justify-center w-10 h-10 rounded-xl bg-brand-cream/50 text-brand-navy hover:text-brand-orange transition-all"
+            aria-label="Open Mobile Menu"
           >
              <Menu size={20} />
           </button>

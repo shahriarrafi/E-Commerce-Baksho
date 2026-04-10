@@ -62,45 +62,45 @@ export default function StickyAddToCart({ product }: StickyAddToCartProps) {
           transition={{ type: "spring", stiffness: 260, damping: 30 }}
           className="fixed bottom-[100px] lg:bottom-12 left-1/2 -translate-x-1/2 z-50 w-[92%] md:w-[95%] max-w-4xl"
         >
-          <div className="bg-white/80 backdrop-blur-2xl border border-brand-orange/10 rounded-3xl p-3 md:p-4 shadow-2xl shadow-brand-navy/10 flex items-center justify-between gap-3 md:gap-6 overflow-hidden relative">
-             <div className="absolute top-0 right-0 p-4 opacity-10">
-               <Star className="text-brand-orange animate-pulse" size={40} />
+           <div className="bg-white/80 backdrop-blur-2xl border border-brand-orange/10 rounded-2xl p-2.5 md:p-4 shadow-2xl shadow-brand-navy/10 flex items-center justify-between gap-3 md:gap-6 overflow-hidden relative">
+             <div className="absolute top-0 right-0 p-3 opacity-10">
+               <Star className="text-brand-orange animate-pulse" size={32} />
              </div>
 
-            <div className="flex items-center gap-3 md:gap-4 lg:min-w-0">
-              <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl overflow-hidden shadow-inner flex-shrink-0">
+            <div className="flex items-center gap-2.5 md:gap-4 lg:min-w-0">
+              <div className="relative w-10 h-10 md:w-14 md:h-14 rounded-lg md:rounded-2xl overflow-hidden shadow-inner flex-shrink-0">
                 <Image
                   src={product.image}
                   alt={product.name}
                   fill
                   className="object-cover"
-                  sizes="56px"
+                  sizes="40px"
                 />
               </div>
               <div className="hidden sm:block truncate">
-                <h4 className="text-brand-navy font-bold text-xs md:text-sm tracking-tight truncate max-w-[150px]">{product.name}</h4>
-                <p className="text-brand-orange font-bold text-base md:text-lg">${product.price.toFixed(2)}</p>
+                <h4 className="text-brand-navy font-bold text-[11px] md:text-sm tracking-tight truncate max-w-[150px]">{product.name}</h4>
+                <p className="text-brand-orange font-bold text-sm md:text-lg">${product.price.toFixed(2)}</p>
               </div>
               <div className="sm:hidden">
-                 <p className="text-brand-orange font-bold text-base md:text-lg">${product.price.toFixed(2)}</p>
+                 <p className="text-brand-orange font-bold text-sm md:text-lg">${product.price.toFixed(2)}</p>
               </div>
             </div>
 
             <div className="flex items-center gap-2 md:gap-3">
               <button 
                 onClick={handleAddToCart}
-                className="hidden sm:flex items-center gap-2 bg-brand-navy/5 text-brand-navy px-4 py-3 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-brand-navy hover:text-white transition-all active:scale-95 group"
+                className="hidden sm:flex items-center gap-2 bg-brand-navy/5 text-brand-navy px-3 py-2.5 rounded-lg font-black text-[8px] uppercase tracking-widest hover:bg-brand-navy hover:text-white transition-all active:scale-95 group"
               >
-                <ShoppingCart size={13} className="group-hover:rotate-12 transition-transform" />
+                <ShoppingCart size={12} className="group-hover:rotate-12 transition-transform" />
                 Add
               </button>
               
               <button 
                 onClick={handleBuyNow}
-                className="flex items-center gap-3 bg-brand-orange text-white px-5 md:px-8 py-3 md:py-4 rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest hover:bg-brand-navy transition-all hover:shadow-2xl hover:shadow-brand-orange/20 active:scale-95 group whitespace-nowrap"
+                className="flex items-center gap-2.5 bg-brand-orange text-white px-4 md:px-8 py-2.5 md:py-4 rounded-xl md:rounded-2xl font-black text-[9px] md:text-xs uppercase tracking-widest hover:bg-brand-navy transition-all hover:shadow-2xl hover:shadow-brand-orange/20 active:scale-95 group whitespace-nowrap"
               >
                 Buy Now
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>

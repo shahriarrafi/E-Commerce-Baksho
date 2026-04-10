@@ -1,7 +1,5 @@
-"use client";
 
-import { motion } from "framer-motion";
-import { Package, ShieldCheck, Hexagon, Star } from "lucide-react";
+import { ShieldCheck, Star } from "lucide-react";
 import Image from "next/image";
 
 export default function BrandExperience() {
@@ -65,12 +63,12 @@ export default function BrandExperience() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
                <div className="space-y-3 p-6 bg-white/5 rounded-[30px] border border-white/5 group hover:bg-white/10 transition-colors">
-                  <ShieldCheck size={28} className="text-brand-orange group-hover:scale-110 transition-transform" />
+                  <ShieldCheck size={28} className="text-brand-orange group-hover:scale-110 transition-transform duration-500" />
                   <h4 className="text-base font-serif">Structural Integrity</h4>
                   <p className="text-[10px] text-white/40 leading-relaxed uppercase tracking-wider">Recycled Walnut & Velvet lining for lifetime preservation.</p>
                </div>
                <div className="space-y-3 p-6 bg-white/5 rounded-[30px] border border-white/5 group hover:bg-white/10 transition-colors">
-                  <Star size={28} className="text-brand-orange group-hover:scale-110 transition-transform" />
+                  <Star size={28} className="text-brand-orange group-hover:scale-110 transition-transform duration-500" />
                   <h4 className="text-base font-serif">Signature Hexagon</h4>
                   <p className="text-[10px] text-white/40 leading-relaxed uppercase tracking-wider">The perfect geometry for the modern curator's collection.</p>
                </div>

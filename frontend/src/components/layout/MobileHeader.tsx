@@ -1,58 +1,79 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { Menu, Search, Package, ArrowLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { useUIStore } from "@/store/useUIStore";
+import { useState, useEffect, useRef } from "react";
+import { triggerHaptic } from "@/lib/utils";
+import { useScrollDirection } from "@/hooks/useScrollDirection";
 
 export default function MobileHeader() {
   const pathname = usePathname();
   const router = useRouter();
+  const { openMobileMenu, openSearch } = useUIStore();
+  
+  const isVisible = useScrollDirection();
 
-  const isHome = pathname === "/";
-
-  const triggerHaptic = () => {
-    if (typeof window !== "undefined" && typeof window.navigator.vibrate === "function") {
-      window.navigator.vibrate(10);
-    }
-  };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-[120] lg:hidden">
-      <div className="absolute inset-0 bg-white/60 backdrop-blur-2xl border-b border-brand-orange/5" />
-      
-      <div className="relative h-16 px-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <AnimatePresence mode="wait">
-            {!isHome ? (
-              <motion.button
-                key="back"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -10 }}
-                onClick={() => {
-                  triggerHaptic();
-                  router.back();
-                }}
-                className="p-2 -ml-2 text-brand-navy hover:text-brand-orange transition-colors"
-              >
-                <ArrowLeft size={20} />
-              </motion.button>
-            ) : null}
-          </AnimatePresence>
-          
+    <motion.header 
+      initial={{ y: 0 }}
+      animate={{ y: isVisible ? "0%" : "-100%" }}
+      transition={{ type: "spring", stiffness: 400, damping: 40 }}
+      className="fixed top-0 left-0 right-0 z-[120] lg:hidden bg-white border-b border-brand-cream/50 shadow-sm"
+    >
+      <div className="flex flex-col">
+        {/* Top Row: Menu & Logo */}
+        <div className="h-12 px-4 flex items-center gap-2.5">
+          <button
+            onClick={() => {
+              triggerHaptic();
+              openMobileMenu();
+            }}
+            className="p-1.5 -ml-1 text-brand-navy hover:text-brand-orange transition-colors"
+            aria-label="Open Menu"
+          >
+            <Menu size={22} strokeWidth={1.5} />
+          </button>
+
           <Link 
             href="/" 
-            className="text-lg font-serif font-black tracking-tighter text-brand-navy"
-            onClick={triggerHaptic}
+            className="flex items-center gap-2"
+            onClick={() => triggerHaptic()}
           >
-            BAKSHO
+            <div className="w-7 h-7 bg-brand-orange rounded-lg flex items-center justify-center">
+              <Package className="text-white" size={16} />
+            </div>
+            <span className="text-lg font-serif font-black tracking-tighter text-brand-navy uppercase">
+              Baksho
+            </span>
           </Link>
         </div>
 
-        {/* Right side is now empty to focus on branding and navigation */}
-        <div className="w-10" /> 
+        {/* Second Row: Search Bar */}
+        <div className="px-4 pb-2">
+          <div 
+            onClick={() => {
+              triggerHaptic();
+              openSearch();
+            }}
+            className="relative flex items-center w-full h-9 bg-brand-cream/30 border border-brand-navy/5 rounded-xl px-3 text-brand-navy/40 active:scale-[0.98] transition-all cursor-pointer"
+          >
+            <Search size={16} className="text-brand-navy/30 mr-2" />
+            <span className="text-xs font-medium">Search products...</span>
+            
+            {/* Suffix area */}
+            <div className="ml-auto flex items-center gap-2">
+              <div className="w-px h-3 bg-brand-navy/10 mx-1" />
+              <div className="w-6 h-6 bg-brand-orange rounded-lg flex items-center justify-center">
+                 <Search size={12} className="text-white" />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </header>
+    </motion.header>
   );
 }
