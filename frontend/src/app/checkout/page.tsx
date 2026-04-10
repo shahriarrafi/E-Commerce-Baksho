@@ -12,11 +12,15 @@ import {
   Package,
   MapPin,
   Smartphone,
-  Wallet
+  Wallet,
+  User,
+  Mail
 } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useCartStore } from "@/store/useCartStore";
+import { useAuthStore } from "@/store/useAuthStore";
+import { formatPrice } from "@/lib/format";
 import Image from "next/image";
 
 type Step = "shipping" | "payment" | "review";
@@ -24,6 +28,7 @@ type Step = "shipping" | "payment" | "review";
 export default function CheckoutPage() {
   const { items, getTotals, clearCart } = useCartStore();
   const { subtotal } = getTotals();
+  const { isAuthenticated } = useAuthStore();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [activeAccordion, setActiveAccordion] = useState<string>("shipping");
@@ -50,23 +55,26 @@ export default function CheckoutPage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 md:mb-16">
           <div className="flex flex-col gap-3">
              <Link href="/" className="flex items-center gap-2 text-brand-navy/40 hover:text-brand-orange transition-colors group">
-               <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-               <span className="text-[10px] font-black uppercase tracking-widest">Back to Ritual</span>
+                <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+                <span className="text-[10px] font-black uppercase tracking-widest">Back to Ritual</span>
              </Link>
              <h1 className="text-4xl md:text-6xl font-serif text-brand-navy">Final Ritual</h1>
           </div>
           
-          {/* Express Checkout Shortcuts */}
-          <div className="flex items-center gap-3">
-            <button className="flex-1 md:flex-initial bg-[#E2136E] text-white px-6 py-4 rounded-2xl flex items-center justify-center gap-3 hover:opacity-90 transition-all shadow-lg shadow-[#E2136E]/20">
-              <span className="text-[10px] font-black uppercase tracking-widest">Pay with</span>
-              <span className="font-black text-sm">bKash</span>
-            </button>
-            <button className="flex-1 md:flex-initial bg-brand-navy text-white px-6 py-4 rounded-2xl flex items-center justify-center gap-3 hover:bg-black transition-all shadow-lg shadow-brand-navy/20">
-              <span className="text-[10px] font-black uppercase tracking-widest">Cards</span>
-              <CreditCard size={18} />
-            </button>
-          </div>
+          {/* Guest Checkout Experience: Show Login Option */}
+          {!isAuthenticated && (
+            <div className="flex items-center gap-4 p-4 md:p-6 bg-white rounded-3xl border border-brand-orange/10 shadow-lg shadow-brand-orange/5">
+                <div className="w-10 h-10 bg-brand-orange/10 rounded-xl flex items-center justify-center text-brand-orange">
+                    <User size={20} />
+                </div>
+                <div>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-brand-navy/30">Already a Member?</p>
+                    <Link href="/auth" className="text-sm font-bold text-brand-navy hover:text-brand-orange transition-colors">
+                        Login for a Faster Ritual →
+                    </Link>
+                </div>
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-start">
@@ -77,12 +85,18 @@ export default function CheckoutPage() {
             <CheckoutSection 
               id="shipping" 
               number="01" 
-              title="Delivery Hub" 
+              title="Identity & Delivery" 
               isActive={activeAccordion === "shipping"}
               onToggle={() => setActiveAccordion("shipping")}
               isCompleted={activeAccordion !== "shipping"}
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {!isAuthenticated && (
+                  <div className="md:col-span-2">
+                    <Input label="Email Address" placeholder="ritual@baksho.com" icon={<Mail size={16} />} />
+                    <p className="text-[9px] text-brand-navy/30 mt-2 ml-2 uppercase font-bold">For order tracking and unboxing guides</p>
+                  </div>
+                )}
                 <Input label="First Name" placeholder="e.g. Shahriar" />
                 <Input label="Last Name" placeholder="e.g. Rafi" />
                 <div className="md:col-span-2">
@@ -158,7 +172,7 @@ export default function CheckoutPage() {
                              <p className="text-[10px] text-brand-orange font-bold uppercase tracking-widest">Qty: {item.quantity}</p>
                           </div>
                         </div>
-                        <p className="font-black text-brand-navy text-sm">${(item.price * item.quantity).toFixed(2)}</p>
+                         <p className="font-black text-brand-navy text-sm">{formatPrice(item.price * item.quantity)}</p>
                       </div>
                     ))}
                   </div>
@@ -184,11 +198,10 @@ export default function CheckoutPage() {
           <div className="lg:col-span-4 lg:sticky lg:top-32">
              <div className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-xl shadow-brand-navy/5 border border-brand-orange/5">
                 <h3 className="text-xl font-serif text-brand-navy mb-8 border-b border-brand-cream pb-4">Manifest</h3>
-                
-                <div className="space-y-4 mb-8">
+                                <div className="space-y-4 mb-8">
                   <div className="flex justify-between text-sm">
                     <span className="text-brand-navy/40">Creation Cost</span>
-                    <span className="font-bold text-brand-navy">${subtotal.toFixed(2)}</span>
+                    <span className="font-bold text-brand-navy">{formatPrice(subtotal)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-brand-navy/40">Secure Shipping</span>
@@ -197,7 +210,7 @@ export default function CheckoutPage() {
                   <div className="h-[1px] bg-brand-cream/50 my-6" />
                   <div className="flex justify-between items-end">
                     <span className="text-brand-navy font-black uppercase text-[10px] tracking-widest">Investment</span>
-                    <span className="text-4xl font-black tracking-tighter text-brand-navy">${subtotal.toFixed(2)}</span>
+                    <span className="text-4xl font-black tracking-tighter text-brand-navy">{formatPrice(subtotal)}</span>
                   </div>
                 </div>
 

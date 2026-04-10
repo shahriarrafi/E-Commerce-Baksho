@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCartStore } from "@/store/useCartStore";
 import { useEffect, useState } from "react";
+import { formatPrice } from "@/lib/format";
 
 export default function CartDrawer() {
   const { items, isOpen, toggleCart, updateQuantity, removeItem, getTotals } = useCartStore();
@@ -18,7 +19,7 @@ export default function CartDrawer() {
   if (!mounted) return null;
 
   const { subtotal, totalItems } = getTotals();
-  const FREE_SHIPPING_THRESHOLD = 500;
+  const FREE_SHIPPING_THRESHOLD = 50000; // Updated to 50k Tk
   const shippingProgress = Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
   const remainingForFreeShipping = FREE_SHIPPING_THRESHOLD - subtotal;
 
@@ -41,39 +42,39 @@ export default function CartDrawer() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 200 }}
-            className="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-[0_0_100px_rgba(0,0,0,0.1)] z-[210] flex flex-col"
+            className="fixed top-0 right-0 h-full w-full max-w-[380px] bg-white shadow-[0_0_100px_rgba(0,0,0,0.1)] z-[210] flex flex-col"
           >
-            {/* Header */}
-            <div className="p-8 border-b border-brand-cream flex items-center justify-between bg-white sticky top-0 z-10">
-              <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-3">
-                    <ShoppingBag className="text-brand-orange" size={24} />
-                    <h2 className="text-2xl font-serif font-bold text-brand-navy">Your Ritual</h2>
+            {/* Header - More Compact */}
+            <div className="px-6 py-5 border-b border-brand-cream flex items-center justify-between bg-white sticky top-0 z-10">
+              <div className="flex flex-col">
+                <div className="flex items-center gap-2">
+                    <ShoppingBag className="text-brand-orange" size={18} />
+                    <h2 className="text-lg font-serif font-bold text-brand-navy">Your Ritual</h2>
                 </div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-brand-navy/30">
-                  {totalItems} Collections Ready
+                <p className="text-[8px] font-black uppercase tracking-widest text-brand-navy/30">
+                  {totalItems} Items Ready
                 </p>
               </div>
               <button
                 onClick={toggleCart}
-                className="w-12 h-12 flex items-center justify-center bg-brand-cream rounded-full transition-all text-brand-navy/40 hover:text-brand-orange hover:bg-brand-orange/10 active:scale-90"
+                className="w-10 h-10 flex items-center justify-center bg-brand-cream rounded-full transition-all text-brand-navy/40 hover:text-brand-orange hover:bg-brand-orange/10"
               >
-                <X size={24} />
+                <X size={18} />
               </button>
             </div>
 
-            {/* Free Shipping Progress */}
+            {/* Free Shipping Progress - Compacted */}
             {items.length > 0 && (
-                <div className="px-8 pt-6 pb-2">
-                    <div className="flex justify-between items-center mb-3">
-                        <span className="text-[11px] font-bold text-brand-navy/60 uppercase tracking-tight">
+                <div className="px-6 pt-4 pb-1">
+                    <div className="flex justify-between items-center mb-2">
+                        <span className="text-[9px] font-bold text-brand-navy/60 uppercase tracking-tight">
                             {shippingProgress >= 100 
                                 ? "Gratis Shipping Achieved" 
-                                : `Add $${remainingForFreeShipping.toFixed(0)} for Free Shipping`}
+                                : `Add ${formatPrice(remainingForFreeShipping)} for Free Delivery`}
                         </span>
-                        <span className="text-[11px] font-black text-brand-orange">{Math.round(shippingProgress)}%</span>
+                        <span className="text-[9px] font-black text-brand-orange">{Math.round(shippingProgress)}%</span>
                     </div>
-                    <div className="h-2 w-full bg-brand-cream rounded-full overflow-hidden">
+                    <div className="h-1 w-full bg-brand-cream rounded-full overflow-hidden">
                         <motion.div 
                             initial={{ width: 0 }}
                             animate={{ width: `${shippingProgress}%` }}
@@ -83,35 +84,36 @@ export default function CartDrawer() {
                 </div>
             )}
 
-            {/* Items List */}
-            <div className="flex-1 overflow-y-auto p-8 space-y-8">
+            {/* Items List - Compacted Padding & Card Size */}
+            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
               {items.length === 0 ? (
-                <div className="h-full flex flex-col items-center justify-center text-center space-y-6">
-                  <div className="w-24 h-24 bg-brand-cream rounded-[2rem] flex items-center justify-center rotate-12">
-                    <ShoppingBag className="text-brand-orange/20" size={48} />
+                <div className="h-full flex flex-col items-center justify-center text-center space-y-4">
+                  <div className="w-16 h-16 bg-brand-cream rounded-2xl flex items-center justify-center rotate-12">
+                    <ShoppingBag className="text-brand-orange/20" size={32} />
                   </div>
-                  <div className="space-y-2">
-                    <h3 className="text-xl font-serif font-bold text-brand-navy">Box is Empty</h3>
-                    <p className="text-sm text-brand-navy/40 max-w-[200px] leading-relaxed mx-auto">Seal your next ritual with our curated lifestyle pieces.</p>
+                  <div className="space-y-1">
+                    <h3 className="text-lg font-serif font-bold text-brand-navy">Box is Empty</h3>
+                    <p className="text-xs text-brand-navy/40 max-w-[180px] leading-snug mx-auto">Seal your next ritual with curated lifestyle pieces.</p>
                   </div>
                   <button
                     onClick={toggleCart}
-                    className="bg-brand-navy text-white px-10 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-brand-orange transition-all shadow-xl shadow-brand-navy/10 active:scale-95"
+                    className="bg-brand-navy text-white px-8 py-3 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-brand-orange transition-all active:scale-95"
                   >
                     Start Browsing
                   </button>
                 </div>
               ) : (
-                <div className="flex flex-col gap-8">
+                <div className="flex flex-col gap-5">
                     {items.map((item) => (
                     <motion.div
                         layout
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         key={item.id}
-                        className="flex gap-5 group"
+                        className="flex gap-4 group"
                     >
-                        <div className="relative w-24 h-24 bg-brand-cream rounded-3xl overflow-hidden flex-shrink-0 border border-brand-orange/5">
+                        {/* Smaller Image */}
+                        <div className="relative w-16 h-16 bg-brand-cream rounded-2xl overflow-hidden flex-shrink-0 border border-brand-orange/5">
                         <Image
                             src={item.image}
                             alt={item.name}
@@ -119,56 +121,83 @@ export default function CartDrawer() {
                             className="object-cover group-hover:scale-110 transition-transform duration-700"
                         />
                         </div>
-                        <div className="flex-1 flex flex-col justify-between py-1">
+                        <div className="flex-1 flex flex-col justify-between py-0.5">
                         <div>
                             <div className="flex justify-between items-start">
-                            <h4 className="font-serif font-bold text-lg text-brand-navy leading-tight hover:text-brand-orange transition-colors cursor-pointer">{item.name}</h4>
+                            <h4 className="font-serif font-bold text-sm text-brand-navy leading-tight hover:text-brand-orange transition-colors truncate max-w-[150px]">{item.name}</h4>
                             <button
                                 onClick={() => removeItem(item.id)}
-                                className="w-8 h-8 flex items-center justify-center text-brand-navy/20 hover:text-red-500 hover:bg-red-50 rounded-full transition-all"
+                                className="w-6 h-6 flex items-center justify-center text-brand-navy/20 hover:text-red-500 transition-all"
                             >
-                                <Trash2 size={16} />
+                                <Trash2 size={12} />
                             </button>
                             </div>
-                            <p className="text-brand-orange font-black text-lg mt-1 tracking-tighter">${item.price.toFixed(2)}</p>
+                            <p className="text-brand-orange font-black text-xs mt-0.5">{formatPrice(item.price)}</p>
                         </div>
                         
                         <div className="flex items-center justify-between">
-                            <div className="flex items-center bg-brand-cream/50 rounded-xl p-1.5 border border-brand-orange/5">
+                            <div className="flex items-center bg-brand-cream/50 rounded-lg p-1 border border-brand-orange/5">
                             <button
                                 onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                className="w-8 h-8 flex items-center justify-center hover:bg-white rounded-lg transition-all text-brand-navy/40 hover:text-brand-orange"
+                                className="w-6 h-6 flex items-center justify-center hover:bg-white rounded-md transition-all text-brand-navy/40 hover:text-brand-orange"
                             >
-                                <Minus size={14} strokeWidth={2.5} />
+                                <Minus size={10} strokeWidth={3} />
                             </button>
-                            <span className="w-10 text-center text-xs font-black text-brand-navy">{item.quantity}</span>
+                            <span className="w-8 text-center text-[10px] font-black text-brand-navy">{item.quantity}</span>
                             <button
                                 onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                className="w-8 h-8 flex items-center justify-center hover:bg-white rounded-lg transition-all text-brand-navy/40 hover:text-brand-orange"
+                                className="w-6 h-6 flex items-center justify-center hover:bg-white rounded-md transition-all text-brand-navy/40 hover:text-brand-orange"
                             >
-                                <Plus size={14} strokeWidth={2.5} />
+                                <Plus size={10} strokeWidth={3} />
                             </button>
                             </div>
                         </div>
                         </div>
                     </motion.div>
                     ))}
+                    
+                    {/* RECOMMENDED UPSYLL - Compacted */}
+                    <div className="pt-8 border-t border-brand-cream/30 space-y-4">
+                        <div className="flex flex-col">
+                            <h4 className="text-[8px] font-black uppercase tracking-[0.2em] text-brand-orange">The Final Touch</h4>
+                            <p className="text-xs font-serif font-bold text-brand-navy">Add to your ritual</p>
+                        </div>
+                        <div className="flex gap-3 overflow-x-auto no-scrollbar pb-1">
+                            {[
+                                { name: "Silk Gift Wrap", price: 550, image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2040&auto=format&fit=crop" },
+                                { name: "Handwritten Note", price: 200, image: "https://images.unsplash.com/photo-1623151522295-829919f2e379?q=80&w=2080&auto=format&fit=crop" }
+                            ].map((upsell, i) => (
+                                <div key={i} className="min-w-[120px] flex flex-col gap-2 group">
+                                    <div className="relative aspect-square rounded-xl overflow-hidden bg-brand-cream">
+                                        <Image src={upsell.image} alt={upsell.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                                        <button className="absolute inset-0 bg-brand-navy/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                            <span className="text-[7px] font-black uppercase tracking-widest text-white">+ Add</span>
+                                        </button>
+                                    </div>
+                                    <div className="space-y-0.5">
+                                        <h5 className="text-[9px] font-bold text-brand-navy truncate">{upsell.name}</h5>
+                                        <p className="text-[9px] text-brand-orange font-black">{formatPrice(upsell.price)}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
               )}
             </div>
 
-            {/* Footer */}
+            {/* Footer - Tighter */}
             {items.length > 0 && (
-              <div className="p-8 border-t border-brand-cream bg-white space-y-6 shadow-[0_-10px_30px_rgba(0,0,0,0.02)]">
-                <div className="flex flex-col gap-4">
-                  <div className="flex justify-between items-end border-b border-brand-cream pb-6">
+              <div className="px-6 py-5 border-t border-brand-cream bg-white space-y-4 shadow-[0_-10px_30px_rgba(0,0,0,0.02)]">
+                <div className="flex flex-col gap-3">
+                  <div className="flex justify-between items-center border-b border-brand-cream pb-3">
                     <div className="flex flex-col">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-brand-navy/30">Total Ritual Score</span>
-                        <span className="text-4xl font-black text-brand-navy tracking-tighter">${subtotal.toFixed(2)}</span>
+                        <span className="text-[8px] font-black uppercase tracking-widest text-brand-navy/30">Total Investment</span>
+                        <span className="text-2xl font-black text-brand-navy tracking-tighter">{formatPrice(subtotal)}</span>
                     </div>
-                    <div className="flex flex-col items-end">
-                         <span className="text-[10px] font-black uppercase tracking-widest text-brand-orange">Secure Portal</span>
-                         <ShieldCheck className="text-brand-orange" size={24} />
+                    <div className="flex items-center gap-1.5 opacity-40">
+                         <ShieldCheck className="text-brand-orange" size={14} />
+                         <span className="text-[8px] font-black uppercase tracking-widest text-brand-navy">Secure</span>
                     </div>
                   </div>
                 </div>
@@ -176,18 +205,16 @@ export default function CartDrawer() {
                 <Link 
                   href="/checkout"
                   onClick={toggleCart}
-                  className="w-full bg-brand-navy text-white py-6 rounded-3xl font-black text-[11px] uppercase tracking-[0.25em] flex items-center justify-center gap-3 hover:bg-brand-orange transition-all hover:shadow-2xl hover:shadow-brand-orange/20 active:scale-[0.98] group"
+                  className="w-full bg-brand-navy text-white py-4 rounded-2xl font-black text-[9px] uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:bg-brand-orange transition-all active:scale-[0.98] group"
                 >
-                  Confirm & Checkout
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  Finalize Ritual
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 
-                <div className="flex items-center justify-center gap-2">
-                    <div className="w-1 h-1 rounded-full bg-brand-orange/40" />
-                    <p className="text-[9px] text-brand-navy/40 font-bold uppercase tracking-[0.2em]">
-                        Handcrafted Fulfillment • Standard Ritual Shipping
+                <div className="flex items-center justify-center gap-2 opacity-30">
+                    <p className="text-[7px] font-bold uppercase tracking-[0.2em] text-brand-navy">
+                        Handcrafted Fulfillment Ritual
                     </p>
-                    <div className="w-1 h-1 rounded-full bg-brand-orange/40" />
                 </div>
               </div>
             )}
@@ -196,4 +223,5 @@ export default function CartDrawer() {
       )}
     </AnimatePresence>
   );
+                
 }

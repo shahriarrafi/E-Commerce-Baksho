@@ -3,9 +3,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
   const isLoggedIn = request.cookies.get('baksho-logged-in')?.value === 'true'
   const isAuthPage = request.nextUrl.pathname.startsWith('/auth')
-  const isProtectedRoute = 
-    request.nextUrl.pathname.startsWith('/checkout') || 
-    request.nextUrl.pathname.startsWith('/dashboard')
+  const isProtectedRoute = request.nextUrl.pathname.startsWith('/dashboard')
 
   // If trying to access protected route and NOT logged in, redirect to auth
   if (isProtectedRoute && !isLoggedIn) {
