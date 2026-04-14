@@ -64,18 +64,18 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${poppins.variable} ${lora.variable}`}>
       <body className="antialiased min-h-screen bg-white selection:bg-brand-orange selection:text-white pb-24 lg:pb-0">
-        <Header />
-        <MobileHeader />
-        <MobileMenu />
-        <CartDrawer />
         <UnboxingTransition>
+          <Header />
+          <MobileHeader />
+          <MobileMenu />
+          <CartDrawer />
           <div className="pt-24 lg:pt-0">
             <main>{children}</main>
           </div>
+          <MobileNav />
+          <FloatingConcierge />
+          <Footer />
         </UnboxingTransition>
-        <MobileNav />
-        <FloatingConcierge />
-        <Footer />
       </body>
     </html>
   );

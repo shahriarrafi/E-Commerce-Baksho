@@ -5,25 +5,31 @@ import { useEffect, useState } from "react";
 import { Package } from "lucide-react";
 
 export default function UnboxingTransition({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false);
   const [shouldAnimate, setShouldAnimate] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Check if the animation has already played in this session
     const hasPlayed = sessionStorage.getItem("unboxing-played");
-    
     if (!hasPlayed) {
       setShouldAnimate(true);
       sessionStorage.setItem("unboxing-played", "true");
     }
-    
-    setIsLoaded(true);
+    setMounted(true);
   }, []);
 
-  // During hydration/initial load, we don't know yet if we should animate.
-  // To avoid layout shift, we can render just the children if already played,
-  // but we need to stay consistent with SSR.
-  if (!isLoaded) return <div className="opacity-0">{children}</div>;
+  // During SSR and before Hydration, we show the static loader lids at y:0
+  // to prevent any content from flashing.
+  if (!mounted) {
+    return (
+      <div className="fixed inset-0 bg-brand-navy z-[10000] flex items-center justify-center">
+         <div className="flex flex-col items-center gap-4">
+            <div className="w-20 h-20 md:w-24 md:h-24 bg-brand-orange rounded-3xl flex items-center justify-center shadow-2xl">
+              <Package className="text-white" size={40} />
+            </div>
+         </div>
+      </div>
+    );
+  }
 
   if (!shouldAnimate) {
     return <main className="min-h-screen">{children}</main>;
@@ -37,7 +43,7 @@ export default function UnboxingTransition({ children }: { children: React.React
           initial="initial"
           animate="animate"
           exit="exit"
-          className="fixed inset-0 z-[150] pointer-events-none"
+          className="fixed inset-0 z-[10000] pointer-events-none"
         >
           {/* Top Lid */}
           <motion.div
