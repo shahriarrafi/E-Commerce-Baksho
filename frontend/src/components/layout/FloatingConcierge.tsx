@@ -20,8 +20,8 @@ export default function FloatingConcierge() {
           >
             <div className="space-y-4">
               <div>
-                <h4 className="text-[10px] font-black uppercase tracking-widest text-brand-orange">Concierge</h4>
-                <p className="text-sm font-serif font-black text-brand-navy">Connect with a Curator</p>
+                <h4 className="text-[10px] font-black uppercase tracking-widest text-brand-orange font-hind">সহযোগিতা</h4>
+                <p className="text-sm font-serif font-black text-brand-navy">আমাদের সাথে কথা বলুন</p>
               </div>
 
               <div className="flex flex-col gap-2">
@@ -33,7 +33,7 @@ export default function FloatingConcierge() {
                   <div className="w-8 h-8 bg-green-500 rounded-xl flex items-center justify-center text-white">
                     <Phone size={14} />
                   </div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-[#075E54]">WhatsApp</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-[#075E54] font-hind">WhatsApp</span>
                 </a>
 
                 <a
@@ -43,7 +43,7 @@ export default function FloatingConcierge() {
                   <div className="w-8 h-8 bg-brand-navy rounded-xl flex items-center justify-center text-white">
                     <MessageSquare size={14} />
                   </div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-brand-navy">Messenger</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-brand-navy font-hind">Messenger</span>
                 </a>
               </div>
             </div>

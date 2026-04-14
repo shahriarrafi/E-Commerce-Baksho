@@ -19,11 +19,11 @@ export default function MobileNav() {
   const isVisible = !useScrollDirection();
 
   const navItems = [
-    { id: "home", label: "Home", icon: Home, href: "/" },
-    { id: "arrivals", label: "Arrivals", icon: Sparkles, href: "/category/new-arrivals" },
-    { id: "search", label: "Search", icon: Search, href: "#", action: () => { triggerHaptic(); openSearch(); } },
-    { id: "cart", label: "Cart", icon: ShoppingBag, href: "#", action: () => { triggerHaptic(); toggleCart(); }, badge: totalItems },
-    { id: "account", label: "Vault", icon: User, href: "/dashboard" },
+    { id: "home", label: "হোম", icon: Home, href: "/" },
+    { id: "arrivals", label: "নতুন", icon: Sparkles, href: "/category/new-arrivals" },
+    { id: "search", label: "খুঁজুন", icon: Search, href: "#", action: () => { triggerHaptic(); openSearch(); } },
+    { id: "cart", label: "কার্ট", icon: ShoppingBag, href: "#", action: () => { triggerHaptic(); toggleCart(); }, badge: totalItems },
+    { id: "account", label: "ভল্ট", icon: User, href: "/dashboard" },
   ];
 
   return (
@@ -52,7 +52,7 @@ export default function MobileNav() {
               >
                 <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
               </motion.div>
-              <span className={`text-[8px] font-black uppercase tracking-widest transition-colors ${isActive ? "text-brand-orange" : "text-brand-navy/30"}`}>
+              <span className={`text-[8px] font-black uppercase tracking-widest transition-colors font-hind ${isActive ? "text-brand-orange" : "text-brand-navy/30"}`}>
                 {item.label}
               </span>
 

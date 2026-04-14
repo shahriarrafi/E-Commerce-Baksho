@@ -77,29 +77,29 @@ export default function StickyAddToCart({ product }: StickyAddToCartProps) {
                   sizes="40px"
                 />
               </div>
-              <div className="hidden sm:block truncate">
+              <div className="hidden sm:block truncate font-hind">
                 <h4 className="text-brand-navy font-bold text-[11px] md:text-sm tracking-tight truncate max-w-[150px]">{product.name}</h4>
-                <p className="text-brand-orange font-bold text-sm md:text-lg">${product.price.toFixed(2)}</p>
+                <p className="text-brand-orange font-bold text-sm md:text-lg">{product.price.toFixed(2)}৳</p>
               </div>
-              <div className="sm:hidden">
-                 <p className="text-brand-orange font-bold text-sm md:text-lg">${product.price.toFixed(2)}</p>
+              <div className="sm:hidden font-hind">
+                 <p className="text-brand-orange font-bold text-sm md:text-lg">{product.price.toFixed(2)}৳</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 md:gap-3">
+            <div className="flex items-center gap-2 md:gap-3 font-hind">
               <button 
                 onClick={handleAddToCart}
                 className="hidden sm:flex items-center gap-2 bg-brand-navy/5 text-brand-navy px-3 py-2.5 rounded-lg font-black text-[8px] uppercase tracking-widest hover:bg-brand-navy hover:text-white transition-all active:scale-95 group"
               >
                 <ShoppingCart size={12} className="group-hover:rotate-12 transition-transform" />
-                Add
+                যোগ করুন
               </button>
               
               <button 
                 onClick={handleBuyNow}
                 className="flex items-center gap-2.5 bg-brand-orange text-white px-4 md:px-8 py-2.5 md:py-4 rounded-xl md:rounded-2xl font-black text-[9px] md:text-xs uppercase tracking-widest hover:bg-brand-navy transition-all hover:shadow-2xl hover:shadow-brand-orange/20 active:scale-95 group whitespace-nowrap"
               >
-                Buy Now
+                এখনই কিনুন
                 <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
               </button>
             </div>

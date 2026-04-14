@@ -34,24 +34,26 @@ export default function MobileHeader() {
               openMobileMenu();
             }}
             className="p-1.5 -ml-1 text-brand-navy hover:text-brand-orange transition-colors"
-            aria-label="Open Menu"
+            aria-label="মেনু খুলুন"
           >
             <Menu size={22} strokeWidth={1.5} />
           </button>
 
           <Link 
             href="/" 
-            className="flex items-center"
+            className="flex items-center gap-2"
             onClick={() => triggerHaptic()}
           >
-            <Image 
-              src="/Logo.webp" 
-              alt="Baksho Logo" 
-              width={90} 
-              height={28} 
-              priority
-              className="h-7 w-auto object-contain" 
-            />
+            <div className="relative w-7 h-7 rounded-lg overflow-hidden">
+              <Image 
+                src="/metadata-logo.webp" 
+                alt="Baksho Logo" 
+                fill
+                priority
+                className="object-contain" 
+              />
+            </div>
+            <span className="text-lg font-black text-brand-navy tracking-tight font-anek">বাকশো</span>
           </Link>
 
           {/* Logistics & Contact Shortcut Group */}
@@ -86,7 +88,7 @@ export default function MobileHeader() {
             className="relative flex items-center w-full h-9 bg-brand-cream/30 border border-brand-navy/5 rounded-xl px-3 text-brand-navy/40 active:scale-[0.98] transition-all cursor-pointer"
           >
             <Search size={16} className="text-brand-navy/30 mr-2" />
-            <span className="text-xs font-medium">Search products...</span>
+            <span className="text-[13px] font-bold font-noto">পণ্য খুঁজুন...</span>
             
             {/* Suffix area */}
             <div className="ml-auto flex items-center gap-2">

@@ -11,8 +11,14 @@
   --color-foreground: #111827;
   
   /* Typography Variables (mapped from next/font) */
-  --font-sans: var(--font-poppins), ui-sans-serif, system-ui;
-  --font-serif: var(--font-lora), ui-serif, Georgia;
+  --font-anek: var(--font-anek), 'Anek Bangla', sans-serif;
+  --font-inter: var(--font-inter), ui-sans-serif, system-ui;
+  --font-noto: var(--font-noto), 'Noto Sans Bengali', sans-serif;
+  
+  /* Everything uses the beautiful Anek Bangla font */
+  --font-sans: var(--font-anek);
+  --font-serif: var(--font-anek);
+  --font-hind: var(--font-noto); /* Buttons usually use this class, mapping it to Noto for better UI stability */
 }
 
 :root {
@@ -24,7 +30,7 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: var(--font-inter), var(--font-anek), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

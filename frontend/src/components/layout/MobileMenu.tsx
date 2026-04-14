@@ -64,7 +64,7 @@ export default function MobileMenu() {
             {/* Content: Focused Category Hierarchy */}
             <div className="flex-1 overflow-y-auto px-6 py-8">
               <div className="flex flex-col gap-6">
-                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-brand-navy/20 mb-2">Category Manifesto</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-brand-navy/20 mb-2 font-hind">ক্যাটাগরি তালিকা</p>
                 
                 <div className="flex flex-col gap-1">
                   {CATEGORIES.map((cat) => (
@@ -86,9 +86,9 @@ export default function MobileMenu() {
             <div className="p-6 border-t border-brand-cream bg-brand-cream/10">
               <button
                 onClick={() => handleNavigation("/track-order")}
-                className="w-full bg-brand-navy text-white p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-brand-navy/10 active:scale-95 transition-all"
+                className="w-full bg-brand-navy text-white p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-brand-navy/10 active:scale-95 transition-all font-hind"
               >
-                <Truck size={16} className="text-brand-orange" /> Track My Ritual
+                <Truck size={16} className="text-brand-orange" /> অর্ডার ট্র্যাক করুন
               </button>
             </div>
           </motion.div>

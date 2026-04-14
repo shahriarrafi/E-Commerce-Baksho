@@ -19,9 +19,9 @@ export default async function StoryPostPage({ params }: { params: Promise<{ slug
         <div className="container mx-auto max-w-4xl h-full flex flex-col justify-end pb-12">
             <Link 
                 href="/stories" 
-                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-brand-navy/40 hover:text-brand-orange transition-colors mb-8"
+                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-brand-navy/40 hover:text-brand-orange transition-colors mb-8 font-hind"
             >
-                <ArrowLeft size={14} /> Back to Stories
+                <ArrowLeft size={14} /> স্টোরিসে ফিরুন
             </Link>
             <div className="space-y-6">
                 <span className="bg-brand-orange/10 text-brand-orange text-[10px] font-black px-4 py-2 rounded-full uppercase tracking-widest">
@@ -57,32 +57,30 @@ export default async function StoryPostPage({ params }: { params: Promise<{ slug
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-            <div className="lg:col-span-8">
+            <div className="lg:col-span-8 font-hind">
                 <div className="prose prose-xl prose-brand max-w-none font-serif text-brand-navy/80 leading-relaxed space-y-8">
                     <p className="text-2xl font-light italic text-brand-navy leading-relaxed mb-12">
                         {story.excerpt}
                     </p>
                     <p>{story.content}</p>
                     <p>
-                        Beyond the physical attributes, the true value of a Baksho lies in the intent behind it. 
-                        It is a vessel for memories, a safeguard for beauty, and a statement of presence in 
-                        an increasingly digital world.
+                        কেবলমাত্র বাহ্যিক সৌন্দর্য নয়, একটি বাকশোর প্রকৃত মূল্য লুকিয়ে থাকে এর পেছনের উদ্দেশ্যের মধ্যে। 
+                        এটি স্মৃতির একটি আধার, সৌন্দর্যের রক্ষক এবং এই ডিজিটাল যুগে আপনার ব্যক্তিত্বের এক অনন্য প্রকাশ।
                     </p>
                     <div className="h-[2px] w-24 bg-brand-orange/20 my-16" />
                     <p>
-                        As we move forward into 2026, the boundaries between our physical and digital 
-                        selves continue to blur. Yet, the visceral joy of unboxing something tactile 
-                        remains unchanged. It is a sensory ritual that grounds us.
+                        ২০২৪ সাল যত এগিয়ে চলেছে, আমাদের জাগতিক এবং ডিজিটাল অস্তিত্বের সীমা তত বেশি বিলীন হচ্ছে। 
+                        তবুও, বাস্তব কোনো কিছু আনবক্সিং করার আনন্দ এখনও অপরিবর্তিত। এটি একটি স্পর্শকাতর রিচুয়াল যা আমাদের স্থায়িত্বের অনুভূতি দেয়।
                     </p>
                 </div>
             </div>
 
             {/* Featured Product Sidebar */}
             {story.featuredProduct && (
-                <div className="lg:col-span-4 lg:sticky lg:top-32 h-fit">
+                <div className="lg:col-span-4 lg:sticky lg:top-32 h-fit font-hind">
                     <div className="bg-brand-cream/20 rounded-[2.5rem] p-8 border border-brand-orange/10 shadow-xl shadow-brand-navy/5">
                         <h4 className="text-[10px] font-black uppercase tracking-widest text-brand-navy/30 mb-6 flex items-center gap-2">
-                             <ShoppingCart size={12} /> Featured in Ritual
+                             <ShoppingCart size={12} /> আর্টিকেলে উল্লিখিত
                         </h4>
                         <div className="space-y-6">
                             <div className="relative aspect-square rounded-2xl overflow-hidden shadow-lg border border-brand-orange/10">
@@ -99,14 +97,14 @@ export default async function StoryPostPage({ params }: { params: Promise<{ slug
                                         {story.featuredProduct.name}
                                     </h5>
                                     <p className="text-xl font-black tracking-tighter text-brand-orange">
-                                        ${story.featuredProduct.price}
+                                        {story.featuredProduct.price}৳
                                     </p>
                                 </div>
                                 <Link 
                                     href={`/product/${story.featuredProduct.slug}`}
                                     className="w-full bg-brand-navy text-white py-4 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-brand-orange transition-all active:scale-[0.98]"
                                 >
-                                    Explore Piece
+                                    বিস্তারিত দেখুন
                                 </Link>
                             </div>
                         </div>

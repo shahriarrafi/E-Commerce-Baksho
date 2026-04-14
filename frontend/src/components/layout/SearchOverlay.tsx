@@ -9,13 +9,13 @@ interface SearchOverlayProps {
 }
 
 const MOCK_SUGGESTIONS = [
-  { id: 1, name: "Premium Hexagonal Box V4", category: "Packaging" },
-  { id: 2, name: "Minimalist Desk Organizer", category: "Lifestyle" },
-  { id: 3, name: "Tech Bundle Platinum", category: "Electronics" },
-  { id: 4, name: "Artisanal Coffee Box", category: "Food & Drink" },
+  { id: 1, name: "প্রিমিয়াম হেক্সাগোনাল বক্স V4", category: "প্যাকেজিং" },
+  { id: 2, name: "মিনিমালিস্ট ডেস্ক অর্গানাইজার", category: "লাইফস্টাইল" },
+  { id: 3, name: "টেক বান্ডল প্লাটিনাম", category: "ইলেকট্রনিক্স" },
+  { id: 4, name: "আর্টেজান কফি বক্স", category: "খাবার ও পানীয়" },
 ];
 
-const RECENT_SEARCHES = ["Unboxing Kits", "Gift Sets", "Electronic Gadgets"];
+const RECENT_SEARCHES = ["আনবক্সিং কিট", "গিফট সেট", "ইলেকট্রনিক গ্যাজেট"];
 
 export default function SearchOverlay({ onClose }: SearchOverlayProps) {
   const [query, setQuery] = useState("");
@@ -39,7 +39,7 @@ export default function SearchOverlay({ onClose }: SearchOverlayProps) {
       <div className="max-w-2xl mx-auto w-full">
         {/* Header/Close - More compact on mobile */}
         <div className="flex justify-between items-center mb-6 md:mb-12 mt-4 md:mt-0">
-          <h2 className="text-xs font-black uppercase tracking-[0.3em] text-brand-navy/30">Global Search</h2>
+          <h2 className="text-xs font-black uppercase tracking-[0.3em] text-brand-navy/30 font-hind">সার্চ পোর্টাল</h2>
           <button 
             onClick={onClose}
             className="p-2 md:p-3 bg-brand-navy/5 hover:bg-brand-orange hover:text-white rounded-xl transition-all group"
@@ -54,10 +54,10 @@ export default function SearchOverlay({ onClose }: SearchOverlayProps) {
           <input
             autoFocus
             type="text"
-            placeholder="Search Baksho..."
+            placeholder="বাকশো-তে খুঁজুন..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full h-14 md:h-20 bg-brand-cream/30 rounded-2xl border border-brand-navy/5 focus:border-brand-orange/50 outline-none pl-12 md:pl-16 pr-16 md:pr-20 text-lg md:text-3xl font-serif text-brand-navy placeholder:text-brand-navy/20 transition-all font-bold"
+            className="w-full h-14 md:h-20 bg-brand-cream/30 rounded-2xl border border-brand-navy/5 focus:border-brand-orange/50 outline-none pl-12 md:pl-16 pr-16 md:pr-20 text-lg md:text-3xl font-serif text-brand-navy placeholder:text-brand-navy/20 transition-all font-bold font-hind"
           />
           <div className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 hidden md:flex items-center gap-2 px-3 py-1.5 bg-brand-cream rounded-lg text-xs font-black text-brand-navy/40">
             <kbd><Command size={12} /></kbd>
@@ -69,13 +69,13 @@ export default function SearchOverlay({ onClose }: SearchOverlayProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 pb-10">
           {/* Ritual Matching (New) */}
           <div className="space-y-6">
-            <h3 className="text-[10px] font-black tracking-widest text-brand-orange uppercase flex items-center gap-2">
-                <ShieldCheck size={12} /> Ritual Matching
+            <h3 className="text-[10px] font-black tracking-widest text-brand-orange uppercase flex items-center gap-2 font-hind">
+                <ShieldCheck size={12} /> আপনার পছন্দ অনুযায়ী
             </h3>
             <div className="space-y-3">
                 {[
-                    { title: "The Morning Minimalist", desc: "Start your day with clarity", icon: "☕" },
-                    { title: "The Evening Unwind", desc: "Setting the ritual for sleep", icon: "🌙" }
+                    { title: "মর্নিং মিনিমালিস্ট", desc: "স্বচ্ছতার সাথে আপনার দিন শুরু করুন", icon: "☕" },
+                    { title: "আরামদায়ক সন্ধ্যা", desc: "দিনের শেষে প্রশান্তির অনুভুতি", icon: "🌙" }
                 ].map((ritual) => (
                     <div 
                         key={ritual.title}
@@ -84,8 +84,8 @@ export default function SearchOverlay({ onClose }: SearchOverlayProps) {
                         <div className="flex items-center gap-4">
                             <span className="text-2xl">{ritual.icon}</span>
                             <div>
-                                <h4 className="font-serif font-bold group-hover:text-white">{ritual.title}</h4>
-                                <p className="text-[10px] uppercase font-black tracking-widest opacity-40 group-hover:opacity-100">{ritual.desc}</p>
+                                <h4 className="font-serif font-bold group-hover:text-white leading-tight">{ritual.title}</h4>
+                                <p className="text-[10px] uppercase font-black tracking-widest opacity-40 group-hover:opacity-100 font-hind">{ritual.desc}</p>
                             </div>
                         </div>
                     </div>
@@ -93,10 +93,10 @@ export default function SearchOverlay({ onClose }: SearchOverlayProps) {
             </div>
 
             <div>
-                <h3 className="text-[10px] font-black tracking-widest text-brand-navy/30 uppercase mb-4 flex items-center gap-2">
-                    <Clock size={12} /> Recent
+                <h3 className="text-[10px] font-black tracking-widest text-brand-navy/30 uppercase mb-4 flex items-center gap-2 font-hind">
+                    <Clock size={12} /> সাম্প্রতিক সার্চ
                 </h3>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-1.5 font-hind">
                     {RECENT_SEARCHES.map((search) => (
                     <button 
                         key={search}
@@ -112,8 +112,8 @@ export default function SearchOverlay({ onClose }: SearchOverlayProps) {
           {/* Live Suggestions */}
           <div>
             <div className="flex items-center justify-between mb-4">
-               <h3 className="text-[10px] font-black tracking-widest text-brand-navy/30 uppercase flex items-center gap-2">
-                <Package size={12} /> Standard Matches
+               <h3 className="text-[10px] font-black tracking-widest text-brand-navy/30 uppercase flex items-center gap-2 font-hind">
+                <Package size={12} /> সেরা ফলাফল
               </h3>
             </div>
             <div className="space-y-2">
@@ -128,7 +128,7 @@ export default function SearchOverlay({ onClose }: SearchOverlayProps) {
                     </div>
                     <div>
                       <h4 className="text-sm md:text-base font-bold text-brand-navy transition-colors">{item.name}</h4>
-                      <p className="text-[10px] md:text-xs text-brand-navy/40 font-medium uppercase tracking-wider">{item.category}</p>
+                      <p className="text-[10px] md:text-xs text-brand-navy/40 font-medium uppercase tracking-wider font-hind">{item.category}</p>
                     </div>
                   </div>
                   <ArrowRight className="text-brand-orange opacity-0 group-hover:opacity-100 transition-all" size={16} />
@@ -137,12 +137,17 @@ export default function SearchOverlay({ onClose }: SearchOverlayProps) {
             </div>
 
             <div className="mt-8">
-              <h3 className="text-[10px] font-black tracking-widest text-brand-navy/30 uppercase mb-4">Quick Browse</h3>
+              <h3 className="text-[10px] font-black tracking-widest text-brand-navy/30 uppercase mb-4 font-hind">দ্রুত দেখুন</h3>
               <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                {["Mega Boxes", "Eco-Packs", "Gift Suites", "Trending"].map(link => (
-                  <a key={link} href="#" className="text-sm text-brand-navy/70 hover:text-brand-orange font-bold font-serif transition-colors flex items-center gap-2 group">
+                {[
+                  { name: "মেগা বক্স", link: "#" },
+                  { name: "ইকো-প্যাক", link: "#" },
+                  { name: "গিফট সেট", link: "#" },
+                  { name: "ট্রেন্ডিং", link: "#" }
+                ].map(item => (
+                  <a key={item.name} href={item.link} className="text-sm text-brand-navy/70 hover:text-brand-orange font-bold font-serif transition-colors flex items-center gap-2 group">
                     <div className="w-1.5 h-1.5 bg-brand-orange rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                    {link}
+                    {item.name}
                   </a>
                 ))}
               </div>

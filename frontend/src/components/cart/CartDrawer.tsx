@@ -49,10 +49,10 @@ export default function CartDrawer() {
               <div className="flex flex-col">
                 <div className="flex items-center gap-2">
                     <ShoppingBag className="text-brand-orange" size={18} />
-                    <h2 className="text-lg font-serif font-bold text-brand-navy">Your Ritual</h2>
+                    <h2 className="text-lg font-serif font-bold text-brand-navy">আপনার ঝুলি</h2>
                 </div>
-                <p className="text-[8px] font-black uppercase tracking-widest text-brand-navy/30">
-                  {totalItems} Items Ready
+                <p className="text-[8px] font-black uppercase tracking-widest text-brand-navy/30 font-hind">
+                  {totalItems} টি পণ্য যুক্ত হয়েছে
                 </p>
               </div>
               <button
@@ -67,10 +67,10 @@ export default function CartDrawer() {
             {items.length > 0 && (
                 <div className="px-6 pt-4 pb-1">
                     <div className="flex justify-between items-center mb-2">
-                        <span className="text-[9px] font-bold text-brand-navy/60 uppercase tracking-tight">
+                        <span className="text-[9px] font-bold text-brand-navy/60 uppercase tracking-tight font-hind">
                             {shippingProgress >= 100 
-                                ? "Gratis Shipping Achieved" 
-                                : `Add ${formatPrice(remainingForFreeShipping)} for Free Delivery`}
+                                ? "ফ্রি শিপিং উপভোগ করুন" 
+                                : `ফ্রি ডেলিভারির জন্য আরও ${formatPrice(remainingForFreeShipping)} যোগ করুন`}
                         </span>
                         <span className="text-[9px] font-black text-brand-orange">{Math.round(shippingProgress)}%</span>
                     </div>
@@ -92,14 +92,14 @@ export default function CartDrawer() {
                     <ShoppingBag className="text-brand-orange/20" size={32} />
                   </div>
                   <div className="space-y-1">
-                    <h3 className="text-lg font-serif font-bold text-brand-navy">Box is Empty</h3>
-                    <p className="text-xs text-brand-navy/40 max-w-[180px] leading-snug mx-auto">Seal your next ritual with curated lifestyle pieces.</p>
+                    <h3 className="text-lg font-serif font-bold text-brand-navy">আপনার ঝুলি খালি</h3>
+                    <p className="text-xs text-brand-navy/40 max-w-[180px] leading-snug mx-auto">নতুন কেনাকাটা শুরু করতে নিচের বাটনে ক্লিক করুন।</p>
                   </div>
                   <button
                     onClick={toggleCart}
-                    className="bg-brand-navy text-white px-8 py-3 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-brand-orange transition-all active:scale-95"
+                    className="bg-brand-navy text-white px-8 py-3 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-brand-orange transition-all active:scale-95 font-hind"
                   >
-                    Start Browsing
+                    কেনাকাটা শুরু করুন
                   </button>
                 </div>
               ) : (
@@ -159,19 +159,19 @@ export default function CartDrawer() {
                     {/* RECOMMENDED UPSYLL - Compacted */}
                     <div className="pt-8 border-t border-brand-cream/30 space-y-4">
                         <div className="flex flex-col">
-                            <h4 className="text-[8px] font-black uppercase tracking-[0.2em] text-brand-orange">The Final Touch</h4>
-                            <p className="text-xs font-serif font-bold text-brand-navy">Add to your ritual</p>
+                            <h4 className="text-[8px] font-black uppercase tracking-[0.2em] text-brand-orange font-hind">বিশেষ সংযোজন</h4>
+                            <p className="text-xs font-serif font-bold text-brand-navy">আপনার অর্ডারে যোগ করুন</p>
                         </div>
                         <div className="flex gap-3 overflow-x-auto no-scrollbar pb-1">
                             {[
-                                { name: "Silk Gift Wrap", price: 550, image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2040&auto=format&fit=crop" },
-                                { name: "Handwritten Note", price: 200, image: "https://images.unsplash.com/photo-1623151522295-829919f2e379?q=80&w=2080&auto=format&fit=crop" }
+                                { name: "সিল্ক গিফট র‍্যাপ", price: 550, image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2040&auto=format&fit=crop" },
+                                { name: "হাতে লেখা চিরকুট", price: 200, image: "https://images.unsplash.com/photo-1623151522295-829919f2e379?q=80&w=2080&auto=format&fit=crop" }
                             ].map((upsell, i) => (
                                 <div key={i} className="min-w-[120px] flex flex-col gap-2 group">
                                     <div className="relative aspect-square rounded-xl overflow-hidden bg-brand-cream">
                                         <Image src={upsell.image} alt={upsell.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
                                         <button className="absolute inset-0 bg-brand-navy/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                                            <span className="text-[7px] font-black uppercase tracking-widest text-white">+ Add</span>
+                                            <span className="text-[7px] font-black uppercase tracking-widest text-white font-hind">+ যোগ করুন</span>
                                         </button>
                                     </div>
                                     <div className="space-y-0.5">
@@ -192,12 +192,12 @@ export default function CartDrawer() {
                 <div className="flex flex-col gap-3">
                   <div className="flex justify-between items-center border-b border-brand-cream pb-3">
                     <div className="flex flex-col">
-                        <span className="text-[8px] font-black uppercase tracking-widest text-brand-navy/30">Total Investment</span>
+                        <span className="text-[8px] font-black uppercase tracking-widest text-brand-navy/30 font-hind">মোট ব্যয়</span>
                         <span className="text-2xl font-black text-brand-navy tracking-tighter">{formatPrice(subtotal)}</span>
                     </div>
                     <div className="flex items-center gap-1.5 opacity-40">
                          <ShieldCheck className="text-brand-orange" size={14} />
-                         <span className="text-[8px] font-black uppercase tracking-widest text-brand-navy">Secure</span>
+                         <span className="text-[8px] font-black uppercase tracking-widest text-brand-navy font-hind">নিরাপদ</span>
                     </div>
                   </div>
                 </div>
@@ -205,15 +205,15 @@ export default function CartDrawer() {
                 <Link 
                   href="/checkout"
                   onClick={toggleCart}
-                  className="w-full bg-brand-navy text-white py-4 rounded-2xl font-black text-[9px] uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:bg-brand-orange transition-all active:scale-[0.98] group"
+                  className="w-full bg-brand-navy text-white py-4 rounded-2xl font-black text-[9px] uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:bg-brand-orange transition-all active:scale-[0.98] group font-hind"
                 >
-                  Finalize Ritual
+                  অর্ডার সম্পন্ন করুন
                   <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 
                 <div className="flex items-center justify-center gap-2 opacity-30">
-                    <p className="text-[7px] font-bold uppercase tracking-[0.2em] text-brand-navy">
-                        Handcrafted Fulfillment Ritual
+                    <p className="text-[7px] font-bold uppercase tracking-[0.2em] text-brand-navy font-hind">
+                        অসাধারণ সেবার প্রতিশ্রুতি
                     </p>
                 </div>
               </div>

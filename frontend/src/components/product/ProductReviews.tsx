@@ -24,10 +24,10 @@ export default function ProductReviews({ reviews }: ProductReviewsProps) {
    return (
       <section className="py-10 bg-white border-t border-brand-cream" id="reviews">
          <div className="container mx-auto px-6">
-            <h2 className="text-xs font-black uppercase tracking-[0.2em] text-brand-navy/30 mb-8 font-serif italic">Ratings & Affirmations</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.2em] text-brand-navy/30 mb-8 font-serif italic font-hind">রেটিং ও রিভিউ</h2>
 
             {/* Daraz-Style Summary Header */}
-            <div className="bg-brand-cream/5 rounded-3xl border border-brand-cream p-6 md:p-8 flex flex-col md:flex-row gap-10 md:items-center">
+            <div className="bg-brand-cream/5 rounded-3xl border border-brand-cream p-6 md:p-8 flex flex-col md:flex-row gap-10 md:items-center font-hind">
                {/* 1. Large Score */}
                <div className="flex flex-col items-center gap-2 md:pr-10 md:border-r border-brand-cream">
                   <div className="text-5xl font-black text-brand-navy tracking-tighter">
@@ -36,7 +36,7 @@ export default function ProductReviews({ reviews }: ProductReviewsProps) {
                   <div className="flex gap-0.5">
                      {[1, 2, 3, 4, 5].map(s => <Star key={s} size={16} className="fill-brand-orange text-brand-orange" />)}
                   </div>
-                  <p className="text-[10px] font-bold text-brand-navy/40 uppercase tracking-widest">{reviews.length} Ratings</p>
+                  <p className="text-[10px] font-bold text-brand-navy/40 uppercase tracking-widest">{reviews.length}টি রেটিং</p>
                </div>
 
                {/* 2. Star Breakdown */}
@@ -72,7 +72,7 @@ export default function ProductReviews({ reviews }: ProductReviewsProps) {
                                        <div className="flex gap-0.5">
                                           {[1, 2, 3, 4, 5].map(s => <Star key={s} size={8} className={s <= review.rating ? "fill-brand-orange text-brand-orange" : "text-brand-navy/10"} />)}
                                        </div>
-                                       <span className="text-[8px] font-bold text-green-500 uppercase tracking-widest bg-green-50 px-1.5 py-0.5 rounded">Verified Ritual</span>
+                                       <span className="text-[8px] font-bold text-green-500 uppercase tracking-widest bg-green-50 px-1.5 py-0.5 rounded font-hind">ভেরিফাইড অর্ডার</span>
                                     </div>
                                  </div>
                               </div>
@@ -114,11 +114,11 @@ export default function ProductReviews({ reviews }: ProductReviewsProps) {
                      )}
                   </>
                ) : (
-                  <div className="py-20 text-center space-y-4 bg-brand-cream/5 rounded-[40px] border border-dashed border-brand-cream">
+                  <div className="py-20 text-center space-y-4 bg-brand-cream/5 rounded-[40px] border border-dashed border-brand-cream font-hind">
                      <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm">
                         <Quote size={24} className="text-brand-cream" />
                      </div>
-                     <p className="text-[10px] font-black text-brand-navy/20 uppercase tracking-widest">No Affirmations Yet</p>
+                     <p className="text-[10px] font-black text-brand-navy/20 uppercase tracking-widest">এখনও কোনো রিভিউ নেই</p>
                   </div>
                )}
             </div>

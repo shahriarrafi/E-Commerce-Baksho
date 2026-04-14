@@ -41,9 +41,9 @@ export default function ProductCard({
           />
           
           {/* Subtle Badge */}
-          <div className="absolute bottom-2 left-2 flex items-center gap-1.5 px-2 py-1 bg-white/90 backdrop-blur-md rounded-lg border border-brand-navy/5 shadow-sm">
+          <div className="absolute bottom-2 left-2 flex items-center gap-1.5 px-2 py-1 bg-white/90 backdrop-blur-md rounded-lg border border-brand-navy/5 shadow-sm font-hind">
              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-             <span className="text-[8px] font-black uppercase tracking-widest text-brand-navy">Ready</span>
+             <span className="text-[8px] font-black uppercase tracking-widest text-brand-navy">স্টক আছে</span>
           </div>
         </div>
 
@@ -58,9 +58,9 @@ export default function ProductCard({
               {formatPrice(productData.price)}
             </span>
             
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 font-hind">
                <Package size={10} className="text-brand-orange" />
-               <span className="text-[9px] font-bold text-brand-navy/40 uppercase tracking-tighter italic">Ships in 24-48h</span>
+               <span className="text-[9px] font-bold text-brand-navy/40 uppercase tracking-tighter italic">২৪-৪৮ ঘণ্টায় শিপিং</span>
             </div>
           </div>
         </div>

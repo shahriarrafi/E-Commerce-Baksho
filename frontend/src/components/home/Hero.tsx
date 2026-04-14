@@ -48,25 +48,25 @@ export default function Hero() {
                <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-center lg:justify-start gap-2">
                      <div className="w-8 h-[1px] bg-brand-orange" />
-                     <span className="text-[9px] font-black uppercase tracking-[0.4em] text-brand-orange">Ritual Excellence</span>
+                     <span className="text-[10px] font-bold text-brand-orange font-noto">অসাধারণ অভিজ্ঞতা</span>
                   </div>
                   <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif text-brand-navy leading-[1.1] tracking-tighter">
-                     The Art of <br />
-                     <span className="italic">Unboxing</span> <br />
-                     Perfection.
+                     নিখুঁত <br />
+                     <span className="italic">আনবক্সিং</span> <br />
+                     এর শিল্পকলা।
                   </h1>
                </div>
 
                <p className="text-base md:text-lg text-brand-navy/60 max-w-md mx-auto lg:mx-0 font-sans leading-relaxed">
-                  Discover curated premium products delivered in our signature hexagonal packaging. Elevate your everyday with Baksho.
+                  আমাদের সিগনেচার প্যাকেজিংয়ে কিউরেটেড প্রিমিয়াম পণ্যগুলো আপনার কাছে পৌঁছে দিতে আমরা বদ্ধপরিকর। বাকশো-এর সাথে আপনার প্রতিদিনের জীবনকে করে তুলুন অনন্য।
                </p>
 
                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4">
                   <Link
                      href="/category/new-arrivals"
-                     className="bg-brand-navy text-white px-8 py-4 rounded-xl font-black text-[10px] uppercase tracking-[0.25em] flex items-center gap-3 hover:bg-brand-orange hover:shadow-xl hover:shadow-brand-orange/30 transition-all group active:scale-95"
+                     className="bg-brand-navy text-white px-10 py-5 rounded-2xl font-black text-[14px] flex items-center gap-3 hover:bg-brand-orange hover:shadow-2xl hover:shadow-brand-orange/30 transition-all group active:scale-95 font-noto"
                   >
-                     Explore the Vault <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                     ভল্ট অন্বেষণ করুন <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                   </Link>
                </div>
             </motion.div>
@@ -87,7 +87,7 @@ export default function Hero() {
                      <motion.div className="absolute inset-0">
                         <Image
                            src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2040&auto=format&fit=crop"
-                           alt="Signature Piece"
+                           alt="সিগনেচার পিস"
                            fill
                            priority
                            className="object-cover opacity-70 group-hover:scale-105 transition-transform duration-1000"
@@ -115,8 +115,8 @@ export default function Hero() {
                   >
                      <Hexagon size={24} className="mb-2" />
                      <div className="space-y-0.5">
-                        <p className="text-[8px] font-black uppercase tracking-widest text-white/50">Handcrafted In</p>
-                        <p className="text-base font-serif font-bold">The Workshop</p>
+                        <p className="text-[9px] font-bold text-white/50 font-noto">হস্তনির্মিত</p>
+                        <p className="text-base font-bold font-noto">আমাদের ওয়ার্কশপ থেকে</p>
                      </div>
                   </motion.div>
                </div>
@@ -130,7 +130,7 @@ export default function Hero() {
             transition={{ delay: 2 }}
             className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 text-brand-navy/10"
          >
-            <span className="text-[8px] font-black uppercase tracking-widest">Descend</span>
+            <span className="text-[9px] font-bold font-noto">নিচে যান</span>
             <div className="w-[1px] h-10 bg-gradient-to-b from-brand-navy/10 to-transparent" />
          </motion.div>
       </section>

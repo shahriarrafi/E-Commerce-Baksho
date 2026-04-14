@@ -35,14 +35,14 @@ export default function RelatedProducts({ currentProductId }: RelatedProductsPro
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div className="space-y-3">
-             <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-orange/10 rounded-full text-brand-orange">
+             <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-orange/10 rounded-full text-brand-orange font-hind">
                 <Sparkles size={12} />
-                <span className="text-[10px] font-black uppercase tracking-[0.3em]">Curation</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.3em]">বিশেষ নির্বাচন</span>
              </div>
-             <h2 className="text-3xl md:text-5xl font-serif text-brand-navy">You May Also Seek</h2>
-             <p className="text-brand-navy/40 text-xs md:text-sm font-light italic">Hand-picked rituals that harmonize with your current selection.</p>
+             <h2 className="text-3xl md:text-5xl font-serif text-brand-navy font-hind">আপনার আরও পছন্দ হতে পারে</h2>
+             <p className="text-brand-navy/40 text-xs md:text-sm font-light italic font-hind">আপনার বর্তমান নির্বাচনের সাথে সামঞ্জস্যপূর্ণ বিশেষ কিছু পণ্য।</p>
           </div>
-          <button className="text-[10px] font-black uppercase tracking-widest text-brand-navy border-b border-brand-navy/20 pb-1 hover:text-brand-orange hover:border-brand-orange transition-all">Explore Whole Archive</button>
+          <button className="text-[10px] font-black uppercase tracking-widest text-brand-navy border-b border-brand-navy/20 pb-1 hover:text-brand-orange hover:border-brand-orange transition-all font-hind">পুরো আর্কাইভ দেখুন</button>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">

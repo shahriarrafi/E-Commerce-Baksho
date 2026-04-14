@@ -10,13 +10,13 @@ import { ChevronDown, SlidersHorizontal, Hexagon, ChevronRight } from "lucide-re
 const FILTERS = [
   {
     id: "price",
-    name: "Price Range",
-    options: ["Under $50", "$50 - $100", "$100 - $500", "$500+"],
+    name: "দামের পরিসীমা",
+    options: ["৫০৳-এর নিচে", "৫০৳ - ১০০৳", "১০০৳ - ৫০০৳", "৫০০৳+"],
   },
   {
     id: "size",
-    name: "Package Size",
-    options: ["Small (Hex1)", "Medium (Hex2)", "Large (Hex3)", "Extra Large (Hex4)"],
+    name: "প্যাকেজের আকার",
+    options: ["ছোট (Hex1)", "মাঝারি (Hex2)", "বড় (Hex3)", "অতিরিক্ত বড় (Hex4)"],
   },
 ];
 
@@ -33,21 +33,21 @@ export default function FilterSidebar() {
   return (
     <aside className="w-full lg:w-72 flex-shrink-0">
       <div className="sticky top-32 space-y-8 pb-20">
-        <div className="flex items-center justify-between mb-8 pr-4">
+        <div className="flex items-center justify-between mb-8 pr-4 font-hind">
           <div className="flex items-center gap-3">
              <SlidersHorizontal className="text-brand-orange" size={20} />
-             <h2 className="text-sm font-black uppercase tracking-widest text-brand-navy">Filters</h2>
+             <h2 className="text-base font-black text-brand-navy font-noto">ফিল্টারসমূহ</h2>
           </div>
-          <button className="text-[10px] font-bold text-brand-orange hover:underline uppercase tracking-tighter">Clear All</button>
+          <button className="text-[12px] font-black text-brand-orange hover:underline font-noto">সব মুছুন</button>
         </div>
 
         {/* Robust Category Explorer */}
-        <div className="border-b border-brand-cream pb-6">
+        <div className="border-b border-brand-cream pb-6 font-hind">
            <button
              onClick={() => toggleSection("categories")}
-             className="flex w-full items-center justify-between text-[11px] font-black uppercase tracking-[0.15em] text-brand-navy py-2 group mb-4"
+             className="flex w-full items-center justify-between text-[14px] font-black text-brand-navy py-2 group mb-4 font-noto"
            >
-             The Ritual Collections
+             রিচুয়াল কালেকশন
              <ChevronDown 
                size={14} 
                className={`transition-transform duration-500 ease-in-out ${openSections.includes("categories") ? "rotate-180" : ""}`} 
@@ -62,7 +62,7 @@ export default function FilterSidebar() {
                         href={`/category/${cat.slug}`}
                         className={`flex items-center justify-between group py-1 ${slug === cat.slug ? 'text-brand-orange' : 'text-brand-navy/60 hover:text-brand-navy'}`}
                       >
-                         <span className="text-xs font-bold uppercase tracking-wide">{cat.name}</span>
+                         <span className="text-[14px] font-black font-noto">{cat.name}</span>
                          {slug === cat.slug && <motion.div layoutId="activeCat" className="w-1.5 h-1.5 rounded-full bg-brand-orange" />}
                       </Link>
                       
@@ -72,7 +72,7 @@ export default function FilterSidebar() {
                              <div key={child.id} className="space-y-2">
                                <Link 
                                  href={`/category/${child.slug}`}
-                                 className={`flex items-center justify-between text-[11px] font-medium transition-colors ${slug === child.slug ? 'text-brand-orange' : 'text-brand-navy/40 hover:text-brand-navy'}`}
+                                 className={`flex items-center justify-between text-[13px] font-bold transition-colors font-noto ${slug === child.slug ? 'text-brand-orange' : 'text-brand-navy/60 hover:text-brand-navy'}`}
                                >
                                   {child.name}
                                   {slug === child.slug && <div className="w-1 h-1 rounded-full bg-brand-orange" />}
@@ -84,7 +84,7 @@ export default function FilterSidebar() {
                                       <Link 
                                         key={sub.id}
                                         href={`/category/${sub.slug}`}
-                                        className={`text-[10px] uppercase tracking-tighter transition-colors ${slug === sub.slug ? 'text-brand-orange font-black' : 'text-brand-navy/30 hover:text-brand-navy font-bold'}`}
+                                        className={`text-[12px] font-bold transition-colors font-noto py-1 block ${slug === sub.slug ? 'text-brand-orange font-black' : 'text-brand-navy/40 hover:text-brand-navy'}`}
                                       >
                                         • {sub.name}
                                       </Link>
@@ -106,7 +106,7 @@ export default function FilterSidebar() {
           <div key={section.id} className="border-b border-brand-cream pb-6 overflow-hidden">
             <button
               onClick={() => toggleSection(section.id)}
-              className="flex w-full items-center justify-between text-[11px] font-black uppercase tracking-[0.15em] text-brand-navy py-2 group"
+              className="flex w-full items-center justify-between text-[14px] font-black text-brand-navy py-2 group font-noto"
             >
               {section.name}
               <ChevronDown 
@@ -128,7 +128,7 @@ export default function FilterSidebar() {
                       <div className="w-5 h-5 border border-brand-navy/10 rounded-[6px] group-hover:border-brand-orange transition-all peer-checked:bg-brand-orange peer-checked:border-brand-orange peer-checked:scale-110" />
                       <Hexagon className="absolute text-white opacity-0 peer-checked:opacity-100 transition-opacity scale-50" size={16} fill="white" />
                     </div>
-                    <span className="text-[13px] text-brand-navy/60 group-hover:text-brand-navy transition-colors font-medium">
+                    <span className="text-[14px] text-brand-navy/60 group-hover:text-brand-navy transition-colors font-bold font-noto">
                       {option}
                     </span>
                   </label>
@@ -139,13 +139,13 @@ export default function FilterSidebar() {
         ))}
 
         {/* Brand Motif in Sidebar */}
-        <div className="bg-brand-cream/50 rounded-3xl p-6 border border-brand-orange/5">
+        <div className="bg-brand-cream/50 rounded-3xl p-6 border border-brand-orange/5 font-noto">
            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center mb-4 shadow-sm">
               <Hexagon className="text-brand-orange" size={20} />
            </div>
-           <h4 className="text-sm font-bold text-brand-navy mb-2">Baksho Guarantee</h4>
-           <p className="text-[11px] text-brand-navy/50 leading-relaxed uppercase tracking-tighter font-black">
-             Premium unboxing experience guaranteed with every collection.
+           <h4 className="text-sm font-black text-brand-navy mb-2">বাকশো গ্যারান্টি</h4>
+           <p className="text-[12px] text-brand-navy/60 leading-relaxed font-bold">
+             প্রতিটি কালেকশনে প্রিমিয়াম আনবক্সিং অভিজ্ঞতার নিশ্চয়তা।
            </p>
         </div>
       </div>

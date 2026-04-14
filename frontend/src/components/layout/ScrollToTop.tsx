@@ -47,7 +47,7 @@ export default function ScrollToTop() {
           exit={{ opacity: 0, scale: 0.5, y: 20 }}
           onClick={scrollToTop}
           className="fixed bottom-24 lg:bottom-10 left-6 z-[160] w-12 h-12 md:w-14 md:h-14 bg-white border border-brand-orange/10 rounded-2xl shadow-2xl flex items-center justify-center text-brand-navy hover:text-brand-orange hover:border-brand-orange/40 transition-all group active:scale-90"
-          aria-label="Return to Top"
+          aria-label="উপরে যান"
         >
           <div className="relative">
              <ArrowUp size={20} className="group-hover:-translate-y-1 transition-transform" strokeWidth={3} />

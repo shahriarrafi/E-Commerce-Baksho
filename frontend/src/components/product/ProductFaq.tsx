@@ -17,14 +17,14 @@ export default function ProductFaq({ faqs }: ProductFaqProps) {
     <section className="py-12 bg-brand-cream/10 border-t border-brand-cream/50">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto space-y-8">
-          <div className="space-y-4 text-center">
+          <div className="space-y-4 text-center font-hind">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-orange/10 rounded-full text-brand-orange">
               <HelpCircle size={14} />
-              <span className="text-[10px] font-black uppercase tracking-[0.3em]">Knowledge Base</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.3em]">সাধারণ তথ্য</span>
             </div>
-            <h2 className="text-3xl md:text-5xl font-serif text-brand-navy">Frequently Asked Rituals</h2>
+            <h2 className="text-3xl md:text-5xl font-serif text-brand-navy">সচরাচর জিজ্ঞাসিত প্রশ্নাবলী</h2>
             <p className="text-brand-navy/60 max-w-lg mx-auto text-sm md:text-base">
-              Everything you need to know about the handling, care, and philosophical essence of this Baksho creation.
+              এই বাকশো পণ্যটির ব্যবহার, যত্ন এবং বিশেষ বৈশিষ্ট্য সম্পর্কে আপনার যা জানা প্রয়োজন।
             </p>
           </div>
 

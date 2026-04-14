@@ -1,23 +1,28 @@
 
 import type { Metadata, Viewport } from "next";
-import { Poppins, Lora } from "next/font/google";
+import { Anek_Bangla, Inter, Noto_Sans_Bengali } from "next/font/google";
 import dynamic from "next/dynamic";
 import "./globals.css";
 
 // Normal import for the transition wrapper to avoid SSR issues with dynamic in root layout
 import UnboxingTransition from "@/components/animations/UnboxingTransition";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-poppins",
+const anekBangla = Anek_Bangla({
+  subsets: ["bengali", "latin"],
+  variable: "--font-anek",
   display: "swap",
 });
 
-const lora = Lora({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-lora",
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const notoBengali = Noto_Sans_Bengali({
+  subsets: ["bengali"],
+  weight: ["400", "700"],
+  variable: "--font-noto",
   display: "swap",
 });
 
@@ -31,16 +36,16 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Baksho | Premium E-commerce Brand",
-  description: "Experience the art of unboxing with Baksho - your destination for premium lifestyle products.",
-  applicationName: "Baksho",
+  title: "বাকশো | প্রিমিয়াম ই-কমার্স ব্র্যান্ড",
+  description: "বাকশো-এর সাথে আনবক্সিং-এর নতুন অভিজ্ঞতা নিন - আপনার প্রিয় প্রিমিয়াম পণ্যগুলি পাওয়ার একমাত্র স্থান।",
+  applicationName: "বাকশো",
   icons: {
     icon: "/metadata-logo.webp",
     apple: "/metadata-logo.webp",
   },
   openGraph: {
-    title: "Baksho | Premium E-commerce Brand",
-    description: "Experience the art of unboxing with Baksho - your destination for premium lifestyle products.",
+    title: "বাকশো | প্রিমিয়াম ই-কমার্স ব্র্যান্ড",
+    description: "বাকশো-এর সাথে আনবক্সিং-এর নতুন অভিজ্ঞতা নিন - আপনার প্রিয় প্রিমিয়াম পণ্যগুলি পাওয়ার একমাত্র স্থান।",
     images: ["/metadata-logo.webp"],
   },
   appleWebApp: {
@@ -72,8 +77,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${poppins.variable} ${lora.variable}`}>
-      <body className="antialiased min-h-screen bg-white selection:bg-brand-orange selection:text-white pb-24 lg:pb-0">
+    <html lang="bn" className={`${anekBangla.variable} ${inter.variable} ${notoBengali.variable}`}>
+      <body className="antialiased min-h-screen bg-white selection:bg-brand-orange selection:text-white pb-24 lg:pb-0 font-anek">
         <UnboxingTransition>
           <Header />
           <MobileHeader />

@@ -6,11 +6,11 @@ import { ChevronLeft, ChevronRight, TrendingUp } from "lucide-react";
 import ProductCard from "../product/ProductCard";
 
 const TRENDING_PRODUCTS = [
-  { id: 1, name: "The Signature Box", price: 129.00, slug: "signature-baksho-box", image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2040&auto=format&fit=crop" },
-  { id: 2, name: "Noir Edition v2", price: 159.00, slug: "noir-edition-v2", image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070&auto=format&fit=crop" },
-  { id: 3, name: "Eco Craft Lite", price: 89.00, slug: "eco-craft-lite", image: "https://images.unsplash.com/photo-1607344645866-009c323b63e0?q=80&w=2080&auto=format&fit=crop" },
-  { id: 4, name: "Velvet Heritage", price: 249.00, slug: "velvet-heritage", image: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=2070&auto=format&fit=crop" },
-  { id: 5, name: "Minimalist Slate", price: 110.00, slug: "minimalist-slate", image: "https://images.unsplash.com/photo-1542319630-55fb7f7c944a?q=80&w=2070&auto=format&fit=crop" },
+  { id: 1, name: "সিগনেচার বক্স", price: 12900, slug: "signature-baksho-box", image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2040&auto=format&fit=crop" },
+  { id: 2, name: "নোয়ার এডিশন v2", price: 15900, slug: "noir-edition-v2", image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070&auto=format&fit=crop" },
+  { id: 3, name: "ইকো ক্রাফট লাইট", price: 8900, slug: "eco-craft-lite", image: "https://images.unsplash.com/photo-1607344645866-009c323b63e0?q=80&w=2080&auto=format&fit=crop" },
+  { id: 4, name: "ভেলভেট হেরিটেজ", price: 24900, slug: "velvet-heritage", image: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=2070&auto=format&fit=crop" },
+  { id: 5, name: "মিনিমালিস্ট স্লেট", price: 11000, slug: "minimalist-slate", image: "https://images.unsplash.com/photo-1542319630-55fb7f7c944a?q=80&w=2070&auto=format&fit=crop" },
 ];
 
 export default function TrendingCarousel() {
@@ -33,16 +33,16 @@ export default function TrendingCarousel() {
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div className="space-y-3">
-             <div className="flex items-center gap-2 text-brand-orange tracking-[0.3em] font-black text-[10px] uppercase">
+             <div className="flex items-center gap-2 text-brand-orange tracking-[0.3em] font-black text-[10px] uppercase font-hind">
                 <span className="w-8 h-[1px] bg-brand-orange" />
-                Discovery
+                অনুসন্ধান
              </div>
              <h2 className="text-4xl font-serif text-brand-navy leading-tight">
-                Trending <br />
-                <span className="italic text-brand-orange">Baksho.</span>
+                জনপ্রিয় <br />
+                <span className="italic text-brand-orange">বাকশোসমূহ।</span>
              </h2>
           </div>
-
+          {/* ... navigation buttons ... */}
           <div className="flex gap-3">
              <button 
                onClick={scrollLeft}
@@ -82,12 +82,12 @@ export default function TrendingCarousel() {
         </div>
 
         <div className="flex items-center gap-4 py-6 border-t border-brand-navy/5">
-           <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-brand-navy/30">
+           <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-brand-navy/30 font-hind">
               <TrendingUp size={12} className="text-brand-orange" />
-              Popular Demand Current
+              বর্তমানে গ্রাহকদের সেরা পছন্দ
            </div>
            <div className="h-[1px] flex-1 bg-brand-navy/10" />
-           <p className="text-[10px] font-bold text-brand-navy/40 italic">New arrivals every Sunday at 6 PM BST</p>
+           <p className="text-[10px] font-bold text-brand-navy/40 italic font-hind">প্রতি রবিবার সন্ধ্যা ৬ টায় নতুন কালেকশন</p>
         </div>
       </div>
     </section>

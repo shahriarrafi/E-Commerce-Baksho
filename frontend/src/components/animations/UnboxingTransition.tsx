@@ -103,9 +103,9 @@ export default function UnboxingTransition({ children }: { children: React.React
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="text-white/10 font-serif text-[12vw] font-black uppercase tracking-tighter absolute bottom-10 select-none"
+              className="text-white/10 font-serif text-[12vw] font-black uppercase tracking-tighter absolute bottom-10 select-none font-hind"
             >
-              Baksho
+              বাকশো
             </motion.span>
           </motion.div>
         </motion.div>

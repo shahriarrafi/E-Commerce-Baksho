@@ -6,16 +6,16 @@ import Link from "next/link";
 
 const faqs = [
    {
-      question: "How long does the unboxing ritual take to arrive?",
-      answer: "We ensure your premium selection arrives within 2-3 business days. Every journey is fully trackable from our vault to your door."
+      question: "আপনাদের ডেলিভারি কত দ্রুত হয়?",
+      answer: "আমরা সাধারণত ঢাকা শহরের মধ্যে ১-২ কার্যদিবস এবং ঢাকার বাইরে ২-৪ কার্যদিবসের মধ্যে আপনার কাঙ্ক্ষিত পণ্যটি পৌঁছে দিয়ে থাকি।"
    },
    {
-      question: "Is the hexagonal packaging truly eco-conscious?",
-      answer: "Yes. Our signature Baksho boxes are crafted from 100% recycled reinforced fibers and are designed for heirloom storage—not the recycling bin."
+      question: "আপনাদের প্যাকেজিং কি পরিবেশবান্ধব?",
+      answer: "হ্যাঁ, আমাদের সিগনেচার বাকশো বক্সগুলো ১০০% রিসাইকেলড উপকরণ দিয়ে তৈরি এবং এগুলো দীর্ঘস্থায়ী ব্যবহারের জন্য ডিজাইন করা হয়েছে।"
    },
    {
-      question: "What is your return philosophy?",
-      answer: "If your ritual feels incomplete, we offer a 14-day window for returns of unused treasures in their original hexagonal housing."
+      question: "রিটার্ন এবং রিফান্ড পলিসি কী?",
+      answer: "পণ্য হাতে পাওয়ার ১৪ দিনের মধ্যে যদি সেটি পছন্দ না হয় বা কোনো সমস্যা থাকে, তবে আপনি সহজেই রিটার্ন করতে পারবেন।"
    }
 ];
 
@@ -29,16 +29,16 @@ export default function FAQ() {
                 {/* Left: Branding & Action */}
                 <div className="lg:col-span-5 flex flex-col gap-6 md:gap-8">
                    <div className="space-y-4">
-                      <div className="flex items-center gap-2 text-brand-orange tracking-[0.3em] font-black text-[10px] uppercase">
+                      <div className="flex items-center gap-2 text-brand-orange tracking-[0.3em] font-black text-[10px] uppercase font-hind">
                          <span className="w-8 h-[1px] bg-brand-orange" />
-                         Intelligence
+                         সহযোগিতা
                       </div>
                       <h2 className="text-3xl md:text-5xl font-serif text-brand-navy leading-tight">
-                         Curiosities <br />
-                         <span className="italic">& Questions.</span>
+                         সাধারণ কিছু <br />
+                         <span className="italic">কৌতূহল ও উত্তর।</span>
                       </h2>
                       <p className="text-brand-navy/60 text-base md:text-lg leading-relaxed max-w-sm">
-                         Everything you need to know about the Baksho experience before you begin your next ritual.
+                         বাকশো অভিজ্ঞতা শুরু করার আগে আপনার যা কিছু জানা প্রয়োজন।
                       </p>
                    </div>
  
@@ -46,7 +46,7 @@ export default function FAQ() {
                       href="/faq"
                       className="inline-flex items-center gap-4 bg-brand-cream/50 text-brand-navy px-6 md:px-8 py-4 md:py-5 rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest hover:bg-brand-navy hover:text-white transition-all group w-fit"
                    >
-                      Visit Full Archive <ArrowUpRight size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                      বিস্তারিত দেখুন <ArrowUpRight size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                    </Link>
                 </div>
  

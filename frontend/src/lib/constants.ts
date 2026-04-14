@@ -8,76 +8,76 @@ export interface Category {
 export const CATEGORIES: Category[] = [
   {
     id: '1',
-    name: 'Electronics',
+    name: 'ইলেকট্রনিক্স',
     slug: 'electronics',
     children: [
       {
         id: '1-1',
-        name: 'Laptops',
+        name: 'ল্যাপটপ',
         slug: 'laptops',
         children: [
-          { id: '1-1-1', name: 'Gaming', slug: 'gaming' },
-          { id: '1-1-2', name: 'Ultrabooks', slug: 'ultrabooks' },
+          { id: '1-1-1', name: 'গেমিং', slug: 'gaming' },
+          { id: '1-1-2', name: 'আল্ট্রাবুক', slug: 'ultrabooks' },
         ],
       },
-      { id: '1-2', name: 'Accessories', slug: 'accessories' },
+      { id: '1-2', name: 'এক্সেসরিজ', slug: 'accessories' },
     ],
   },
   {
     id: '2',
-    name: 'Lifestyle',
+    name: 'লাইফস্টাইল',
     slug: 'lifestyle',
     children: [
-      { id: '2-1', name: 'Home Decor', slug: 'home-decor' },
-      { id: '2-2', name: 'Premium Boxes', slug: 'premium-boxes' },
+      { id: '2-1', name: 'গৃহসজ্জা', slug: 'home-decor' },
+      { id: '2-2', name: 'প্রিমিয়াম বক্স', slug: 'premium-boxes' },
     ],
   },
   {
     id: '3',
-    name: 'New Arrivals',
+    name: 'নতুন কালেকশন',
     slug: 'new-arrivals',
   },
 ];
 
 export const MOCK_PRODUCT = {
   id: "p1",
-  name: "The Signature Baksho Box",
+  name: "সিগনেচার বাকশো বক্স",
   slug: "signature-baksho-box",
-  price: 129.00,
+  price: 12900.00,
   inStock: true,
-  description: "Crafted from sustainable materials, our Signature Box is more than just packaging—it's an experience. Designed to protect your most precious items while adding a touch of elegance to your home.",
+  description: "টেকসই উপকরণ থেকে তৈরি, আমাদের সিগনেচার বক্স কেবল একটি প্যাকেজিং নয়—এটি একটি অনন্য অভিজ্ঞতা। আপনার সবচেয়ে মূল্যবান জিনিসগুলো সুরক্ষিত রাখতে এবং আপনার ঘরে আভিজাত্যের ছোঁয়া যোগ করতে এটি ডিজাইন করা হয়েছে।",
   images: [
     "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2040&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1607344645866-009c323b63e0?q=80&w=2080&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=2070&auto=format&fit=crop",
   ],
-  category: "Premium Boxes",
+  category: "প্রিমিয়াম বক্স",
   variants: [
-    { type: "Finish", options: ["Matte Walnut", "Polished Oak", "Midnight Ebony"] },
-    { type: "Size", options: ["Standard", "Grande", "Architect"] }
+    { type: "ফিনিশ", options: ["ম্যাট ওয়ালনাট", "পলিশড ওক", "মিডনাইট এবোনি"] },
+    { type: "সাইজ", options: ["স্ট্যান্ডার্ড", "গ্র্যান্ড", "আর্কিটেক্ট"] }
   ],
   specifications: [
-    { label: "Material", value: "Recycled Wood & Velvet" },
-    { label: "Dimensions", value: "24cm x 24cm x 12cm" },
-    { label: "Weight", value: "1.2kg" },
-    { label: "Finish", value: "Matte Walnut" }
+    { label: "উপাদান", value: "রিসাইকেলড উড ও ভেলভেট" },
+    { label: "মাত্রা", value: "২৪ সে.মি. x ২৪ সে.মি. x ১২ সে.মি." },
+    { label: "ওজন", value: "১.২ কেজি" },
+    { label: "ফিনিশ", value: "ম্যাট ওয়ালনাট" }
   ],
-  shippingInfo: "Free express shipping on all orders over $100. Standard shipping takes 3-5 business days. International shipping available.",
+  shippingInfo: "১০,০০০ টাকার বেশি অর্ডারে ফ্রি এক্সপ্রেস ডেলিভারি। ঢাকা শহরের মধ্যে ২-৩ কার্যদিবস এবং ঢাকার বাইরে ৩-৫ কার্যদিবস সময় লাগবে।",
   faqs: [
-    { q: "Is the lining removable?", a: "Yes, the velvet interior is designed to be swapped or removed for deep cleaning." },
-    { q: "Can I order custom engraving?", a: "Custom engravings can be added during the checkout ritual for a small fee." }
+    { q: "ভিতরের লাইনিং কি সরানো যায়?", a: "হ্যাঁ, ভেলভেট ইন্টেরিয়রটি পরিষ্কার করার সুবিধার্থে সরিয়ে নেওয়া বা পরিবর্তন করার জন্য ডিজাইন করা হয়েছে।" },
+    { q: "আমি কি কাস্টম খোদাই (engraving) অর্ডার করতে পারি?", a: "হ্যাঁ, চেকআউটের সময় সামান্য ফির বিনিময়ে কাস্টম খোদাই যোগ করা যেতে পারে।" }
   ],
   reviews: [
-    { author: "Zian Ahmed", rating: 5, comment: "The unboxing experience was truly cinematic. The box itself is a work of art.", date: "Oct 12, 2023" },
-    { author: "Nora Fatehi", rating: 5, comment: "Exceeded my expectations. The polished oak finish is stunning.", date: "Oct 10, 2023" },
-    { author: "Zahir Ahmed", rating: 5, comment: "The material quality is beyond expectations. Best purchase this year.", date: "Oct 08, 2023" },
-    { author: "Nusrat Jahan", rating: 4, comment: "Actually very comfortable for long hours. Recommending to my colleagues.", date: "Oct 05, 2023" },
-    { author: "Tanvir Hossain", rating: 5, comment: "Premium packaging and fast delivery. Baksho never disappoints.", date: "Oct 01, 2023" },
-    { author: "Arifur Rahman", rating: 5, comment: "A masterpiece of design. Fits perfectly as per the size chart.", date: "Sep 28, 2023" },
-    { author: "Mariya Karim", rating: 5, comment: "Loved the attention to detail in the stitching. Very satisfied.", date: "Sep 25, 2023" },
-    { author: "Sabbir Khan", rating: 4, comment: "Slightly tighter on shoulders but the fabric is amazing.", date: "Sep 20, 2023" },
-    { author: "Farhana Mili", rating: 5, comment: "Better than international brands. Proud of this local quality.", date: "Sep 15, 2023" },
-    { author: "Rahat Kabir", rating: 5, comment: "Perfect for formal occasions. The texture feels very high-end.", date: "Sep 10, 2023" }
+    { author: "জিয়ান আহমেদ", rating: 5, comment: "আনবক্সিং অভিজ্ঞতাটি সত্যিই অসাধারণ ছিল। বক্সটি নিজেই একটি আর্ট পিস।", date: "১২ অক্টোবর, ২০২৩" },
+    { author: "নোরা ফাতেহি", rating: 5, comment: "প্রত্যাশার চেয়েও বেশি ভালো। পলিশড ওক ফিনিশটি চমৎকার।", date: "১০ অক্টোবর, ২০২৩" },
+    { author: "জহির আহমেদ", rating: 5, comment: "উপাদানের গুণমান অবিশ্বাস্য। এই বছরের সেরা কেনাকাটা।", date: "০৮ অক্টোবর, ২০২৩" },
+    { author: "নুসরাত জাহান", rating: 4, comment: "দীর্ঘ সময় ব্যবহারের জন্য খুবই আরামদায়ক। আমার সহকর্মীদেরও এটি নেওয়ার পরামর্শ দেব।", date: "০৫ অক্টোবর, ২০২৩" },
+    { author: "তানভীর হোসেন", rating: 5, comment: "প্রিমিয়াম প্যাকেজিং এবং দ্রুত ডেলিভারি। বাকশো কখনোই হতাশ করে না।", date: "০১ অক্টোবর, ২০২৩" },
+    { author: "আরিফুর রহমান", rating: 5, comment: "ডিজাইনের এক অনন্য নিদর্শন। সাইজ চার্ট অনুযায়ী একদম ঠিকভাবে ফিট হয়েছে।", date: "২৮ সেপ্টেম্বর, ২০২৩" },
+    { author: "মারিয়া করিম", rating: 5, comment: "সেলাইয়ের সূক্ষ্ম কাজগুলো আমার খুব পছন্দ হয়েছে। খুবই সন্তুষ্ট।", date: "২৫ সেপ্টেম্বর, ২০২৩" },
+    { author: "সাব্বির খান", rating: 4, comment: "কাঁধের দিকে একটু টাইট তবে ফেব্রিকের মান অসাধারণ।", date: "২০ সেপ্টেম্বর, ২০২৩" },
+    { author: "ফারহানা মিলি", rating: 5, comment: "আন্তর্জাতিক ব্র্যান্ডের চেয়েও ভালো। আমাদের দেশীয় পণ্যের এমন মান দেখে গর্ববোধ করছি।", date: "১৫ সেপ্টেম্বর, ২০২৩" },
+    { author: "রাহাত কবির", rating: 5, comment: "অফিশিয়াল অনুষ্ঠানের জন্য উপযুক্ত। টেক্সচারটি দেখতে এবং ধরতে খুবই প্রিমিয়াম লাগে।", date: "১০ সেপ্টেম্বর, ২০২৩" }
   ]
 };

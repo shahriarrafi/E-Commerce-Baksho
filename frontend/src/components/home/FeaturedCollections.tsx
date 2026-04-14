@@ -4,26 +4,25 @@ import Link from "next/link";
 import Image from "next/image";
 
 const COLLECTIONS = [
-  // ... existing collections ...
   {
-    title: "New Arrivals",
-    desc: "Summer 2024 Collection",
+    title: "নতুন কালেকশন",
+    desc: "সামার ২০২৪ কালেকশন",
     image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2040&auto=format&fit=crop",
     slug: "new-arrivals",
     icon: Sparkles,
     size: "large",
   },
   {
-    title: "Best Sellers",
-    desc: "Voted #1 for Unboxing",
+    title: "সেরা বিক্রিত",
+    desc: "আনবক্সিং-এ গ্রাহকদের সেরা পছন্দ",
     image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070&auto=format&fit=crop",
     slug: "best-sellers",
     icon: Trophy,
     size: "medium",
   },
   {
-    title: "Exclusive Boxes",
-    desc: "Limited Series #001",
+    title: "এক্সক্লুসিভ বক্স",
+    desc: "লিমিটেড সিরিজ #০০১",
     image: "https://images.unsplash.com/photo-1607344645866-009c323b63e0?q=80&w=2080&auto=format&fit=crop",
     slug: "exclusive-boxes",
     icon: TrendingUp,
@@ -42,17 +41,17 @@ export default function FeaturedCollections() {
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 text-center md:text-left">
           <div className="space-y-3">
-             <div className="flex items-center justify-center md:justify-start gap-2 text-brand-orange tracking-[0.3em] font-black text-[10px] uppercase">
+             <div className="flex items-center justify-center md:justify-start gap-2 text-brand-orange tracking-[0.3em] font-black text-[10px] uppercase font-hind">
                 <span className="w-8 h-[1px] bg-brand-orange" />
-                Featured Journeys
+                সেরা কালেকশন
              </div>
              <h2 className="text-3xl md:text-4xl font-serif text-brand-navy leading-tight">
-                Curated <br />
-                <span className="italic">Collections.</span>
+                নির্বাচিত <br />
+                <span className="italic">কালেকশনসমূহ।</span>
              </h2>
           </div>
-          <Link href="/shop" className="group flex items-center justify-center md:justify-start gap-3 text-[10px] font-black uppercase tracking-widest text-brand-navy/60 hover:text-brand-orange transition-colors">
-            Explore All Categories
+          <Link href="/shop" className="group flex items-center justify-center md:justify-start gap-3 text-[10px] font-black uppercase tracking-widest text-brand-navy/60 hover:text-brand-orange transition-colors font-hind">
+            সব ক্যাটাগরি দেখুন
             <div className="w-8 h-8 rounded-full border border-brand-navy/10 flex items-center justify-center group-hover:border-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all">
                <ArrowUpRight size={14} />
             </div>
@@ -88,14 +87,14 @@ export default function FeaturedCollections() {
                  
                  <div className="space-y-1">
                     <h3 className="text-2xl font-serif text-white">{col.title}</h3>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-white/50">{col.desc}</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-white/50 font-hind">{col.desc}</p>
                  </div>
 
                  <Link 
                    href={`/category/${col.slug}`}
-                   className="mt-6 px-5 py-2.5 bg-white text-brand-navy rounded-xl text-[9px] font-black uppercase tracking-widest w-fit opacity-0 group-hover:opacity-100 transition-opacity duration-500 hover:bg-brand-orange hover:text-white"
+                   className="mt-6 px-5 py-2.5 bg-white text-brand-navy rounded-xl text-[9px] font-black uppercase tracking-widest w-fit opacity-0 group-hover:opacity-100 transition-opacity duration-500 hover:bg-brand-orange hover:text-white font-hind"
                  >
-                   Explore Collection
+                   সংগ্রহটি দেখুন
                  </Link>
               </div>
 
