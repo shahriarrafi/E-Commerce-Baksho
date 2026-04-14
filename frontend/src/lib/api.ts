@@ -37,6 +37,27 @@ export const api = {
     }
   },
 
+  orders: {
+    /**
+     * Look up an order by ID (Public)
+     */
+    track: async (orderId: string) => {
+      await new Promise((resolve) => setTimeout(resolve, 800));
+      
+      // Simple mock logic for different IDs
+      const statuses = ["ordered", "processing", "shipped", "delivered"];
+      const statusIndex = orderId.length % 4; // Deterministic based on ID length
+      
+      return {
+        id: orderId,
+        status: statuses[statusIndex],
+        items: [{ name: "Signature Baksho Box", price: 129 }],
+        date: "Oct 12, 2023",
+        estimatedArrival: "Oct 15, 2023"
+      };
+    }
+  },
+
   categories: {
     /**
      * Get all categories

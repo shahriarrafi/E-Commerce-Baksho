@@ -27,7 +27,7 @@ export default function MobileNav() {
   ];
 
   return (
-    <motion.nav 
+    <motion.nav
       initial={{ y: 0 }}
       animate={{ y: isVisible ? "0%" : "100%" }}
       transition={{ type: "spring", stiffness: 400, damping: 40 }}
@@ -35,18 +35,18 @@ export default function MobileNav() {
     >
       {/* Glossy Backdrop */}
       <div className="absolute inset-0 bg-white/80 backdrop-blur-2xl border-t border-brand-orange/10" />
-      
+
       <div className="relative container mx-auto px-4 h-20 flex items-center justify-between">
         {navItems.map((item) => {
           const isActive = pathname === item.href && item.href !== "#";
           const Icon = item.icon;
 
           const content = (
-            <motion.div 
+            <motion.div
               whileTap={{ scale: 0.9 }}
               className="flex flex-col items-center gap-1.5 relative py-2 px-1"
             >
-              <motion.div 
+              <motion.div
                 animate={isActive ? { y: -4, scale: 1.1 } : { y: 0, scale: 1 }}
                 className={`transition-colors duration-300 ${isActive ? "text-brand-orange" : "text-brand-navy/30"}`}
               >
@@ -55,17 +55,17 @@ export default function MobileNav() {
               <span className={`text-[8px] font-black uppercase tracking-widest transition-colors ${isActive ? "text-brand-orange" : "text-brand-navy/30"}`}>
                 {item.label}
               </span>
-              
+
               {isActive && (
-                <motion.div 
-                   layoutId="activeNavIndicator"
-                   className="absolute -bottom-1 w-1 h-1 bg-brand-orange rounded-full"
-                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                <motion.div
+                  layoutId="activeNavIndicator"
+                  className="absolute -bottom-1 w-1 h-1 bg-brand-orange rounded-full"
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
               )}
 
               {item.badge !== undefined && item.badge > 0 && (
-                <motion.span 
+                <motion.span
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   className="absolute -top-1 -right-1 w-4 h-4 bg-brand-orange text-white text-[8px] font-black flex items-center justify-center rounded-full border-2 border-white shadow-sm"
@@ -91,7 +91,7 @@ export default function MobileNav() {
           );
         })}
       </div>
-      
+
       {/* Safe Area for Mobile Notch */}
       <div className="h-safe-bottom bg-white/80 backdrop-blur-2xl" />
     </motion.nav>

@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { X, ChevronRight, User as UserIcon, LogOut, Package, Search } from "lucide-react";
+import { X, ChevronRight, User as UserIcon, LogOut, Package, Search, Truck } from "lucide-react";
 import { CATEGORIES } from "@/lib/constants";
 import { useUIStore } from "@/store/useUIStore";
 import { useAuthStore } from "@/store/useAuthStore";
@@ -88,8 +88,14 @@ export default function MobileMenu() {
               </div>
             </div>
 
-            {/* Footer */}
-            <div className="p-6 border-t border-brand-cream bg-brand-cream/20">
+            {/* Footer / Logistics */}
+            <div className="p-6 border-t border-brand-cream bg-brand-cream/20 space-y-3">
+              <button
+                onClick={() => { handleNavigation("/track-order"); }}
+                className="w-full bg-brand-navy text-white p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-brand-navy/10 active:scale-95 transition-all"
+              >
+                <Truck size={16} className="text-brand-orange" /> Track My Ritual
+              </button>
               <button
                 onClick={() => { openSearch(); closeMobileMenu(); }}
                 className="w-full bg-white border border-brand-navy/5 p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest text-brand-navy flex items-center justify-center gap-3 shadow-sm active:scale-95 transition-all"

@@ -9,7 +9,7 @@ export default function FloatingConcierge() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-24 lg:bottom-10 right-6 z-[150] flex flex-col items-end gap-3">
+    <div className="fixed bottom-24 lg:bottom-10 right-6 z-[150] hidden lg:flex flex-col items-end gap-3">
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -23,11 +23,11 @@ export default function FloatingConcierge() {
                 <h4 className="text-[10px] font-black uppercase tracking-widest text-brand-orange">Concierge</h4>
                 <p className="text-sm font-serif font-black text-brand-navy">Connect with a Curator</p>
               </div>
-              
+
               <div className="flex flex-col gap-2">
-                <a 
-                  href="https://wa.me/yournumber" 
-                  target="_blank" 
+                <a
+                  href="https://wa.me/yournumber"
+                  target="_blank"
                   className="flex items-center gap-3 p-3 bg-green-50 rounded-2xl hover:bg-green-100 transition-colors group"
                 >
                   <div className="w-8 h-8 bg-green-500 rounded-xl flex items-center justify-center text-white">
@@ -35,9 +35,9 @@ export default function FloatingConcierge() {
                   </div>
                   <span className="text-[10px] font-black uppercase tracking-widest text-[#075E54]">WhatsApp</span>
                 </a>
-                
-                <a 
-                  href="#" 
+
+                <a
+                  href="#"
                   className="flex items-center gap-3 p-3 bg-brand-navy/5 rounded-2xl hover:bg-brand-navy/10 transition-colors group"
                 >
                   <div className="w-8 h-8 bg-brand-navy rounded-xl flex items-center justify-center text-white">

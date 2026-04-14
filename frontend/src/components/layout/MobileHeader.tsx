@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { Menu, Search, Package, ArrowLeft } from "lucide-react";
+import { Menu, Search, Package, ArrowLeft, Truck, MessageSquare } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useUIStore } from "@/store/useUIStore";
@@ -50,6 +50,27 @@ export default function MobileHeader() {
               Baksho
             </span>
           </Link>
+
+          {/* Logistics & Contact Shortcut Group */}
+          <div className="ml-auto flex items-center gap-1">
+             <Link 
+               href="/track-order"
+               className="p-1.5 text-brand-navy hover:text-brand-orange transition-colors"
+               onClick={() => triggerHaptic()}
+               aria-label="Track Order"
+             >
+               <Truck size={18} strokeWidth={1.5} />
+             </Link>
+             <Link 
+               href="https://m.me/yourpage"
+               target="_blank"
+               className="p-1.5 text-brand-navy hover:text-brand-orange transition-colors"
+               onClick={() => triggerHaptic()}
+               aria-label="Contact Messenger"
+             >
+               <MessageSquare size={18} strokeWidth={1.5} />
+             </Link>
+          </div>
         </div>
 
         {/* Second Row: Search Bar */}

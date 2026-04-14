@@ -25,11 +25,11 @@ export default function Footer() {
         </div>
 
         <div>
-           <h4 className="text-xs font-black uppercase tracking-[0.2em] text-brand-orange mb-8 font-sans">Brand</h4>
+           <h4 className="text-xs font-black uppercase tracking-[0.2em] text-brand-orange mb-8 font-sans">Ritual Support</h4>
            <ul className="space-y-4 text-sm font-medium">
-             <li><Link href="#" className="hover:text-brand-orange transition-colors">Our Stories</Link></li>
-             <li><Link href="#" className="hover:text-brand-orange transition-colors">Sustainability</Link></li>
-             <li><Link href="#" className="hover:text-brand-orange transition-colors">TechArt</Link></li>
+             <li><Link href="/track-order" className="hover:text-brand-orange transition-colors">Track Ritual</Link></li>
+             <li><Link href="#" className="hover:text-brand-orange transition-colors">Returns & Refunds</Link></li>
+             <li><Link href="#" className="hover:text-brand-orange transition-colors">Sanctuary Support</Link></li>
            </ul>
         </div>
 
