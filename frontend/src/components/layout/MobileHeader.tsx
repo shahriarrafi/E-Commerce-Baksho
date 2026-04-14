@@ -45,7 +45,7 @@ export default function MobileHeader() {
             onClick={() => triggerHaptic()}
           >
             <Image 
-              src="/logo.webp" 
+              src="/Logo.webp" 
               alt="Baksho Logo" 
               width={90} 
               height={28} 

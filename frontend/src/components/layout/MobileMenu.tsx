@@ -49,7 +49,7 @@ export default function MobileMenu() {
             <div className="flex items-center justify-between p-6 border-b border-brand-cream bg-white/50 backdrop-blur-xl">
               <Link href="/" onClick={closeMobileMenu} className="flex items-center">
                 <Image 
-                  src="/logo.webp" 
+                  src="/Logo.webp" 
                   alt="Baksho Logo" 
                   width={100} 
                   height={30} 

@@ -55,7 +55,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center group">
             <Image
-              src="/logo.webp"
+              src="/Logo.webp"
               alt="Baksho Logo"
               width={110}
               height={32}

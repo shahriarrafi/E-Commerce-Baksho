@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="col-span-1 md:col-span-1">
           <div className="mb-6">
             <Image 
-              src="/logo.webp" 
+              src="/Logo.webp" 
               alt="Baksho Logo" 
               width={120} 
               height={36} 
