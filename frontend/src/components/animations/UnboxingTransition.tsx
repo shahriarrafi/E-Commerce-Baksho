@@ -25,7 +25,7 @@ export default function UnboxingTransition({ children }: { children: React.React
          <div className="flex flex-col items-center gap-4">
             <div className="w-20 h-20 md:w-24 md:h-24 bg-brand-orange rounded-3xl flex items-center justify-center shadow-2xl">
               <Image 
-                src="/Logo.webp" 
+                src="/metadata-logo.webp" 
                 alt="Baksho Logo" 
                 width={64} 
                 height={64} 
@@ -74,7 +74,7 @@ export default function UnboxingTransition({ children }: { children: React.React
             >
               <div className="w-24 h-24 bg-brand-orange rounded-3xl flex items-center justify-center shadow-2xl shadow-brand-orange/40">
                 <Image 
-                  src="/Logo.webp" 
+                  src="/metadata-logo.webp" 
                   alt="Baksho Logo" 
                   width={64} 
                   height={64} 

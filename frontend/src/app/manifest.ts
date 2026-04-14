@@ -13,9 +13,9 @@ export default function manifest(): MetadataRoute.Manifest {
     orientation: 'portrait',
     icons: [
       {
-        src: '/favicon.ico',
+        src: '/metadata-logo.webp',
         sizes: 'any',
-        type: 'image/x-icon',
+        type: 'image/webp',
       },
     ],
   }
