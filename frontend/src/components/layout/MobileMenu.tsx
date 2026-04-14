@@ -2,16 +2,23 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { X, ChevronRight, User as UserIcon, LogOut, Package, Search, Truck } from "lucide-react";
-import { CATEGORIES } from "@/lib/constants";
+import { X, ChevronDown, Package, Truck, ArrowRight } from "lucide-react";
+import { CATEGORIES, Category } from "@/lib/constants";
 import { useUIStore } from "@/store/useUIStore";
-import { useAuthStore } from "@/store/useAuthStore";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
+import { useState } from "react";
 
 export default function MobileMenu() {
-  const { isMobileMenuOpen, closeMobileMenu, openSearch } = useUIStore();
-  const { user, isAuthenticated, logout } = useAuthStore();
+  const { isMobileMenuOpen, closeMobileMenu } = useUIStore();
   const router = useRouter();
+  const { slug: currentSlug } = useParams();
+  const [expandedCats, setExpandedCats] = useState<string[]>([]);
+
+  const toggleExpand = (id: string) => {
+    setExpandedCats(prev => 
+      prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]
+    );
+  };
 
   const handleNavigation = (href: string) => {
     router.push(href);
@@ -22,7 +29,6 @@ export default function MobileMenu() {
     <AnimatePresence>
       {isMobileMenuOpen && (
         <>
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -31,7 +37,6 @@ export default function MobileMenu() {
             className="fixed inset-0 bg-brand-navy/60 backdrop-blur-md z-[140]"
           />
 
-          {/* Drawer */}
           <motion.div
             initial={{ x: "-100%" }}
             animate={{ x: 0 }}
@@ -40,72 +45,129 @@ export default function MobileMenu() {
             className="fixed inset-y-0 left-0 w-[85%] max-w-[400px] bg-white z-[150] shadow-2xl flex flex-col"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-brand-cream">
+            <div className="flex items-center justify-between p-6 border-b border-brand-cream bg-white/50 backdrop-blur-xl">
               <Link href="/" onClick={closeMobileMenu} className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-brand-orange rounded-lg flex items-center justify-center">
                   <Package className="text-white" size={18} />
                 </div>
-                <span className="text-xl font-bold font-serif text-brand-navy">Baksho</span>
+                <span className="text-xl font-bold font-serif text-brand-navy uppercase tracking-tighter">Baksho</span>
               </Link>
               <button onClick={closeMobileMenu} className="p-2 text-brand-navy/40 hover:text-brand-orange transition-colors">
                 <X size={24} />
               </button>
             </div>
 
-            {/* Content */}
-            <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-8">
-
-              {/* Browse Categories */}
-              <div className="flex flex-col gap-4">
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-navy/30">Browse Collections</p>
-                <div className="grid grid-cols-1 gap-2">
+            {/* Content: Focused Category Hierarchy */}
+            <div className="flex-1 overflow-y-auto px-6 py-8">
+              <div className="flex flex-col gap-6">
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-brand-navy/20 mb-2">Category Manifesto</p>
+                
+                <div className="flex flex-col gap-1">
                   {CATEGORIES.map((cat) => (
-                    <button
-                      key={cat.id}
-                      onClick={() => handleNavigation(`/category/${cat.slug}`)}
-                      className="flex items-center justify-between p-1 group hover:pl-2 transition-all"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-brand-cream rounded-2xl flex items-center justify-center text-brand-navy/40 group-hover:bg-brand-orange/10 group-hover:text-brand-orange transition-colors">
-                          {/* In a real app, use cat.icon or thumbnail */}
-                          <Package size={20} strokeWidth={1.5} />
-                        </div>
-                        <span className="text-lg font-serif text-brand-navy group-hover:text-brand-orange transition-colors">{cat.name}</span>
-                      </div>
-                      <ChevronRight size={18} className="text-brand-orange opacity-0 group-hover:opacity-100 transition-all" />
-                    </button>
+                    <CategoryItem 
+                      key={cat.id} 
+                      category={cat} 
+                      currentSlug={currentSlug as string}
+                      isExpanded={expandedCats.includes(cat.id)}
+                      onToggle={() => toggleExpand(cat.id)}
+                      onNavigate={handleNavigation}
+                      level={0}
+                    />
                   ))}
-                </div>
-              </div>
-
-              {/* Quick Links */}
-              <div className="flex flex-col gap-4">
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-navy/30">Exclusive</p>
-                <div className="space-y-4 pl-1">
-                  <Link href="#" className="block text-lg font-serif text-brand-navy hover:text-brand-orange transition-colors">Baksho Stories</Link>
-                  <Link href="#" className="block text-lg font-serif text-brand-navy hover:text-brand-orange transition-colors">Unboxing Ritual</Link>
                 </div>
               </div>
             </div>
 
             {/* Footer / Logistics */}
-            <div className="p-6 border-t border-brand-cream bg-brand-cream/20 space-y-3">
+            <div className="p-6 border-t border-brand-cream bg-brand-cream/10">
               <button
-                onClick={() => { handleNavigation("/track-order"); }}
+                onClick={() => handleNavigation("/track-order")}
                 className="w-full bg-brand-navy text-white p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-brand-navy/10 active:scale-95 transition-all"
               >
                 <Truck size={16} className="text-brand-orange" /> Track My Ritual
-              </button>
-              <button
-                onClick={() => { openSearch(); closeMobileMenu(); }}
-                className="w-full bg-white border border-brand-navy/5 p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest text-brand-navy flex items-center justify-center gap-3 shadow-sm active:scale-95 transition-all"
-              >
-                <Search size={16} className="text-brand-orange" /> Secure Search
               </button>
             </div>
           </motion.div>
         </>
       )}
     </AnimatePresence>
+  );
+}
+
+function CategoryItem({ 
+  category, 
+  currentSlug, 
+  isExpanded, 
+  onToggle, 
+  onNavigate,
+  level 
+}: { 
+  category: Category; 
+  currentSlug: string;
+  isExpanded: boolean;
+  onToggle: () => void;
+  onNavigate: (href: string) => void;
+  level: number;
+}) {
+  const hasChildren = category.children && category.children.length > 0;
+  const isActive = currentSlug === category.slug;
+
+  return (
+    <div className="flex flex-col">
+      <div className="flex items-center">
+        <button
+          onClick={() => onNavigate(`/category/${category.slug}`)}
+          className={`flex-1 flex items-center gap-4 p-3 rounded-2xl transition-all group ${
+            isActive ? 'bg-brand-orange/5 text-brand-orange' : 'hover:bg-brand-cream/40 text-brand-navy/80 hover:text-brand-navy'
+          }`}
+        >
+          {level === 0 && (
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
+              isActive ? 'bg-brand-orange text-white' : 'bg-brand-cream text-brand-navy/30 group-hover:bg-brand-navy/5 group-hover:text-brand-navy'
+            }`}>
+              <Package size={20} strokeWidth={1.5} />
+            </div>
+          )}
+          <span className={`${level === 0 ? 'text-lg font-serif' : 'text-sm font-medium'} flex-1 text-left`}>
+            {category.name}
+          </span>
+          {isActive && <div className="w-1.5 h-1.5 rounded-full bg-brand-orange" />}
+        </button>
+
+        {hasChildren && (
+          <button 
+            onClick={onToggle}
+            className={`p-4 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''} text-brand-navy/20 hover:text-brand-orange`}
+          >
+            <ChevronDown size={18} />
+          </button>
+        )}
+      </div>
+
+      {hasChildren && (
+        <AnimatePresence>
+          {isExpanded && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="overflow-hidden ml-12 border-l border-brand-cream/50 pl-2 mt-1 flex flex-col gap-1"
+            >
+              {category.children?.map((child) => (
+                <CategoryItem 
+                  key={child.id}
+                  category={child}
+                  currentSlug={currentSlug}
+                  isExpanded={false} // Would need recursive state for deeper expansion
+                  onToggle={() => {}} 
+                  onNavigate={onNavigate}
+                  level={level + 1}
+                />
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
+    </div>
   );
 }

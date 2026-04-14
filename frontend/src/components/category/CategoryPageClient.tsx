@@ -43,14 +43,11 @@ export default function CategoryPageClient({ categoryPath, currentCategory, init
           </div>
 
           <div className="flex items-center gap-3">
-            <button 
+            <button
               onClick={() => setIsFilterOpen(true)}
               className="lg:hidden flex items-center gap-2 px-5 py-3 bg-brand-navy text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-brand-orange transition-all"
             >
               Filters <SlidersHorizontal size={14} />
-            </button>
-            <button className="flex items-center gap-3 px-5 py-3 bg-brand-cream/50 rounded-xl text-[10px] font-black uppercase tracking-widest text-brand-navy hover:bg-brand-orange hover:text-white transition-all">
-              Sort By <ArrowUpDown size={14} />
             </button>
           </div>
         </div>
@@ -58,15 +55,15 @@ export default function CategoryPageClient({ categoryPath, currentCategory, init
         <div className="flex flex-col lg:flex-row gap-10 items-start">
           {/* Sidebar - Persistent on Desktop, Drawer on Mobile */}
           <div className="hidden lg:block w-72 flex-shrink-0">
-             <FilterSidebar />
+            <FilterSidebar />
           </div>
 
           {/* Product Grid */}
           <div className="flex-1 w-full">
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-x-3 gap-y-6 md:gap-x-10 md:gap-y-16">
               {products.map((product) => (
-                <ProductCard 
-                  key={product.id} 
+                <ProductCard
+                  key={product.id}
                   id={product.id}
                   name={product.name}
                   price={product.price}
@@ -90,7 +87,7 @@ export default function CategoryPageClient({ categoryPath, currentCategory, init
       <AnimatePresence>
         {isFilterOpen && (
           <>
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

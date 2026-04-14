@@ -6,21 +6,17 @@ import { Package, Search, Menu, X, Command, ShoppingBag, User as UserIcon, LogOu
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { CATEGORIES } from "@/lib/constants";
-import MegaMenu from "./MegaMenu";
 import SearchOverlay from "./SearchOverlay";
-
 import { useCartStore } from "@/store/useCartStore";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useUIStore } from "@/store/useUIStore";
-
 export default function Header() {
   const router = useRouter();
-  const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const { isSearchOpen, openSearch, closeSearch, openMobileMenu } = useUIStore();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
-  
+
   const { toggleCart, getTotals } = useCartStore();
   const { totalItems } = getTotals();
   const { user, isAuthenticated, logout } = useAuthStore();
@@ -48,23 +44,13 @@ export default function Header() {
 
   return (
     <>
-      <header 
-        className={`sticky top-0 z-[60] w-full transition-all duration-300 hidden lg:block ${
-          isScrolled 
-            ? "h-16 bg-white/90 backdrop-blur-xl border-b border-brand-cream shadow-sm" 
+      <header
+        className={`sticky top-0 z-[60] w-full transition-all duration-300 hidden lg:block ${isScrolled
+            ? "h-16 bg-white/90 backdrop-blur-xl border-b border-brand-cream shadow-sm"
             : "h-20 bg-white/0 border-b border-transparent"
-        }`}
+          }`}
       >
         <div className="container mx-auto flex h-full items-center justify-between px-6">
-          {/* Menu Toggle (Mobile) */}
-          <button 
-            onClick={() => openMobileMenu()}
-            className="flex lg:hidden items-center justify-center w-10 h-10 rounded-xl bg-brand-cream/50 text-brand-navy hover:text-brand-orange transition-all"
-            aria-label="Open Mobile Menu"
-          >
-             <Menu size={20} />
-          </button>
-
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
             <div className="w-10 h-10 bg-brand-orange rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-all duration-500 shadow-lg shadow-brand-orange/20">
@@ -73,37 +59,23 @@ export default function Header() {
             <span className="text-2xl font-bold tracking-tighter text-brand-navy font-serif">Baksho</span>
           </Link>
 
-          {/* Desktop Nav */}
+          {/* Desktop Nav - High Density */}
           <nav className="hidden lg:flex items-center gap-10">
-            <div 
-              className="relative h-full flex items-center group cursor-pointer"
-              onMouseEnter={() => setIsMegaMenuOpen(true)}
-              onMouseLeave={() => setIsMegaMenuOpen(false)}
+            <button
+              onClick={() => openMobileMenu()}
+              className="text-[11px] font-black text-brand-navy/60 hover:text-brand-orange transition-colors flex items-center gap-1.5 uppercase tracking-widest py-8"
             >
-              <button className="text-[11px] font-black text-brand-navy/60 hover:text-brand-orange transition-colors flex items-center gap-1.5 uppercase tracking-widest py-8">
-                Categories
-                <motion.div
-                  animate={{ rotate: isMegaMenuOpen ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <ChevronDown size={12} strokeWidth={3} />
-                </motion.div>
-              </button>
-              
-              <AnimatePresence>
-                {isMegaMenuOpen && (
-                  <MegaMenu categories={CATEGORIES} onClose={() => setIsMegaMenuOpen(false)} />
-                )}
-              </AnimatePresence>
-            </div>
-            
-            <Link href="#" className="text-[11px] font-black text-brand-navy/60 hover:text-brand-orange transition-colors uppercase tracking-widest">Stories</Link>
-            <Link href="#" className="text-[11px] font-black text-brand-navy/60 hover:text-brand-orange transition-colors uppercase tracking-widest">Unboxing</Link>
+              Categories
+              <div className="w-1.5 h-1.5 rounded-full bg-brand-orange opacity-0 group-hover:opacity-100 transition-opacity" />
+            </button>
+
+            <Link href="/category/new-arrivals" className="text-[11px] font-black text-brand-navy/60 hover:text-brand-orange transition-colors uppercase tracking-widest">Shop</Link>
+            <Link href="/track-order" className="text-[11px] font-black text-brand-navy/60 hover:text-brand-orange transition-colors uppercase tracking-widest">Track Order</Link>
           </nav>
 
           {/* Right Section */}
           <div className="flex items-center gap-3">
-            <button 
+            <button
               onClick={() => openSearch()}
               className="hidden md:flex items-center gap-3 px-4 py-2 bg-brand-cream/50 rounded-xl border border-brand-orange/5 hover:border-brand-orange/20 transition-all text-brand-navy/40 group overflow-hidden relative"
             >
@@ -116,12 +88,12 @@ export default function Header() {
 
             {/* Auth section */}
             <div className="relative">
-              <button 
+              <button
                 onClick={() => mounted && isAuthenticated ? setIsAccountOpen(!isAccountOpen) : router.push("/auth")}
                 className="hidden sm:flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-brand-navy/40 hover:text-brand-navy transition-colors px-4 py-2 bg-brand-cream/30 rounded-xl border border-brand-orange/5"
               >
                 <UserIcon size={14} className={mounted && isAuthenticated ? "text-brand-orange" : ""} />
-                {mounted && isAuthenticated ? user?.name.split(' ')[0] : "Portal"}
+                {mounted && isAuthenticated ? user?.name.split(' ')[0] : ""}
                 {mounted && isAuthenticated && (
                   <motion.div animate={{ rotate: isAccountOpen ? 180 : 0 }}>
                     <ChevronDown size={12} />
@@ -139,19 +111,19 @@ export default function Header() {
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       className="absolute right-0 mt-3 w-56 bg-brand-navy rounded-3xl shadow-2xl p-3 border border-white/10 z-50 overflow-hidden"
                     >
-                      <Link 
+                      <Link
                         href="/dashboard"
                         onClick={() => setIsAccountOpen(false)}
                         className="w-full flex items-center justify-between p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white/50 hover:text-white hover:bg-white/5 transition-all group"
                       >
-                         <div className="flex items-center gap-3">
-                            <UserIcon size={16} className="text-brand-orange" />
-                            The Vault
-                         </div>
-                         <ChevronRight size={14} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                        <div className="flex items-center gap-3">
+                          <UserIcon size={16} className="text-brand-orange" />
+                          The Vault
+                        </div>
+                        <ChevronRight size={14} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                       </Link>
                       <div className="h-[1px] bg-white/5 my-2" />
-                      <button 
+                      <button
                         onClick={() => { logout(); setIsAccountOpen(false); }}
                         className="w-full flex items-center gap-3 p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest text-red-400 hover:bg-red-500/10 transition-all text-left"
                       >
@@ -164,7 +136,7 @@ export default function Header() {
               </AnimatePresence>
             </div>
 
-            <button 
+            <button
               onClick={toggleCart}
               className="relative bg-brand-navy text-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-brand-orange hover:shadow-xl hover:shadow-brand-orange/20 transition-all active:scale-95 flex items-center gap-2"
             >
