@@ -55,6 +55,7 @@ const MobileNav = dynamic(() => import("@/components/layout/MobileNav"));
 const MobileMenu = dynamic(() => import("@/components/layout/MobileMenu"));
 const CartDrawer = dynamic(() => import("@/components/cart/CartDrawer"));
 const FloatingConcierge = dynamic(() => import("@/components/layout/FloatingConcierge"));
+const ScrollToTop = dynamic(() => import("@/components/layout/ScrollToTop"));
 
 export default function RootLayout({
   children,
@@ -74,6 +75,7 @@ export default function RootLayout({
           </div>
           <MobileNav />
           <FloatingConcierge />
+          <ScrollToTop />
           <Footer />
         </UnboxingTransition>
       </body>
