@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { CATEGORIES } from "@/lib/constants";
 import SearchOverlay from "./SearchOverlay";
+import Image from "next/image";
 import { useCartStore } from "@/store/useCartStore";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useUIStore } from "@/store/useUIStore";
@@ -46,17 +47,21 @@ export default function Header() {
     <>
       <header
         className={`sticky top-0 z-[60] w-full transition-all duration-300 hidden lg:block ${isScrolled
-            ? "h-16 bg-white/90 backdrop-blur-xl border-b border-brand-cream shadow-sm"
-            : "h-20 bg-white/0 border-b border-transparent"
+          ? "h-16 bg-white/90 backdrop-blur-xl border-b border-brand-cream shadow-sm"
+          : "h-20 bg-white/0 border-b border-transparent"
           }`}
       >
         <div className="container mx-auto flex h-full items-center justify-between px-6">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-brand-orange rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-all duration-500 shadow-lg shadow-brand-orange/20">
-              <Package className="text-white transform group-hover:-rotate-12 transition-all duration-500" size={24} />
-            </div>
-            <span className="text-2xl font-bold tracking-tighter text-brand-navy font-serif">Baksho</span>
+          <Link href="/" className="flex items-center group">
+            <Image
+              src="/logo.webp"
+              alt="Baksho Logo"
+              width={110}
+              height={32}
+              priority
+              className="h-8 w-auto object-contain transition-transform duration-500 group-hover:scale-105"
+            />
           </Link>
 
           {/* Desktop Nav - High Density */}

@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Package } from "lucide-react";
+import Image from "next/image";
 
 export default function UnboxingTransition({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
@@ -24,7 +24,13 @@ export default function UnboxingTransition({ children }: { children: React.React
       <div className="fixed inset-0 bg-brand-navy z-[10000] flex items-center justify-center">
          <div className="flex flex-col items-center gap-4">
             <div className="w-20 h-20 md:w-24 md:h-24 bg-brand-orange rounded-3xl flex items-center justify-center shadow-2xl">
-              <Package className="text-white" size={40} />
+              <Image 
+                src="/logo.webp" 
+                alt="Baksho Logo" 
+                width={64} 
+                height={64} 
+                className="w-12 h-auto md:w-16 filter brightness-0 invert" 
+              />
             </div>
          </div>
       </div>
@@ -67,7 +73,13 @@ export default function UnboxingTransition({ children }: { children: React.React
               className="flex flex-col items-center gap-4 mb-[-60px] z-[110]"
             >
               <div className="w-24 h-24 bg-brand-orange rounded-3xl flex items-center justify-center shadow-2xl shadow-brand-orange/40">
-                <Package className="text-white" size={48} />
+                <Image 
+                  src="/logo.webp" 
+                  alt="Baksho Logo" 
+                  width={64} 
+                  height={64} 
+                  className="w-16 h-auto filter brightness-0 invert" 
+                />
               </div>
             </motion.div>
           </motion.div>

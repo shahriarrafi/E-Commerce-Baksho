@@ -7,6 +7,7 @@ import { CATEGORIES, Category } from "@/lib/constants";
 import { useUIStore } from "@/store/useUIStore";
 import { useRouter, useParams } from "next/navigation";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function MobileMenu() {
   const { isMobileMenuOpen, closeMobileMenu } = useUIStore();
@@ -46,11 +47,14 @@ export default function MobileMenu() {
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-brand-cream bg-white/50 backdrop-blur-xl">
-              <Link href="/" onClick={closeMobileMenu} className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-brand-orange rounded-lg flex items-center justify-center">
-                  <Package className="text-white" size={18} />
-                </div>
-                <span className="text-xl font-bold font-serif text-brand-navy uppercase tracking-tighter">Baksho</span>
+              <Link href="/" onClick={closeMobileMenu} className="flex items-center">
+                <Image 
+                  src="/logo.webp" 
+                  alt="Baksho Logo" 
+                  width={100} 
+                  height={30} 
+                  className="h-8 w-auto object-contain" 
+                />
               </Link>
               <button onClick={closeMobileMenu} className="p-2 text-brand-navy/40 hover:text-brand-orange transition-colors">
                 <X size={24} />

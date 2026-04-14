@@ -1,14 +1,19 @@
-import { Package } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
     <footer className="hidden lg:block py-24 bg-brand-navy text-white px-6">
       <div className="container mx-auto grid md:grid-cols-4 gap-16">
         <div className="col-span-1 md:col-span-1">
-          <div className="flex items-center gap-2 mb-6">
-            <Package className="text-brand-orange" size={32} />
-            <span className="text-3xl font-bold font-serif">Baksho</span>
+          <div className="mb-6">
+            <Image 
+              src="/logo.webp" 
+              alt="Baksho Logo" 
+              width={120} 
+              height={36} 
+              className="h-10 w-auto object-contain filter brightness-0 invert" 
+            />
           </div>
           <p className="text-white/40 text-sm leading-relaxed max-w-sm">
             Redefining the shopping experience through premium aesthetics and meticulous hexagonal unboxing.

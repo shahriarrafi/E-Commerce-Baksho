@@ -8,6 +8,7 @@ import { useUIStore } from "@/store/useUIStore";
 import { useState, useEffect, useRef } from "react";
 import { triggerHaptic } from "@/lib/utils";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
+import Image from "next/image";
 
 export default function MobileHeader() {
   const pathname = usePathname();
@@ -40,15 +41,17 @@ export default function MobileHeader() {
 
           <Link 
             href="/" 
-            className="flex items-center gap-2"
+            className="flex items-center"
             onClick={() => triggerHaptic()}
           >
-            <div className="w-7 h-7 bg-brand-orange rounded-lg flex items-center justify-center">
-              <Package className="text-white" size={16} />
-            </div>
-            <span className="text-lg font-serif font-black tracking-tighter text-brand-navy uppercase">
-              Baksho
-            </span>
+            <Image 
+              src="/logo.webp" 
+              alt="Baksho Logo" 
+              width={90} 
+              height={28} 
+              priority
+              className="h-7 w-auto object-contain" 
+            />
           </Link>
 
           {/* Logistics & Contact Shortcut Group */}
