@@ -57,10 +57,10 @@ export default function Header() {
             <Image
               src="/Logo.webp"
               alt="Baksho Logo"
-              width={110}
-              height={32}
+              width={140}
+              height={40}
               priority
-              className="h-8 w-auto object-contain transition-transform duration-500 group-hover:scale-105"
+              className="h-9 w-auto object-contain transition-transform duration-500 group-hover:scale-105"
             />
           </Link>
 

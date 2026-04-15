@@ -7,13 +7,13 @@ export default function Footer() {
       <div className="container mx-auto grid md:grid-cols-4 gap-16">
         <div className="col-span-1 md:col-span-1">
           <div className="mb-6">
-            <Link href="/">
+            <Link href="/" className="flex items-center group">
               <Image 
                 src="/Logo.webp" 
                 alt="Baksho Logo" 
-                width={120} 
-                height={36} 
-                className="h-10 w-auto object-contain filter brightness-0 invert" 
+                width={140} 
+                height={40} 
+                className="h-10 w-auto object-contain filter brightness-0 invert transition-transform group-hover:scale-105" 
               />
             </Link>
           </div>
