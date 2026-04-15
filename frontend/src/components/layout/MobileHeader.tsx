@@ -41,19 +41,17 @@ export default function MobileHeader() {
 
           <Link 
             href="/" 
-            className="flex items-center gap-2"
+            className="flex items-center"
             onClick={() => triggerHaptic()}
           >
-            <div className="relative w-7 h-7 rounded-lg overflow-hidden">
-              <Image 
-                src="/metadata-logo.webp" 
-                alt="Baksho Logo" 
-                fill
-                priority
-                className="object-contain" 
-              />
-            </div>
-            <span className="text-lg font-black text-brand-navy tracking-tight font-anek">বাকশো</span>
+            <Image 
+              src="/Logo.webp" 
+              alt="Baksho Logo" 
+              width={90} 
+              height={28} 
+              priority
+              className="h-7 w-auto object-contain" 
+            />
           </Link>
 
           {/* Logistics & Contact Shortcut Group */}

@@ -53,17 +53,15 @@ export default function Header() {
       >
         <div className="container mx-auto flex h-full items-center justify-between px-6">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="relative w-8 h-8 rounded-lg overflow-hidden transition-transform duration-500 group-hover:scale-110">
-              <Image
-                src="/metadata-logo.webp"
-                alt="Baksho Logo"
-                fill
-                priority
-                className="object-contain"
-              />
-            </div>
-            <span className="text-xl font-black text-brand-navy tracking-tight font-anek">বাকশো</span>
+          <Link href="/" className="flex items-center group">
+            <Image
+              src="/Logo.webp"
+              alt="Baksho Logo"
+              width={110}
+              height={32}
+              priority
+              className="h-8 w-auto object-contain transition-transform duration-500 group-hover:scale-105"
+            />
           </Link>
 
           {/* Desktop Nav - High Density */}
