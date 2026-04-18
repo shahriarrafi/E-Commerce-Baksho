@@ -13,20 +13,21 @@ import { formatPrice } from "@/lib/format";
 import { useCartStore } from "@/store/useCartStore";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { getStorageUrl } from "@/lib/api";
 
 interface ProductInfoProps {
   product: {
-    id: string;
+    id: number;
     slug: string;
     name: string;
     price: number;
-    inStock?: boolean;
-    category: string;
+    inStock: boolean;
+    category: string | null;
+    category_slug: string | null;
     description: string;
-    images: string[];
+    main_image?: string;
+    images?: string[];
     variants?: { type: string, options: string[] }[];
-    faqs?: { q: string, a: string }[];
-    reviews?: { author: string, rating: number, comment: string, date: string }[];
   };
 }
 
@@ -35,12 +36,11 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>(
     product.variants?.reduce((acc, v) => ({ ...acc, [v.type]: v.options[0] }), {}) || {}
   );
-  const [faqOpen, setFaqOpen] = useState<number | null>(null);
 
   const addItem = useCartStore((state) => state.addItem);
   const router = useRouter();
 
-  const isOutOfStock = product.inStock === false;
+  const isOutOfStock = !product.inStock;
 
   const handleAddToCart = () => {
     if (isOutOfStock) return;
@@ -49,7 +49,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       id: product.id,
       name: product.name,
       price: product.price,
-      image: product.images[0],
+      image: getStorageUrl(product.main_image),
       slug: product.slug
     }, quantity);
   };
@@ -61,7 +61,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       id: product.id,
       name: product.name,
       price: product.price,
-      image: product.images[0],
+      image: getStorageUrl(product.main_image),
       slug: product.slug
     }, quantity, false);
     router.push("/checkout");
@@ -75,15 +75,20 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   return (
     <div className="flex flex-col gap-3">
       {/* 1. Breadcrumbs */}
-      <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-brand-navy/30 font-hind">
-        <span>ফ্যাশন</span> <ChevronRight size={8} />
-        <span>পুরুষ</span> <ChevronRight size={8} />
-        <span className="text-brand-orange">{product.category}</span>
+      <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-brand-navy/30 font-noto">
+        <Link href="/" className="hover:text-brand-orange">হোম</Link> <ChevronRight size={8} />
+        {product.category_slug && (
+          <>
+            <Link href={`/category/${product.category_slug}`} className="hover:text-brand-orange uppercase">{product.category}</Link> 
+            <ChevronRight size={8} />
+          </>
+        )}
+        <span className="text-brand-orange truncate max-w-[100px] uppercase">{product.slug}</span>
       </div>
 
       {/* 2. Title & Icons */}
       <div className="flex justify-between items-start gap-4">
-        <h1 className="text-xl md:text-2xl font-serif text-brand-navy leading-tight font-black">
+        <h1 className="text-xl md:text-2xl font-bold font-anek text-brand-navy leading-tight">
           {product.name}
         </h1>
         <div className="flex gap-2 shrink-0 pt-1">
@@ -93,7 +98,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       </div>
 
       {/* 3. Rating Summary */}
-      <div className="flex items-center gap-3 font-hind">
+      <div className="flex items-center gap-3 font-noto">
         <div className="flex gap-0.5">
           {[1, 2, 3, 4, 5].map(s => <Star key={s} size={10} className="fill-brand-orange text-brand-orange" />)}
         </div>
@@ -103,16 +108,16 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       </div>
 
       {/* 5. Price Area */}
-      <div className="py-2 border-y border-brand-cream/50 my-1 font-hind">
+      <div className="py-2 border-y border-brand-cream/50 my-1 font-noto">
         <div className="flex items-baseline gap-2">
-          <span className="text-2xl font-black text-brand-orange tracking-tighter">{formatPrice(product.price)}</span>
+          <span className="text-2xl font-black text-brand-orange tracking-tighter font-anek">{formatPrice(product.price)}</span>
           {isOutOfStock && <span className="text-[10px] bg-red-500 text-white px-2 py-0.5 rounded-full font-black uppercase">স্টক নেই</span>}
         </div>
       </div>
 
-      {/* 6. Variants - Color Family */}
+      {/* 6. Variants - Live from API */}
       {product.variants?.map((variant) => (
-        <div key={variant.type} className="flex flex-col gap-2 font-hind">
+        <div key={variant.type} className="flex flex-col gap-2 font-noto">
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-bold text-brand-navy/40 uppercase tracking-widest">{variant.type}:</span>
             <span className="text-[10px] font-black text-brand-navy uppercase">{selectedVariants[variant.type]}</span>
@@ -135,7 +140,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       ))}
 
       {/* 7. Quantity Selector */}
-      <div className="flex items-center gap-4 py-2 mt-2 font-hind">
+      <div className="flex items-center gap-4 py-2 mt-2 font-noto">
         <span className="text-[10px] font-bold text-brand-navy/40 uppercase tracking-widest">পরিমাণ:</span>
         <div className="flex items-center bg-brand-cream/20 rounded-lg border border-brand-cream overflow-hidden">
           <button onClick={() => updateQuantity(Math.max(1, quantity - 1))} className="w-8 h-8 flex items-center justify-center hover:bg-brand-cream transition-colors text-brand-navy">-</button>
@@ -144,8 +149,8 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         </div>
       </div>
 
-      {/* 8. Action Buttons - SIDE BY SIDE */}
-      <div className="flex gap-3 pt-4 font-hind">
+      {/* 8. Action Buttons */}
+      <div className="flex gap-3 pt-4 font-noto">
         <button
           disabled={isOutOfStock}
           onClick={handleBuyNow}
@@ -158,7 +163,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
           onClick={handleAddToCart}
           className="flex-1 bg-brand-navy text-white py-4 rounded-xl font-black text-[12px] uppercase tracking-widest shadow-xl shadow-brand-navy/20 hover:bg-brand-orange transition-all active:scale-95 disabled:opacity-50"
         >
-          অর্ডার করুন
+          কার্টে যোগ করুন
         </button>
       </div>
     </div>

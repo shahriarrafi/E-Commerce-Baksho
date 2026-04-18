@@ -22,7 +22,7 @@ class ProductForm
                                         \Filament\Forms\Components\TextInput::make('name')
                                             ->required()
                                             ->live(onBlur: true)
-                                            ->afterStateUpdated(fn (string $operation, $state, \Filament\Forms\Set $set) => $operation === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null),
+                                            ->afterStateUpdated(fn ($state, \Filament\Schemas\Components\Utilities\Set $set) => $set('slug', \Illuminate\Support\Str::slug($state))),
                                         \Filament\Forms\Components\TextInput::make('slug')
                                             ->disabled()
                                             ->dehydrated()
@@ -41,8 +41,10 @@ class ProductForm
                                             ->numeric()
                                             ->default(0)
                                             ->required(),
-                                        \Filament\Forms\Components\Select::make('category_id')
-                                            ->relationship('category', 'name')
+                                        \Filament\Forms\Components\Select::make('categories')
+                                            ->relationship('categories', 'name')
+                                            ->multiple()
+                                            ->preload()
                                             ->required()
                                             ->searchable(),
                                     ]),

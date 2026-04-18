@@ -1,70 +1,68 @@
+import { useAuthStore } from "@/store/useAuthStore";
 
-import { MOCK_PRODUCT, CATEGORIES } from "./constants";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api/v1";
+const STORAGE_URL = process.env.NEXT_PUBLIC_STORAGE_URL || "http://127.0.0.1:8000/storage";
 
-/**
- * Service to simulate API calls
- */
-export const api = {
-  products: {
-    /**
-     * Get a single product by slug
-     */
-    getBySlug: async (slug: string) => {
-      // Simulate network delay
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      
-      // For now, always return the mock product
-      // In real app, find by slug from array
-      return {
-        ...MOCK_PRODUCT,
-        slug: slug
-      };
-    },
+interface FetchOptions extends RequestInit {
+  params?: Record<string, any>;
+}
 
-    /**
-     * Get all products or filter by category
-     */
-    list: async (category?: string) => {
-      await new Promise((resolve) => setTimeout(resolve, 400));
-      
-      // Return 9 mock items
-      return Array.from({ length: 9 }).map((_, i) => ({
-        ...MOCK_PRODUCT,
-        id: `p${i}`,
-        name: `Premium Item ${i + 1}`,
-        price: 99 + i * 10
-      }));
-    }
-  },
+export async function apiFetch<T>(endpoint: string, options: FetchOptions = {}): Promise<T> {
+  const { params, ...init } = options;
+  
+  const token = useAuthStore.getState().token;
+  
+  const headers = new Headers(init.headers);
+  headers.set("Accept", "application/json");
+  headers.set("Content-Type", "application/json");
+  
+  if (token) {
+    headers.set("Authorization", `Bearer ${token}`);
+  }
 
-  orders: {
-    /**
-     * Look up an order by ID (Public)
-     */
-    track: async (orderId: string) => {
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      
-      // Simple mock logic for different IDs
-      const statuses = ["ordered", "processing", "shipped", "delivered"];
-      const statusIndex = orderId.length % 4; // Deterministic based on ID length
-      
-      return {
-        id: orderId,
-        status: statuses[statusIndex],
-        items: [{ name: "Signature Baksho Box", price: 129 }],
-        date: "Oct 12, 2023",
-        estimatedArrival: "Oct 15, 2023"
-      };
-    }
-  },
-
-  categories: {
-    /**
-     * Get all categories
-     */
-    list: async () => {
-      await new Promise((resolve) => setTimeout(resolve, 300));
-      return CATEGORIES;
+  let url = `${API_URL}${endpoint}`;
+  if (params) {
+    const searchParams = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        searchParams.append(key, String(value));
+      }
+    });
+    const queryString = searchParams.toString();
+    if (queryString) {
+      url += `?${queryString}`;
     }
   }
+
+  const response = await fetch(url, {
+    ...init,
+    headers,
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      useAuthStore.getState().logout();
+      if (typeof window !== 'undefined') window.location.href = '/auth';
+    }
+    
+    // Inventory Enlightenment (Stock errors)
+    if (response.status === 422) {
+      throw new Error(data.message || "The selected product is currently out of manifestation (Out of Stock).");
+    }
+
+    throw new Error(data.message || "Something went wrong in the ritual.");
+  }
+
+  return data;
+}
+
+export const getStorageUrl = (path: string | null | undefined) => {
+  if (!path) return "/placeholder.webp";
+  if (path.startsWith("http")) return path;
+  
+  const cleanPath = path.startsWith("/") ? path.slice(1) : path;
+  
+  return `${STORAGE_URL}/${cleanPath}`;
 };

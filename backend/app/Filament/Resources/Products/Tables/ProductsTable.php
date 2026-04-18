@@ -26,15 +26,21 @@ class ProductsTable
                     ->money('USD')
                     ->sortable(),
                 TextColumn::make('stock_quantity')
-                    ->label('Stock')
-                    ->numeric()
+                    ->label('Stock Status')
+                    ->badge()
+                    ->color(fn (int $state): string => match (true) {
+                        $state <= 0 => 'danger',
+                        $state <= 10 => 'warning',
+                        default => 'success',
+                    })
                     ->sortable(),
-                TextColumn::make('category.name')
+                TextColumn::make('categories.name')
                     ->searchable()
-                    ->sortable(),
-                IconColumn::make('is_active')
-                    ->label('Active')
-                    ->boolean(),
+                    ->sortable()
+                    ->badge()
+                    ->color('gray'),
+                \Filament\Tables\Columns\ToggleColumn::make('is_active')
+                    ->label('Visible'),
             ])
             ->filters([
                 //

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Mail, Lock, User, Package } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -13,44 +13,39 @@ export default function AuthPage() {
   const [mode, setMode] = useState<AuthMode>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [name, setName] = useState("");
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   
-  const login = useAuthStore((state) => state.login);
+  const { login, register, isLoading, error, clearError, isAuthenticated } = useAuthStore();
   const router = useRouter();
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/");
+    }
+    return () => clearError();
+  }, [isAuthenticated, router, clearError]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    setError("");
-
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    if (mode === "login") {
-      if (email === "admin@baksho.com" && password === "admin") {
-        login({
-          id: "1",
-          name: "Admin User",
-          email: "admin@baksho.com",
-          role: "admin"
-        }, "dummy-token-123");
-        router.push("/");
+    
+    try {
+      if (mode === "login") {
+        await login({ email, password });
       } else {
-        setError("Invalid credentials. Try admin@baksho.com / admin");
+        await register({ 
+          name, 
+          email, 
+          password, 
+          password_confirmation: passwordConfirmation 
+        });
       }
-    } else {
-      // Dummy register logic
-      login({
-        id: "2",
-        name: name || "New User",
-        email: email,
-        role: "user"
-      }, "dummy-token-456");
-      router.push("/");
+      // Successful login/register will be handled by the useEffect redirect
+    } catch (err) {
+      // Error is handled in the store and displayed via state
+      console.error("Auth ritual failed:", err);
     }
-    setIsLoading(false);
   };
 
   return (
@@ -82,13 +77,13 @@ export default function AuthPage() {
                className="absolute inset-y-1.5 left-1.5 w-[calc(50%-6px)] bg-brand-orange rounded-xl"
              />
              <button 
-               onClick={() => setMode("login")}
+               onClick={() => { setMode("login"); clearError(); }}
                className={`relative z-10 flex-1 py-3 text-[10px] font-black uppercase tracking-widest transition-colors ${mode === "login" ? "text-white" : "text-white/40 hover:text-white/60"}`}
              >
                Login
              </button>
              <button 
-               onClick={() => setMode("register")}
+               onClick={() => { setMode("register"); clearError(); }}
                className={`relative z-10 flex-1 py-3 text-[10px] font-black uppercase tracking-widest transition-colors ${mode === "register" ? "text-white" : "text-white/40 hover:text-white/60"}`}
              >
                Join
@@ -112,6 +107,7 @@ export default function AuthPage() {
                      placeholder="Shahriar Rafi" 
                      value={name}
                      onChange={(e: any) => setName(e.target.value)}
+                     required
                    />
                  )}
                  <AuthInput 
@@ -121,6 +117,7 @@ export default function AuthPage() {
                    type="email" 
                    value={email}
                    onChange={(e: any) => setEmail(e.target.value)}
+                   required
                  />
                  <AuthInput 
                    label="Security Keyword" 
@@ -129,7 +126,19 @@ export default function AuthPage() {
                    type="password" 
                    value={password}
                    onChange={(e: any) => setPassword(e.target.value)}
+                   required
                  />
+                 {mode === "register" && (
+                   <AuthInput 
+                     label="Confirm Keyword" 
+                     icon={Lock} 
+                     placeholder="••••••••" 
+                     type="password" 
+                     value={passwordConfirmation}
+                     onChange={(e: any) => setPasswordConfirmation(e.target.value)}
+                     required
+                   />
+                 )}
                </motion.div>
              </AnimatePresence>
 
@@ -148,7 +157,7 @@ export default function AuthPage() {
                disabled={isLoading}
                className="w-full bg-brand-orange text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:shadow-2xl hover:shadow-brand-orange/30 transition-all active:scale-95 disabled:opacity-50 group"
              >
-               {isLoading ? "Verify..." : (mode === "login" ? "Enter Portal" : "Forge Identity")}
+               {isLoading ? "Verifying Ritual..." : (mode === "login" ? "Enter Portal" : "Forge Identity")}
                {!isLoading && <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
              </button>
            </form>
@@ -164,7 +173,7 @@ export default function AuthPage() {
   );
 }
 
-function AuthInput({ label, icon: Icon, placeholder, type = "text", value, onChange }: any) {
+function AuthInput({ label, icon: Icon, placeholder, type = "text", value, onChange, required = false }: any) {
   return (
     <div className="flex flex-col gap-2.5">
       <label className="text-[9px] font-black uppercase tracking-[0.3em] text-white/20 ml-1">{label}</label>
@@ -177,6 +186,7 @@ function AuthInput({ label, icon: Icon, placeholder, type = "text", value, onCha
           value={value}
           onChange={onChange}
           placeholder={placeholder}
+          required={required}
           className="w-full bg-white/[0.03] border border-white/5 rounded-2xl p-5 pl-14 text-white focus:outline-none focus:border-brand-orange transition-all placeholder:text-white/10 text-sm font-medium"
         />
       </div>

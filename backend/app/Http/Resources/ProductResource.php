@@ -24,8 +24,12 @@ class ProductResource extends JsonResource
             'stock_quantity' => $this->stock_quantity,
             'shippingInfo' => $this->shipping_info,
             'isActive' => $this->is_active,
-            'category' => $this->category ? $this->category->name : null,
-            'category_slug' => $this->category ? $this->category->slug : null,
+            'category' => $this->categories->first() ? $this->categories->first()->name : null,
+            'category_slug' => $this->categories->first() ? $this->categories->first()->slug : null,
+            'categories' => $this->categories->map(fn ($cat) => [
+                'name' => $cat->name,
+                'slug' => $cat->slug,
+            ]),
             'images' => $this->getMedia('products')->map(fn ($media) => $media->getFullUrl()),
             'variants' => $this->variants->groupBy('type')->map(function ($items, $type) {
                 return [

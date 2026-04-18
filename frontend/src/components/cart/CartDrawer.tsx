@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useCartStore } from "@/store/useCartStore";
 import { useEffect, useState } from "react";
 import { formatPrice } from "@/lib/format";
+import { getStorageUrl } from "@/lib/api";
 
 export default function CartDrawer() {
   const { items, isOpen, toggleCart, updateQuantity, removeItem, getTotals } = useCartStore();
@@ -42,16 +43,16 @@ export default function CartDrawer() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 200 }}
-            className="fixed top-0 right-0 h-full w-full max-w-[380px] bg-white shadow-[0_0_100px_rgba(0,0,0,0.1)] z-[210] flex flex-col"
+            className="fixed top-0 right-0 h-full w-full max-w-[380px] bg-white shadow-[0_0_100px_rgba(0,0,0,0.1)] z-[210] flex flex-col font-noto"
           >
             {/* Header - More Compact */}
             <div className="px-6 py-5 border-b border-brand-cream flex items-center justify-between bg-white sticky top-0 z-10">
               <div className="flex flex-col">
                 <div className="flex items-center gap-2">
                     <ShoppingBag className="text-brand-orange" size={18} />
-                    <h2 className="text-lg font-serif font-bold text-brand-navy">আপনার ঝুলি</h2>
+                    <h2 className="text-lg font-bold font-anek text-brand-navy lowercase">আপনার <span className="italic">ঝুলি।</span></h2>
                 </div>
-                <p className="text-[8px] font-black uppercase tracking-widest text-brand-navy/30 font-hind">
+                <p className="text-[8px] font-black uppercase tracking-widest text-brand-navy/30">
                   {totalItems} টি পণ্য যুক্ত হয়েছে
                 </p>
               </div>
@@ -67,7 +68,7 @@ export default function CartDrawer() {
             {items.length > 0 && (
                 <div className="px-6 pt-4 pb-1">
                     <div className="flex justify-between items-center mb-2">
-                        <span className="text-[9px] font-bold text-brand-navy/60 uppercase tracking-tight font-hind">
+                        <span className="text-[9px] font-bold text-brand-navy/60 uppercase tracking-tight">
                             {shippingProgress >= 100 
                                 ? "ফ্রি শিপিং উপভোগ করুন" 
                                 : `ফ্রি ডেলিভারির জন্য আরও ${formatPrice(remainingForFreeShipping)} যোগ করুন`}
@@ -92,12 +93,12 @@ export default function CartDrawer() {
                     <ShoppingBag className="text-brand-orange/20" size={32} />
                   </div>
                   <div className="space-y-1">
-                    <h3 className="text-lg font-serif font-bold text-brand-navy">আপনার ঝুলি খালি</h3>
+                    <h3 className="text-lg font-bold font-anek text-brand-navy lowercase">আপনার ঝুলি <span className="italic">খালি।</span></h3>
                     <p className="text-xs text-brand-navy/40 max-w-[180px] leading-snug mx-auto">নতুন কেনাকাটা শুরু করতে নিচের বাটনে ক্লিক করুন।</p>
                   </div>
                   <button
                     onClick={toggleCart}
-                    className="bg-brand-navy text-white px-8 py-3 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-brand-orange transition-all active:scale-95 font-hind"
+                    className="bg-brand-navy text-white px-8 py-3 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-brand-orange transition-all active:scale-95"
                   >
                     কেনাকাটা শুরু করুন
                   </button>
@@ -115,7 +116,7 @@ export default function CartDrawer() {
                         {/* Smaller Image */}
                         <div className="relative w-16 h-16 bg-brand-cream rounded-2xl overflow-hidden flex-shrink-0 border border-brand-orange/5">
                         <Image
-                            src={item.image}
+                            src={getStorageUrl(item.image)}
                             alt={item.name}
                             fill
                             className="object-cover group-hover:scale-110 transition-transform duration-700"
@@ -124,7 +125,7 @@ export default function CartDrawer() {
                         <div className="flex-1 flex flex-col justify-between py-0.5">
                         <div>
                             <div className="flex justify-between items-start">
-                            <h4 className="font-serif font-bold text-sm text-brand-navy leading-tight hover:text-brand-orange transition-colors truncate max-w-[150px]">{item.name}</h4>
+                            <h4 className="font-bold font-anek text-sm text-brand-navy leading-tight hover:text-brand-orange transition-colors truncate max-w-[150px]">{item.name}</h4>
                             <button
                                 onClick={() => removeItem(item.id)}
                                 className="w-6 h-6 flex items-center justify-center text-brand-navy/20 hover:text-red-500 transition-all"
@@ -132,7 +133,7 @@ export default function CartDrawer() {
                                 <Trash2 size={12} />
                             </button>
                             </div>
-                            <p className="text-brand-orange font-black text-xs mt-0.5">{formatPrice(item.price)}</p>
+                            <p className="text-brand-orange font-black text-xs mt-0.5 font-anek">{formatPrice(item.price)}</p>
                         </div>
                         
                         <div className="flex items-center justify-between">
@@ -143,7 +144,7 @@ export default function CartDrawer() {
                             >
                                 <Minus size={10} strokeWidth={3} />
                             </button>
-                            <span className="w-8 text-center text-[10px] font-black text-brand-navy">{item.quantity}</span>
+                            <span className="w-8 text-center text-[10px] font-black text-brand-navy font-sans">{item.quantity}</span>
                             <button
                                 onClick={() => updateQuantity(item.id, item.quantity + 1)}
                                 className="w-6 h-6 flex items-center justify-center hover:bg-white rounded-md transition-all text-brand-navy/40 hover:text-brand-orange"
@@ -155,33 +156,6 @@ export default function CartDrawer() {
                         </div>
                     </motion.div>
                     ))}
-                    
-                    {/* RECOMMENDED UPSYLL - Compacted */}
-                    <div className="pt-8 border-t border-brand-cream/30 space-y-4">
-                        <div className="flex flex-col">
-                            <h4 className="text-[8px] font-black uppercase tracking-[0.2em] text-brand-orange font-hind">বিশেষ সংযোজন</h4>
-                            <p className="text-xs font-serif font-bold text-brand-navy">আপনার অর্ডারে যোগ করুন</p>
-                        </div>
-                        <div className="flex gap-3 overflow-x-auto no-scrollbar pb-1">
-                            {[
-                                { name: "সিল্ক গিফট র‍্যাপ", price: 550, image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2040&auto=format&fit=crop" },
-                                { name: "হাতে লেখা চিরকুট", price: 200, image: "https://images.unsplash.com/photo-1623151522295-829919f2e379?q=80&w=2080&auto=format&fit=crop" }
-                            ].map((upsell, i) => (
-                                <div key={i} className="min-w-[120px] flex flex-col gap-2 group">
-                                    <div className="relative aspect-square rounded-xl overflow-hidden bg-brand-cream">
-                                        <Image src={upsell.image} alt={upsell.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
-                                        <button className="absolute inset-0 bg-brand-navy/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                                            <span className="text-[7px] font-black uppercase tracking-widest text-white font-hind">+ যোগ করুন</span>
-                                        </button>
-                                    </div>
-                                    <div className="space-y-0.5">
-                                        <h5 className="text-[9px] font-bold text-brand-navy truncate">{upsell.name}</h5>
-                                        <p className="text-[9px] text-brand-orange font-black">{formatPrice(upsell.price)}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
                 </div>
               )}
             </div>
@@ -192,12 +166,12 @@ export default function CartDrawer() {
                 <div className="flex flex-col gap-3">
                   <div className="flex justify-between items-center border-b border-brand-cream pb-3">
                     <div className="flex flex-col">
-                        <span className="text-[8px] font-black uppercase tracking-widest text-brand-navy/30 font-hind">মোট ব্যয়</span>
-                        <span className="text-2xl font-black text-brand-navy tracking-tighter">{formatPrice(subtotal)}</span>
+                        <span className="text-[8px] font-black uppercase tracking-widest text-brand-navy/30">মোট ব্যয়</span>
+                        <span className="text-2xl font-black text-brand-navy tracking-tighter font-anek">{formatPrice(subtotal)}</span>
                     </div>
                     <div className="flex items-center gap-1.5 opacity-40">
                          <ShieldCheck className="text-brand-orange" size={14} />
-                         <span className="text-[8px] font-black uppercase tracking-widest text-brand-navy font-hind">নিরাপদ</span>
+                         <span className="text-[8px] font-black uppercase tracking-widest text-brand-navy">নিরাপদ</span>
                     </div>
                   </div>
                 </div>
@@ -205,14 +179,14 @@ export default function CartDrawer() {
                 <Link 
                   href="/checkout"
                   onClick={toggleCart}
-                  className="w-full bg-brand-navy text-white py-4 rounded-2xl font-black text-[9px] uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:bg-brand-orange transition-all active:scale-[0.98] group font-hind"
+                  className="w-full bg-brand-navy text-white py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:bg-brand-orange transition-all active:scale-[0.98] group"
                 >
                   অর্ডার সম্পন্ন করুন
                   <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 
                 <div className="flex items-center justify-center gap-2 opacity-30">
-                    <p className="text-[7px] font-bold uppercase tracking-[0.2em] text-brand-navy font-hind">
+                    <p className="text-[7px] font-bold uppercase tracking-[0.2em] text-brand-navy">
                         অসাধারণ সেবার প্রতিশ্রুতি
                     </p>
                 </div>

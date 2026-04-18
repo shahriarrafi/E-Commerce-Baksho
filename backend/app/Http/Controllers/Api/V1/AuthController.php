@@ -82,4 +82,32 @@ class AuthController extends Controller
     {
         return response()->json($request->user());
     }
+
+    /**
+     * Update authenticated user profile.
+     */
+    public function updateProfile(Request $request)
+    {
+        $user = $request->user();
+
+        $request->validate([
+            'name' => ['sometimes', 'string', 'max:255'],
+            'password' => ['sometimes', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        if ($request->has('name')) {
+            $user->name = $request->name;
+        }
+
+        if ($request->has('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        return response()->json([
+            'message' => 'Identity profile updated successfully.',
+            'user' => $user,
+        ]);
+    }
 }

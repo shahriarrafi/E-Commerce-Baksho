@@ -1,4 +1,3 @@
-
 import type { Metadata, Viewport } from "next";
 import { Anek_Bangla, Inter, Noto_Sans_Bengali } from "next/font/google";
 import dynamic from "next/dynamic";
@@ -6,6 +5,7 @@ import "./globals.css";
 
 // Normal import for the transition wrapper to avoid SSR issues with dynamic in root layout
 import UnboxingTransition from "@/components/animations/UnboxingTransition";
+import AuthInitializer from "@/components/layout/AuthInitializer";
 
 const anekBangla = Anek_Bangla({
   subsets: ["bengali", "latin"],
@@ -79,6 +79,7 @@ export default function RootLayout({
   return (
     <html lang="bn" className={`${anekBangla.variable} ${inter.variable} ${notoBengali.variable}`}>
       <body className="antialiased min-h-screen bg-white selection:bg-brand-orange selection:text-white pb-24 lg:pb-0 font-anek">
+        <AuthInitializer />
         <UnboxingTransition>
           <Header />
           <MobileHeader />

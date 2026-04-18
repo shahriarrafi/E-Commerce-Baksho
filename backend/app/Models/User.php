@@ -47,4 +47,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the curator's shipping sanctuaries.
+     */
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
 }

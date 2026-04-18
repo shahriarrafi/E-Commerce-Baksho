@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ChevronUp, HelpCircle } from "lucide-react";
 
 interface ProductFaqProps {
-  faqs: { q: string, a: string }[];
+  faqs: { question: string, answer: string }[];
 }
 
 export default function ProductFaq({ faqs }: ProductFaqProps) {
@@ -16,15 +16,15 @@ export default function ProductFaq({ faqs }: ProductFaqProps) {
   return (
     <section className="py-12 bg-brand-cream/10 border-t border-brand-cream/50">
       <div className="container mx-auto px-6">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div className="space-y-4 text-center font-hind">
+        <div className="max-w-4xl mx-auto space-y-8 font-noto">
+          <div className="space-y-4 text-center">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-orange/10 rounded-full text-brand-orange">
               <HelpCircle size={14} />
-              <span className="text-[10px] font-black uppercase tracking-[0.3em]">সাধারণ তথ্য</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.3em]">জানুন</span>
             </div>
-            <h2 className="text-3xl md:text-5xl font-serif text-brand-navy">সচরাচর জিজ্ঞাসিত প্রশ্নাবলী</h2>
+            <h2 className="text-3xl md:text-5xl font-bold font-anek text-brand-navy">জিজ্ঞাসিত প্রশ্নাবলী</h2>
             <p className="text-brand-navy/60 max-w-lg mx-auto text-sm md:text-base">
-              এই বাকশো পণ্যটির ব্যবহার, যত্ন এবং বিশেষ বৈশিষ্ট্য সম্পর্কে আপনার যা জানা প্রয়োজন।
+              এই পণ্যটির ব্যবহার, যত্ন এবং বিশেষ বৈশিষ্ট্য সম্পর্কে আপনার যা কিছু জানা প্রয়োজন।
             </p>
           </div>
 
@@ -38,8 +38,8 @@ export default function ProductFaq({ faqs }: ProductFaqProps) {
                   onClick={() => setOpenIndex(openIndex === i ? null : i)}
                   className="w-full flex items-center justify-between p-6 md:p-8 text-left group"
                 >
-                  <span className={`text-sm md:text-lg font-bold transition-colors ${openIndex === i ? 'text-brand-navy' : 'text-brand-navy/70 group-hover:text-brand-navy'}`}>
-                    {faq.q}
+                  <span className={`text-sm md:text-lg font-bold font-anek transition-colors ${openIndex === i ? 'text-brand-navy' : 'text-brand-navy/70 group-hover:text-brand-navy'}`}>
+                    {faq.question}
                   </span>
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${openIndex === i ? 'bg-brand-orange text-white' : 'bg-brand-orange/10 text-brand-orange'}`}>
                     {openIndex === i ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
@@ -56,7 +56,7 @@ export default function ProductFaq({ faqs }: ProductFaqProps) {
                       <div className="px-6 md:px-8 pb-8 pt-0">
                         <div className="w-full h-[1px] bg-brand-cream mb-6" />
                         <p className="text-brand-navy/60 leading-relaxed text-sm md:text-base italic">
-                          {faq.a}
+                          {faq.answer}
                         </p>
                       </div>
                     </motion.div>

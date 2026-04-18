@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Package, Search, Menu, X, Command, ShoppingBag, User as UserIcon, LogOut, ChevronDown, ChevronRight } from "lucide-react";
+import { Package, Search, Menu, X, Command, ShoppingBag, User as UserIcon, LogOut, ChevronDown, ChevronRight, MapPin } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { CATEGORIES } from "@/lib/constants";
@@ -11,6 +11,7 @@ import Image from "next/image";
 import { useCartStore } from "@/store/useCartStore";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useUIStore } from "@/store/useUIStore";
+import { useCategoryStore } from "@/store/useCategoryStore";
 export default function Header() {
   const router = useRouter();
   const { isSearchOpen, openSearch, closeSearch, openMobileMenu } = useUIStore();
@@ -21,9 +22,12 @@ export default function Header() {
   const { toggleCart, getTotals } = useCartStore();
   const { totalItems } = getTotals();
   const { user, isAuthenticated, logout } = useAuthStore();
+  const { categories, fetchCategories } = useCategoryStore();
 
   useEffect(() => {
     setMounted(true);
+    fetchCategories(); // Manifest live discovery paths
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
@@ -41,7 +45,7 @@ export default function Header() {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [fetchCategories, openSearch]);
 
   return (
     <>
@@ -71,10 +75,13 @@ export default function Header() {
               className="text-[13px] font-black text-brand-navy/60 hover:text-brand-orange transition-colors flex items-center gap-1.5 uppercase tracking-widest py-8 font-noto"
             >
               ক্যাটাগরি
-              <div className="w-1.5 h-1.5 rounded-full bg-brand-orange opacity-0 group-hover:opacity-100 transition-opacity" />
             </button>
-
-            <Link href="/category/new-arrivals" className="text-[13px] font-black text-brand-navy/60 hover:text-brand-orange transition-colors uppercase tracking-widest font-noto">কেনাকাটা</Link>
+            <Link 
+              href="/category/new-arrivals" 
+              className="text-[13px] font-black text-brand-navy/60 hover:text-brand-orange transition-colors uppercase tracking-widest font-noto"
+            >
+              কেনাকাটা
+            </Link>
             <Link href="/track-order" className="text-[13px] font-black text-brand-navy/60 hover:text-brand-orange transition-colors uppercase tracking-widest font-noto">অর্ডার ট্র্যাকিং</Link>
           </nav>
 
@@ -117,7 +124,7 @@ export default function Header() {
                       className="absolute right-0 mt-3 w-56 bg-brand-navy rounded-3xl shadow-2xl p-3 border border-white/10 z-50 overflow-hidden"
                     >
                       <Link
-                        href="/dashboard"
+                        href="/vault/profile"
                         onClick={() => setIsAccountOpen(false)}
                         className="w-full flex items-center justify-between p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white/50 hover:text-white hover:bg-white/5 transition-all group"
                       >
@@ -127,6 +134,19 @@ export default function Header() {
                         </div>
                         <ChevronRight size={14} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                       </Link>
+
+                      <Link
+                        href="/vault/addresses"
+                        onClick={() => setIsAccountOpen(false)}
+                        className="w-full flex items-center justify-between p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white/50 hover:text-white hover:bg-white/5 transition-all group"
+                      >
+                        <div className="flex items-center gap-3 font-hind">
+                          <MapPin size={16} className="text-brand-orange" />
+                          সংরক্ষিত ঠিকানা
+                        </div>
+                        <ChevronRight size={14} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                      </Link>
+
                       <div className="h-[1px] bg-white/5 my-2" />
                       <button
                         onClick={() => { logout(); setIsAccountOpen(false); }}

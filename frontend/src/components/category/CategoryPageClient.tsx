@@ -68,7 +68,7 @@ export default function CategoryPageClient({ categoryPath, currentCategory, init
                   name={product.name}
                   price={product.price}
                   slug={product.slug}
-                  image={product.images[0]}
+                  image={product.main_image}
                 />
               ))}
             </div>

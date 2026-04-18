@@ -1,7 +1,6 @@
-
 import { Metadata } from "next";
 import CategoryPageClient from "@/components/category/CategoryPageClient";
-import { api } from "@/lib/api";
+import { apiFetch } from "@/lib/api";
 
 interface CategoryPageProps {
   params: Promise<{
@@ -23,8 +22,18 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const resolvedParams = await params;
   const { slug } = resolvedParams;
+  const lastSlug = slug[slug.length - 1];
   
-  const results = await api.products.list(slug[slug.length - 1]);
+  // Fetch live products for this category manifestation
+  let results = [];
+  try {
+    const { data } = await apiFetch<{ data: any[] }>("/products", {
+      params: { category: lastSlug }
+    });
+    results = data;
+  } catch (err) {
+    console.error("Category discovery failed:", err);
+  }
   
   const categoryPath = slug.map(s => s.replace(/-/g, ' ')).join(" / ");
   const currentCategory = slug[slug.length - 1].replace(/-/g, ' ');

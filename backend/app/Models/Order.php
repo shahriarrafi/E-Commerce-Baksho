@@ -10,8 +10,16 @@ class Order extends Model
         'order_number',
         'user_id',
         'status',
+        'customer_name',
+        'customer_email',
+        'shipping_address',
+        'phone',
         'total_amount',
         'estimated_arrival',
+    ];
+
+    protected $casts = [
+        'estimated_arrival' => 'datetime',
     ];
 
     public function user()

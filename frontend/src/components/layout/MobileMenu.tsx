@@ -3,25 +3,29 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { X, ChevronDown, Package, Truck, ArrowRight } from "lucide-react";
-import { CATEGORIES, Category } from "@/lib/constants";
 import { useUIStore } from "@/store/useUIStore";
+import { useCategoryStore, Category } from "@/store/useCategoryStore";
 import { useRouter, useParams } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
+import { triggerHaptic } from "@/lib/utils";
 
 export default function MobileMenu() {
   const { isMobileMenuOpen, closeMobileMenu } = useUIStore();
+  const { categories } = useCategoryStore();
   const router = useRouter();
   const { slug: currentSlug } = useParams();
-  const [expandedCats, setExpandedCats] = useState<string[]>([]);
+  const [expandedCats, setExpandedCats] = useState<number[]>([]);
 
-  const toggleExpand = (id: string) => {
+  const toggleExpand = (id: number) => {
+    triggerHaptic();
     setExpandedCats(prev => 
       prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]
     );
   };
 
   const handleNavigation = (href: string) => {
+    triggerHaptic();
     router.push(href);
     closeMobileMenu();
   };
@@ -51,9 +55,10 @@ export default function MobileMenu() {
                 <Image 
                   src="/Logo.webp" 
                   alt="Baksho Logo" 
-                  width={100} 
-                  height={30} 
+                  width={110} 
+                  height={32} 
                   className="h-8 w-auto object-contain" 
+                  priority
                 />
               </Link>
               <button onClick={closeMobileMenu} className="p-2 text-brand-navy/40 hover:text-brand-orange transition-colors">
@@ -64,10 +69,10 @@ export default function MobileMenu() {
             {/* Content: Focused Category Hierarchy */}
             <div className="flex-1 overflow-y-auto px-6 py-8">
               <div className="flex flex-col gap-6">
-                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-brand-navy/20 mb-2 font-hind">ক্যাটাগরি তালিকা</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-brand-navy/20 mb-2 font-noto">ক্যাটাগরি তালিকা</p>
                 
                 <div className="flex flex-col gap-1">
-                  {CATEGORIES.map((cat) => (
+                  {categories.map((cat) => (
                     <CategoryItem 
                       key={cat.id} 
                       category={cat} 
@@ -86,7 +91,7 @@ export default function MobileMenu() {
             <div className="p-6 border-t border-brand-cream bg-brand-cream/10">
               <button
                 onClick={() => handleNavigation("/track-order")}
-                className="w-full bg-brand-navy text-white p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-brand-navy/10 active:scale-95 transition-all font-hind"
+                className="w-full bg-brand-navy text-white p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 shadow-xl shadow-brand-navy/10 active:scale-95 transition-all font-noto"
               >
                 <Truck size={16} className="text-brand-orange" /> অর্ডার ট্র্যাক করুন
               </button>
@@ -132,7 +137,7 @@ function CategoryItem({
               <Package size={20} strokeWidth={1.5} />
             </div>
           )}
-          <span className={`${level === 0 ? 'text-lg font-serif' : 'text-sm font-medium'} flex-1 text-left`}>
+          <span className={`${level === 0 ? 'text-lg font-bold font-anek' : 'text-sm font-bold font-noto'} flex-1 text-left`}>
             {category.name}
           </span>
           {isActive && <div className="w-1.5 h-1.5 rounded-full bg-brand-orange" />}
@@ -162,7 +167,7 @@ function CategoryItem({
                   key={child.id}
                   category={child}
                   currentSlug={currentSlug}
-                  isExpanded={false} // Would need recursive state for deeper expansion
+                  isExpanded={false} 
                   onToggle={() => {}} 
                   onNavigate={onNavigate}
                   level={level + 1}

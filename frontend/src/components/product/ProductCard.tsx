@@ -2,6 +2,7 @@ import { Package } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { formatPrice } from "@/lib/format";
+import { getStorageUrl } from "@/lib/api";
 
 interface ProductCardProps {
   id: number | string;
@@ -15,8 +16,8 @@ export default function ProductCard({
   id, 
   slug = "signature-baksho-box", 
   name, 
-  price = 199.00,
-  image = "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2040&auto=format&fit=crop"
+  price = 0,
+  image
 }: ProductCardProps) {
   const productPath = `/product/${slug}`;
   
@@ -24,7 +25,7 @@ export default function ProductCard({
     id: id.toString(), 
     name: name || `Premium Product #${id}`, 
     price, 
-    image, 
+    image: getStorageUrl(image), 
     slug 
   };
 
@@ -34,14 +35,14 @@ export default function ProductCard({
         {/* Image Container */}
         <div className="relative aspect-[4/5] bg-brand-cream rounded-2xl overflow-hidden border border-brand-navy/5 group-hover:shadow-md transition-shadow">
           <Image
-            src={image}
+            src={productData.image}
             alt={productData.name}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-700"
           />
           
           {/* Subtle Badge */}
-          <div className="absolute bottom-2 left-2 flex items-center gap-1.5 px-2 py-1 bg-white/90 backdrop-blur-md rounded-lg border border-brand-navy/5 shadow-sm font-hind">
+          <div className="absolute bottom-2 left-2 flex items-center gap-1.5 px-2 py-1 bg-white/90 backdrop-blur-md rounded-lg border border-brand-navy/5 shadow-sm font-noto">
              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
              <span className="text-[8px] font-black uppercase tracking-widest text-brand-navy">স্টক আছে</span>
           </div>
@@ -49,16 +50,16 @@ export default function ProductCard({
 
         {/* Info Section */}
         <div className="pt-3 pb-1 flex flex-col flex-1">
-          <h3 className="text-[10px] sm:text-xs font-bold text-brand-navy leading-snug line-clamp-2 mb-1.5 group-hover:text-brand-orange transition-colors">
+          <h3 className="text-[10px] sm:text-sm font-bold text-brand-navy leading-snug line-clamp-2 mb-1.5 group-hover:text-brand-orange transition-colors font-anek">
             {productData.name}
           </h3>
           
           <div className="mt-auto flex flex-col gap-1.5">
-            <span className="text-sm font-black text-brand-navy tracking-tight">
+            <span className="text-sm font-black text-brand-navy tracking-tight font-anek">
               {formatPrice(productData.price)}
             </span>
             
-            <div className="flex items-center gap-1.5 font-hind">
+            <div className="flex items-center gap-1.5 font-noto">
                <Package size={10} className="text-brand-orange" />
                <span className="text-[9px] font-bold text-brand-navy/40 uppercase tracking-tighter italic">২৪-৪৮ ঘণ্টায় শিপিং</span>
             </div>

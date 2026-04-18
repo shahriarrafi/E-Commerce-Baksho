@@ -22,6 +22,23 @@ class Product extends Model implements HasMedia
         'category_id',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($product) {
+            $newArrivalsCategory = Category::where('slug', 'new-arrivals')->first();
+            if ($newArrivalsCategory) {
+                $product->categories()->attach($newArrivalsCategory->id);
+            }
+        });
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -35,5 +52,10 @@ class Product extends Model implements HasMedia
     public function specifications()
     {
         return $this->hasMany(ProductSpecification::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 }
