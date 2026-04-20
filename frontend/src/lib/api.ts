@@ -1,7 +1,7 @@
 import { useAuthStore } from "@/store/useAuthStore";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api/v1";
-const STORAGE_URL = process.env.NEXT_PUBLIC_STORAGE_URL || "http://127.0.0.1:8000/storage";
+const STORAGE_URL = process.env.NEXT_PUBLIC_STORAGE_URL || "http://localhost:8000/storage";
 
 interface FetchOptions extends RequestInit {
   params?: Record<string, any>;
@@ -77,7 +77,12 @@ export const getStorageUrl = (path: string | null | undefined) => {
   if (!path) return "/placeholder.webp";
   if (path.startsWith("http")) return path;
   
-  const cleanPath = path.startsWith("/") ? path.slice(1) : path;
+  let cleanPath = path.startsWith("/") ? path.slice(1) : path;
+  
+  // High-fidelity fix: Remove redundant 'storage/' prefix if the STORAGE_URL already includes it
+  if (cleanPath.startsWith("storage/")) {
+    cleanPath = cleanPath.replace(/^storage\//, "");
+  }
   
   return `${STORAGE_URL}/${cleanPath}`;
 };

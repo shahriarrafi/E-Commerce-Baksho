@@ -26,7 +26,7 @@ class ProductResource extends JsonResource
             'stock_quantity' => $this->stock_quantity,
             'shippingInfo' => $this->when(!$isBrief, $this->shipping_info),
             'isActive' => $this->is_active,
-            'main_image' => $this->main_image, // Direct path for fast grid rendering
+            'main_image' => $this->getFirstMediaUrl('products'), // Pull from media collection,
             'category' => $this->categories->first() ? $this->categories->first()->name : null,
             'category_slug' => $this->categories->first() ? $this->categories->first()->slug : null,
             'categories' => $this->categories->map(fn ($cat) => [
@@ -37,7 +37,10 @@ class ProductResource extends JsonResource
             'variants' => $this->when(!$isBrief, $this->variants->groupBy('type')->map(function ($items, $type) {
                 return [
                     'type' => $type,
-                    'options' => $items->pluck('name'),
+                    'options' => $items->map(fn ($item) => [
+                        'id' => $item->id,
+                        'name' => $item->name,
+                    ]),
                 ];
             })->values()),
             'specifications' => $this->when(!$isBrief, $this->specifications->map(fn ($spec) => [

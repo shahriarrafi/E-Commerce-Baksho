@@ -17,4 +17,9 @@ class ProductVariant extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function getLabelAttribute()
+    {
+        return "{$this->type}: {$this->name}";
+    }
 }

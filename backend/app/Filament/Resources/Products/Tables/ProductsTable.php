@@ -23,24 +23,33 @@ class ProductsTable
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('price')
+                    ->label('Investment')
                     ->money('USD')
+                    ->color('success')
+                    ->weight('bold')
                     ->sortable(),
                 TextColumn::make('stock_quantity')
-                    ->label('Stock Status')
+                    ->label('Sanctuary Stock')
                     ->badge()
                     ->color(fn (int $state): string => match (true) {
                         $state <= 0 => 'danger',
-                        $state <= 10 => 'warning',
+                        $state <= 5 => 'warning',
                         default => 'success',
+                    })
+                    ->description(fn (int $state): string => match (true) {
+                        $state <= 0 => 'Out of Stock',
+                        $state <= 5 => 'Low Inventory',
+                        default => 'Available',
                     })
                     ->sortable(),
                 TextColumn::make('categories.name')
+                    ->label('Assigned Portal')
                     ->searchable()
                     ->sortable()
                     ->badge()
-                    ->color('gray'),
+                    ->color('info'),
                 \Filament\Tables\Columns\ToggleColumn::make('is_active')
-                    ->label('Visible'),
+                    ->label('Storefront Visibility'),
             ])
             ->filters([
                 //

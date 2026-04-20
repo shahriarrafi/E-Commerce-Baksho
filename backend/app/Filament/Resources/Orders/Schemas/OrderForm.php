@@ -22,11 +22,11 @@ class OrderForm
                                     ->required(),
                                 \Filament\Forms\Components\Select::make('status')
                                     ->options([
-                                        'ordered' => 'Manifested (Ordered)',
-                                        'processing' => 'Ritualizing (Processing)',
-                                        'shipped' => 'In Flight (Shipped)',
-                                        'delivered' => 'Received (Delivered)',
-                                        'cancelled' => 'Banished (Cancelled)',
+                                        'ordered' => 'Ordered',
+                                        'processing' => 'Processing',
+                                        'shipped' => 'Shipped',
+                                        'delivered' => 'Delivered',
+                                        'cancelled' => 'Cancelled',
                                     ])
                                     ->required(),
                             ]),
@@ -64,29 +64,42 @@ class OrderForm
                             ->columnSpanFull(),
                     ]),
                 \Filament\Schemas\Components\Section::make('Treasures Included')
+                    ->description('Specific artifacts and their variants manifest within this order.')
                     ->schema([
                         \Filament\Forms\Components\Repeater::make('items')
                             ->relationship()
                             ->schema([
                                 \Filament\Forms\Components\Select::make('product_id')
+                                    ->label('Artifact')
                                     ->relationship('product', 'name')
-                                    ->disabled(),
+                                    ->preload()
+                                    ->disabled()
+                                    ->columnSpan(2),
                                 \Filament\Forms\Components\Select::make('product_variant_id')
                                     ->relationship('variant', 'name')
-                                    ->label('Variant')
-                                    ->disabled(),
+                                    ->getOptionLabelFromRecordUsing(fn ($record) => $record?->label ?? 'No Variant')
+                                    ->label('Variant Type')
+                                    ->placeholder('No Variant')
+                                    ->disabled()
+                                    ->columnSpan(2),
                                 TextInput::make('quantity')
+                                    ->label('Qty')
                                     ->numeric()
-                                    ->disabled(),
+                                    ->disabled()
+                                    ->columnSpan(1),
                                 TextInput::make('price')
+                                    ->label('Unit Price')
                                     ->numeric()
                                     ->prefix('$')
-                                    ->disabled(),
+                                    ->disabled()
+                                    ->columnSpan(1),
                             ])
-                            ->columns(4)
+                            ->columns(6)
                             ->disabled()
                             ->addable(false)
-                            ->deletable(false),
+                            ->deletable(false)
+                            ->reorderable(false)
+                            ->itemLabel(fn (array $state): ?string => isset($state['product_id']) ? "Item #{$state['product_id']}" : 'Item'),
                     ]),
             ]);
     }

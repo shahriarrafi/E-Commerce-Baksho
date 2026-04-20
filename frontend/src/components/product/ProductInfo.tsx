@@ -27,13 +27,13 @@ interface ProductInfoProps {
     description: string;
     main_image?: string;
     images?: string[];
-    variants?: { type: string, options: string[] }[];
+    variants?: { type: string, options: { id: number, name: string }[] }[];
   };
 }
 
 export default function ProductInfo({ product }: ProductInfoProps) {
   const [quantity, setQuantity] = useState(1);
-  const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>(
+  const [selectedVariants, setSelectedVariants] = useState<Record<string, { id: number, name: string }>>(
     product.variants?.reduce((acc, v) => ({ ...acc, [v.type]: v.options[0] }), {}) || {}
   );
 
@@ -45,24 +45,33 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   const handleAddToCart = () => {
     if (isOutOfStock) return;
     triggerHaptic();
+
+    // Pick the primary variant ID if multiple types exist (standard commerce ritual)
+    const variantId = Object.values(selectedVariants)[0]?.id;
+
     addItem({
       id: product.id,
       name: product.name,
       price: product.price,
       image: getStorageUrl(product.main_image),
-      slug: product.slug
+      slug: product.slug,
+      variant_id: variantId
     }, quantity);
   };
 
   const handleBuyNow = () => {
     if (isOutOfStock) return;
     triggerHaptic();
+
+    const variantId = Object.values(selectedVariants)[0]?.id;
+
     addItem({
       id: product.id,
       name: product.name,
       price: product.price,
       image: getStorageUrl(product.main_image),
-      slug: product.slug
+      slug: product.slug,
+      variant_id: variantId
     }, quantity, false);
     router.push("/checkout");
   };
@@ -120,19 +129,19 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         <div key={variant.type} className="flex flex-col gap-2 font-noto">
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-bold text-brand-navy/40 uppercase tracking-widest">{variant.type}:</span>
-            <span className="text-[10px] font-black text-brand-navy uppercase">{selectedVariants[variant.type]}</span>
+            <span className="text-[10px] font-black text-brand-navy uppercase">{selectedVariants[variant.type]?.name}</span>
           </div>
           <div className="flex flex-wrap gap-2">
             {variant.options.map((option) => (
               <button
-                key={option}
+                key={option.id}
                 onClick={() => setSelectedVariants(prev => ({ ...prev, [variant.type]: option }))}
-                className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all border ${selectedVariants[variant.type] === option
+                className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all border ${selectedVariants[variant.type]?.id === option.id
                   ? 'border-brand-orange bg-brand-orange/5 text-brand-orange shadow-sm'
                   : 'border-brand-cream bg-white text-brand-navy/60 hover:border-brand-orange/30'
                   }`}
               >
-                {option}
+                {option.name}
               </button>
             ))}
           </div>
