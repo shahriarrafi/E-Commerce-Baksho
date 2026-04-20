@@ -23,7 +23,7 @@ export default function TrendingCarousel() {
     async function fetchTrending() {
       try {
         const { data } = await apiFetch<{ data: SimpleProduct[] }>("/products", {
-          params: { trending: "1", limit: "8" }
+          params: { trending: "1", limit: "8", brief: 1 }
         });
         setProducts(data);
       } catch (err) {

@@ -41,12 +41,11 @@ class ProductForm
                                             ->numeric()
                                             ->default(0)
                                             ->required(),
-                                        \Filament\Forms\Components\Select::make('categories')
+                                        \Filament\Forms\Components\CheckboxList::make('categories')
                                             ->relationship('categories', 'name')
-                                            ->multiple()
-                                            ->preload()
-                                            ->required()
-                                            ->searchable(),
+                                            ->columns(2)
+                                            ->gridDirection('vertical')
+                                            ->required(),
                                     ]),
                                 \Filament\Forms\Components\Textarea::make('shipping_info')
                                     ->rows(3),

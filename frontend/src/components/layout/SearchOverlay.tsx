@@ -27,6 +27,7 @@ const RECENT_SEARCHES = ["আনবক্সিং কিট", "গিফট স
 export default function SearchOverlay({ onClose }: SearchOverlayProps) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
+  const [totalResults, setTotalResults] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -40,10 +41,11 @@ export default function SearchOverlay({ onClose }: SearchOverlayProps) {
     const timer = setTimeout(async () => {
       setIsLoading(true);
       try {
-        const { data } = await apiFetch<{ data: SearchResult[] }>("/products/search", {
+        const response = await apiFetch<{ data: SearchResult[], meta: any }>("/products/search", {
           params: { q: query }
         });
-        setResults(data);
+        setResults(response.data);
+        setTotalResults(response.meta?.total || 0);
       } catch (err) {
         console.error("Search ritual failed:", err);
       } finally {
@@ -157,7 +159,7 @@ export default function SearchOverlay({ onClose }: SearchOverlayProps) {
           <div>
             <div className="flex items-center justify-between mb-4">
                <h3 className="text-[10px] font-black tracking-widest text-brand-navy/30 uppercase flex items-center gap-2 font-noto">
-                <Package size={12} /> {query ? "সার্চ ফলাফল" : "সেরা ফলাফল"}
+                <Package size={12} /> {query ? `সার্চ ফলাফল (${totalResults})` : "সেরা ফলাফল"}
               </h3>
             </div>
             <div className="space-y-2">

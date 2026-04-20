@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import CategoryPageClient from "@/components/category/CategoryPageClient";
+import CategoryHeader from "@/components/category/CategoryHeader";
 import { apiFetch } from "@/lib/api";
 
 interface CategoryPageProps {
@@ -26,11 +27,13 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   
   // Fetch live products for this category manifestation
   let results = [];
+  let meta = null;
   try {
-    const { data } = await apiFetch<{ data: any[] }>("/products", {
-      params: { category: lastSlug }
+    const response = await apiFetch<{ data: any[], meta: any }>("/products", {
+      params: { category: lastSlug, brief: 1 }
     });
-    results = data;
+    results = response.data;
+    meta = response.meta;
   } catch (err) {
     console.error("Category discovery failed:", err);
   }
@@ -40,9 +43,14 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   return (
     <CategoryPageClient 
-      categoryPath={categoryPath} 
-      currentCategory={currentCategory} 
       initialProducts={results}
-    />
+      initialMeta={meta}
+      categorySlug={lastSlug}
+    >
+      <CategoryHeader 
+        categoryPath={categoryPath} 
+        currentCategory={currentCategory} 
+      />
+    </CategoryPageClient>
   );
 }

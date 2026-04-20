@@ -26,6 +26,7 @@ import { useAddressStore, Address } from "@/store/useAddressStore";
 import { formatPrice } from "@/lib/format";
 import Image from "next/image";
 import { getStorageUrl } from "@/lib/api";
+import { useNotificationStore } from "@/store/useNotificationStore";
 
 export default function CheckoutPage() {
   const { items, getTotals, submitOrder, isLoading: isSubmitting, error: orderError, clearError } = useCartStore();
@@ -96,8 +97,10 @@ export default function CheckoutPage() {
         (!isAuthenticated || isAddingNew) ? guestData : undefined
       );
       router.push(`/checkout/success?order=${result.order_number}`);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Order ritual failed:", err);
+      // Synchronize exact message to the Curator with absolute visibility
+      useNotificationStore.getState().notify(err.message, "error");
     }
   };
 
@@ -115,13 +118,13 @@ export default function CheckoutPage() {
           </div>
           
           {!isAuthenticated && (
-            <div className="flex items-center gap-4 p-4 md:p-6 bg-white rounded-3xl border border-brand-orange/10 shadow-lg shadow-brand-orange/5">
-                <div className="w-10 h-10 bg-brand-orange/10 rounded-xl flex items-center justify-center text-brand-orange">
-                    <User size={20} />
+            <div className="flex items-center gap-3 px-6 py-3 bg-brand-navy/5 rounded-2xl border border-brand-navy/10">
+                <div className="w-8 h-8 bg-brand-navy/10 rounded-lg flex items-center justify-center text-brand-navy/60">
+                    <User size={16} />
                 </div>
-                <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-brand-navy/30">ইতিমধ্যেই সদস্য?</p>
-                    <Link href="/auth" className="text-sm font-bold text-brand-navy hover:text-brand-orange transition-colors">
+                <div className="flex items-center gap-2">
+                    <p className="text-[10px] font-bold text-brand-navy/60 uppercase tracking-tight">ইতিমধ্যেই সদস্য?</p>
+                    <Link href="/auth" className="text-[10px] font-black text-brand-orange hover:underline uppercase tracking-widest">
                         লগইন করুন →
                     </Link>
                 </div>

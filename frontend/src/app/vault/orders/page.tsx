@@ -49,8 +49,23 @@ export default function VaultOrdersPage() {
   useEffect(() => {
     async function fetchOrders() {
       try {
-        const data = await apiFetch<Order[]>("/orders");
-        setOrders(data || []);
+        const response = await apiFetch<any>("/orders");
+        console.log("--- Order Manifestation Ritual ---");
+        console.log("Raw Response Spirit:", response);
+        
+        // Resilient unboxing: Handle both direct arrays, paginated objects, and data-wrapped objects
+        let manifestation = [];
+        if (Array.isArray(response)) {
+            manifestation = response;
+        } else if (response && Array.isArray(response.data)) {
+            manifestation = response.data;
+        } else if (response && response.data) {
+            // In case it's a single object in data for some reason
+            manifestation = [response.data];
+        }
+        
+        console.log("Unboxed Manifestation:", manifestation);
+        setOrders(manifestation);
       } catch (err: any) {
         setError(err.message || "অর্ডার তথ্য পাওয়া যায়নি।");
       } finally {

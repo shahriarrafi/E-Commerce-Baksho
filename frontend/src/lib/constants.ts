@@ -5,40 +5,9 @@ export interface Category {
   children?: Category[];
 }
 
-export const CATEGORIES: Category[] = [
-  {
-    id: '1',
-    name: 'ইলেকট্রনিক্স',
-    slug: 'electronics',
-    children: [
-      {
-        id: '1-1',
-        name: 'ল্যাপটপ',
-        slug: 'laptops',
-        children: [
-          { id: '1-1-1', name: 'গেমিং', slug: 'gaming' },
-          { id: '1-1-2', name: 'আল্ট্রাবুক', slug: 'ultrabooks' },
-        ],
-      },
-      { id: '1-2', name: 'এক্সেসরিজ', slug: 'accessories' },
-    ],
-  },
-  {
-    id: '2',
-    name: 'লাইফস্টাইল',
-    slug: 'lifestyle',
-    children: [
-      { id: '2-1', name: 'গৃহসজ্জা', slug: 'home-decor' },
-      { id: '2-2', name: 'প্রিমিয়াম বক্স', slug: 'premium-boxes' },
-    ],
-  },
-  {
-    id: '3',
-    name: 'নতুন কালেকশন',
-    slug: 'new-arrivals',
-  },
-];
-
+/**
+ * Standard Product Mock for testing and prototyping.
+ */
 export const MOCK_PRODUCT = {
   id: "p1",
   name: "সিগনেচার বাকশো বক্স",

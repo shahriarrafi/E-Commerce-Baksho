@@ -44,12 +44,27 @@ export async function apiFetch<T>(endpoint: string, options: FetchOptions = {}):
   if (!response.ok) {
     if (response.status === 401) {
       useAuthStore.getState().logout();
-      if (typeof window !== 'undefined') window.location.href = '/auth';
+      
+      // Do not redirect to auth if we are doing a Guest manifestation or Identity check
+      const publicEndpoints = ["/orders", "/me"];
+      const isPublicEndpoint = publicEndpoints.some(e => endpoint.startsWith(e));
+      
+      if (typeof window !== 'undefined' && !isPublicEndpoint) {
+        window.location.href = '/auth';
+      }
     }
     
-    // Inventory Enlightenment (Stock errors)
+    // Inventory Enlightenment (Stock errors & Validation)
     if (response.status === 422) {
-      throw new Error(data.message || "The selected product is currently out of manifestation (Out of Stock).");
+      let errorMessage = data.message;
+      
+      // Reach deeper into the high-fidelity error manifest if possible
+      if (data.errors) {
+        const firstError = Object.values(data.errors).flat()[0];
+        if (firstError) errorMessage = firstError as string;
+      }
+      
+      throw new Error(errorMessage || "The selected product is currently out of manifestation (Out of Stock).");
     }
 
     throw new Error(data.message || "Something went wrong in the ritual.");

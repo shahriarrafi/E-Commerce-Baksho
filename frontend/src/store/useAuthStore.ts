@@ -99,8 +99,8 @@ export const useAuthStore = create<AuthStore>()(
           const user = await apiFetch<User>("/me");
           set({ user, isAuthenticated: true, isLoading: false });
         } catch (err) {
-          // If profile fetch fails, logout locally
-          set({ user: null, token: null, isAuthenticated: true, isLoading: false });
+          // If profile fetch fails, logout locally and ensure guest mode is unboxed
+          set({ user: null, token: null, isAuthenticated: false, isLoading: false });
           Cookies.remove("baksho-logged-in");
         }
       },

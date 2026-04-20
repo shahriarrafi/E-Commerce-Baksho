@@ -12,14 +12,18 @@ Route::prefix('v1')->group(function () {
     Route::post('/register', [\App\Http\Controllers\Api\V1\AuthController::class, 'register']);
     Route::post('/login', [\App\Http\Controllers\Api\V1\AuthController::class, 'login']);
     
+    // Global Order & Review Rituals
+    Route::post('/orders', [\App\Http\Controllers\Api\V1\OrderController::class, 'store']);
+    Route::get('/products/{slug}/reviews', [\App\Http\Controllers\Api\V1\ReviewController::class, 'getProductReviews']);
+
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [\App\Http\Controllers\Api\V1\AuthController::class, 'logout']);
         Route::get('/me', [\App\Http\Controllers\Api\V1\AuthController::class, 'me']);
         Route::put('/profile', [\App\Http\Controllers\Api\V1\AuthController::class, 'updateProfile']);
 
-        // Authenticated Order Routes
+        // Authenticated Order History
         Route::get('/orders', [\App\Http\Controllers\Api\V1\OrderController::class, 'index']);
-        Route::post('/orders', [\App\Http\Controllers\Api\V1\OrderController::class, 'store']);
+        
         // Authenticated Address Routes
         Route::get('/addresses', [\App\Http\Controllers\Api\V1\AddressController::class, 'index']);
         Route::post('/addresses', [\App\Http\Controllers\Api\V1\AddressController::class, 'store']);
@@ -37,69 +41,15 @@ Route::prefix('v1')->group(function () {
     // Order Tracking Routes
     Route::get('/orders/track/{order_number}', [\App\Http\Controllers\Api\V1\OrderTrackingController::class, 'track']);
 
-    // Product Routes
-    Route::get('/products/search', function (Request $request) {
-        $q = $request->query('q');
-        $products = \App\Models\Product::where('is_active', true)
-            ->where(function ($query) use ($q) {
-                $query->where('name', 'like', "%{$q}%")
-                      ->orWhere('description', 'like', "%{$q}%");
-            })
-            ->with(['categories', 'variants', 'specifications'])
-            ->get();
-        return \App\Http\Resources\ProductResource::collection($products);
-    });
+    // Product Discovery Rituals
+    Route::get('/products/search', [\App\Http\Controllers\Api\V1\ProductController::class, 'search']);
+    Route::get('/products', [\App\Http\Controllers\Api\V1\ProductController::class, 'index']);
+    Route::get('/products/{slug}', [\App\Http\Controllers\Api\V1\ProductController::class, 'show']);
+    Route::get('/new-arrivals', [\App\Http\Controllers\Api\V1\ProductController::class, 'newArrivals']);
 
-    Route::get('/products', function (Request $request) {
-        $query = \App\Models\Product::where('is_active', true)
-            ->with(['categories', 'variants', 'specifications']);
-        
-        if ($request->has('category')) {
-            $query->whereHas('categories', function ($q) use ($request) {
-                $q->where('slug', $request->category);
-            });
-        }
+    // FAQ Knowledge Portal
+    Route::get('/faqs', [\App\Http\Controllers\Api\V1\FAQController::class, 'index']);
 
-        return \App\Http\Resources\ProductResource::collection($query->get());
-    });
-
-    Route::get('/products/{slug}', function ($slug) {
-        $product = \App\Models\Product::where('slug', $slug)
-            ->where('is_active', true)
-            ->with(['categories', 'variants', 'specifications'])
-            ->firstOrFail();
-            
-        return new \App\Http\Resources\ProductResource($product);
-    });
-
-    // FAQ Routes
-    Route::get('/faqs', function () {
-        return response()->json(
-            \App\Models\FAQ::where('is_active', true)
-                ->orderBy('sort_order')
-                ->get()
-                ->groupBy('category')
-        );
-    });
-
-    // Category Routes
-    Route::get('/categories', function () {
-        $categories = \App\Models\Category::whereNull('parent_id')
-            ->with('recursiveChildren')
-            ->where('is_active', true)
-            ->get();
-        return \App\Http\Resources\CategoryResource::collection($categories);
-    });
-
-    // Dedicated New Arrivals Ritual
-    Route::get('/new-arrivals', function () {
-        $products = \App\Models\Product::whereHas('categories', function($q) {
-                $q->where('slug', 'new-arrivals');
-            })
-            ->where('is_active', true)
-            ->with(['categories', 'variants', 'specifications'])
-            ->latest()
-            ->get();
-        return \App\Http\Resources\ProductResource::collection($products);
-    });
+    // Category Hierarchy Ritual
+    Route::get('/categories', [\App\Http\Controllers\Api\V1\CategoryController::class, 'index']);
 });

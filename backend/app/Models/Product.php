@@ -20,6 +20,7 @@ class Product extends Model implements HasMedia
         'stock_quantity',
         'is_active',
         'category_id',
+        'categories',
     ];
 
     protected static function boot()

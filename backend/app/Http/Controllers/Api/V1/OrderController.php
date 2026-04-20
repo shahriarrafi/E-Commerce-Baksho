@@ -24,7 +24,7 @@ class OrderController extends Controller
         $orders = Order::where('user_id', $request->user()->id)
             ->with(['items.product', 'items.variant'])
             ->latest()
-            ->get();
+            ->paginate(15);
 
         return OrderResource::collection($orders);
     }
@@ -53,17 +53,18 @@ class OrderController extends Controller
             $shippingAddress = '';
             $phone = '';
 
-            if ($request->address_id) {
+            if ($request->address_id && $request->user()) {
                 $address = \App\Models\Address::findOrFail($request->address_id);
                 $customerName = $request->user()->name;
                 $customerEmail = $request->user()->email;
                 $shippingAddress = $address->address;
                 $phone = $address->phone;
             } else {
-                $customerName = $request->address['name'] ?? ($request->user() ? $request->user()->name : '');
-                $customerEmail = $request->address['email'] ?? ($request->user() ? $request->user()->email : '');
-                $shippingAddress = $request->address['address'];
-                $phone = $request->address['phone'];
+                // High-fidelity fallback for Guest manifestations
+                $customerName = $request->input('address.name') ?? ($request->user() ? $request->user()->name : '');
+                $customerEmail = $request->input('address.email') ?? ($request->user() ? $request->user()->email : '');
+                $shippingAddress = $request->input('address.address') ?? '';
+                $phone = $request->input('address.phone') ?? '';
             }
 
             $totalAmount = 0;

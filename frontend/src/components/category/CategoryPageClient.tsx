@@ -1,59 +1,80 @@
 
 "use client";
-
+ 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowUpDown, SlidersHorizontal, X } from "lucide-react";
+import { ArrowUpDown, SlidersHorizontal, X, Loader2 } from "lucide-react";
 import FilterSidebar from "@/components/category/FilterSidebar";
 import ProductCard from "@/components/product/ProductCard";
 import { motion, AnimatePresence } from "framer-motion";
+import { apiFetch } from "@/lib/api";
+
+import { MESSAGES } from "@/constants/messages";
 
 interface CategoryPageClientProps {
-  categoryPath: string;
-  currentCategory: string;
   initialProducts: any[];
+  initialMeta?: {
+    current_page: number;
+    last_page: number;
+    total: number;
+  } | null;
+  categorySlug?: string;
+  apiUrl?: string;
+  children?: React.ReactNode; // For the Server-side Header
 }
 
-export default function CategoryPageClient({ categoryPath, currentCategory, initialProducts }: CategoryPageClientProps) {
+export default function CategoryPageClient({ 
+    initialProducts, 
+    initialMeta,
+    categorySlug,
+    apiUrl = "/products",
+    children
+}: CategoryPageClientProps) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [products, setProducts] = useState(initialProducts);
+  const [meta, setMeta] = useState(initialMeta);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  const handleLoadMore = async () => {
+    if (!meta || meta.current_page >= meta.last_page || isLoadingMore) return;
+
+    setIsLoadingMore(true);
+    try {
+      const nextPage = meta.current_page + 1;
+      const params: any = { page: nextPage, brief: 1 };
+      if (categorySlug) params.category = categorySlug;
+
+      const response = await apiFetch<{ data: any[], meta: any }>(apiUrl, { params });
+      
+      setProducts(prev => [...prev, ...response.data]);
+      setMeta(response.meta);
+    } catch (err) {
+      console.error("Load more data failed:", err);
+    } finally {
+      setIsLoadingMore(false);
+    }
+  };
+
+  const hasMore = meta ? meta.current_page < meta.last_page : false;
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <main className="container mx-auto px-6 pb-8 md:pb-12">
-        {/* Animated Breadcrumbs */}
-        <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-brand-navy/30 mb-8 font-hind">
-          <Link href="/" className="hover:text-brand-orange transition-colors">হোম</Link>
-          <span>/</span>
-          <span>ক্যাটাগরি</span>
-          <span>/</span>
-          <span className="text-brand-orange">{categoryPath}</span>
-        </div>
+        {/* Server-side CategoryHeader or other static content */}
+        {children}
 
-        {/* Category Header & Sort Section */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 font-hind">
-          <div className="flex-1">
-            <h1 className="text-4xl md:text-6xl font-serif font-black text-brand-navy mb-4 capitalize tracking-tight">
-              {currentCategory}
-            </h1>
-            <div className="w-16 h-1.5 bg-brand-orange mb-6 rounded-full"></div>
-            <p className="text-brand-navy/60 max-w-2xl font-sans text-base md:text-lg leading-relaxed">
-              আমাদের <span className="text-brand-navy font-black italic">{currentCategory}</span> সংকলনের প্রতিটি পণ্য হেক্সাগোনাল ডিজাইন এবং শিল্পকর্মের এক অনন্য নিদর্শন।
-            </p>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setIsFilterOpen(true)}
-              className="lg:hidden flex items-center gap-2 px-5 py-3 bg-brand-navy text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-brand-orange transition-all font-hind"
-            >
-              ফিল্টারসমূহ <SlidersHorizontal size={14} />
-            </button>
-          </div>
+        {/* Mobile Filter Trigger */}
+        <div className="flex justify-end mb-6 lg:hidden font-hind">
+          <button
+            onClick={() => setIsFilterOpen(true)}
+            className="flex items-center gap-2 px-5 py-3 bg-brand-navy text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-brand-orange transition-all"
+          >
+            {MESSAGES.FILTERS} <SlidersHorizontal size={14} />
+          </button>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-10 items-start">
-          {/* Sidebar - Persistent on Desktop, Drawer on Mobile */}
+          {/* Sidebar - Persistent on Desktop */}
           <div className="hidden lg:block w-72 flex-shrink-0">
             <FilterSidebar />
           </div>
@@ -73,12 +94,36 @@ export default function CategoryPageClient({ categoryPath, currentCategory, init
               ))}
             </div>
 
-            {/* Pagination Mock */}
-            <div className="mt-16 flex justify-center items-center gap-3">
-              <div className="w-10 h-10 bg-brand-navy text-white rounded-xl flex items-center justify-center font-black text-[10px]">1</div>
-              <div className="w-10 h-10 bg-brand-cream/50 text-brand-navy rounded-xl flex items-center justify-center font-black text-[10px] hover:bg-brand-orange hover:text-white transition-colors cursor-pointer">2</div>
-              <div className="w-10 h-10 bg-brand-cream/50 text-brand-navy rounded-xl flex items-center justify-center font-black text-[10px] hover:bg-brand-orange hover:text-white transition-colors cursor-pointer">3</div>
-            </div>
+            {/* Load More Section */}
+            {hasMore && (
+              <div className="mt-16 flex justify-center items-center">
+                <button
+                    onClick={handleLoadMore}
+                    disabled={isLoadingMore}
+                    className="group relative px-12 py-5 bg-brand-navy text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] overflow-hidden transition-all hover:bg-brand-orange active:scale-95 disabled:opacity-50 flex items-center gap-3 font-hind"
+                >
+                    {isLoadingMore ? (
+                        <>
+                            <Loader2 className="animate-spin" size={16} />
+                            {MESSAGES.LOADING_MORE}
+                        </>
+                    ) : (
+                        <>
+                            {MESSAGES.LOAD_MORE}
+                            <div className="w-1.5 h-1.5 rounded-full bg-brand-orange group-hover:bg-white transition-colors" />
+                        </>
+                    )}
+                </button>
+              </div>
+            )}
+
+            {!hasMore && products.length > 0 && (
+                <div className="mt-16 text-center">
+                    <p className="text-[10px] font-black text-brand-navy/20 uppercase tracking-[0.2em] font-hind">
+                        {MESSAGES.ALL_LOADED}
+                    </p>
+                </div>
+            )}
           </div>
         </div>
       </main>
@@ -102,7 +147,7 @@ export default function CategoryPageClient({ categoryPath, currentCategory, init
               className="fixed inset-y-0 right-0 w-[300px] bg-white z-[170] shadow-2xl p-8 overflow-y-auto"
             >
               <div className="flex items-center justify-between mb-8 font-hind">
-                <h2 className="text-sm font-black uppercase tracking-widest text-brand-navy">ডিসকভারি ফিল্টারসমূহ</h2>
+                <h2 className="text-sm font-black uppercase tracking-widest text-brand-navy">{MESSAGES.DISCOVERY_FILTERS}</h2>
                 <button onClick={() => setIsFilterOpen(false)} className="text-brand-navy/40 hover:text-brand-orange transition-colors">
                   <X size={24} />
                 </button>
